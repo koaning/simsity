@@ -5,8 +5,12 @@
 > Super Simple Similarities Services
 
 This repository contains simple tools to help in similarity
-treival scenarios. Typical usecases include early stage bulk
+retreival scenarios. Typical usecases include early stage bulk
 labelling and duplication discovery.
+
+## Example
+
+This is the basic setup for this package.
 
 ```python
 from simsity.service import Service
@@ -17,7 +21,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 # The Indexer handles the nearest neighbor search
 # The Encoder handles the encoding of the datapoints
 service = Service(
-    indexer=PyNNDescentIndexer(metric="euclidean"), 
+    indexer=PyNNDescentIndexer(metric="euclidean"),
     encoder=CountVectorizer()
 )
 
@@ -30,6 +34,6 @@ service.query("give me directions", n_neighbors=100)
 # Save the entire system
 service.save("/tmp/simple-model")
 
-# You can also load the model now. 
+# You can also load the model now.
 Service.load("/tmp/simple-model")
 ```

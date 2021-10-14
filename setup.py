@@ -16,6 +16,7 @@ docs_packages = [
 ]
 
 test_packages = [
+    "interrogate>=1.5.0",
     "flake8>=3.6.0",
     "pytest>=4.0.2",
     "black>=19.3b0",
@@ -26,12 +27,12 @@ dev_packages = base_packages + docs_packages + test_packages
 
 
 setup(
-    name="whatlies",
+    name="simsity",
     version="0.0.1",
     author="Vincent D. Warmerdam",
     packages=find_packages(exclude=["notebooks", "docs"]),
     description="Simple Similarity Service",
-    long_description=pathlib.Path("readme.md").read_text(),
+    long_description=pathlib.Path("README.md").read_text(),
     long_description_content_type="text/markdown",
     url="https://koaning.github.io/simsity/",
     project_urls={

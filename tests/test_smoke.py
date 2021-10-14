@@ -4,9 +4,11 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 
 def test_smoke():
+    """
+    Run a simple smoke test to ensure that the service is working.
+    """
     service = Service(
-        indexer=PyNNDescentIndexer(metric="euclidean"), 
-        encoder=CountVectorizer()
+        indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer()
     )
 
     service.train_from_csv("clinc-data.csv", text_col="text")
