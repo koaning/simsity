@@ -21,32 +21,60 @@ class Service:
         self.storage = storage
         self.__trained = False
 
-    def train_from_csv(self, path, text_col="text"):
+    def train_text_from_dataf(self, df, text_col="text"):
         """
-        Trains the service from a csv file.
+        Trains the service from a dataframe assuming text as input.
 
         Arguments:
-            path: Path to the csv file.
+            df: Pandas DataFrame that contains text to train the service with.
             text_col: Name of the column containing text.
         """
-        df = pd.read_csv(path)
         texts = list(df[text_col])
-        for text in texts:
-            self.storage[len(self.storage) + 1] = {"text": text}
+        self.storage = {i: {"text": t} for i, t in enumerate(texts)}
         data = self.encoder.fit_transform(texts)
         self.indexer.index(data)
         self.__trained = True
         return self
 
-    def query(self, text, n_neighbors=10):
+    def train_from_dataf(self, df, features=None):
+        """
+        Trains the service from a dataframe.
+
+        Arguments:
+            df: Pandas DataFrame that contains text to train the service with.
+            features: Name of the column containing text.
+        """
+        subset = df
+        if features:
+            subset = df[features]
+        self.storage = {i: r for i, r in enumerate(subset.to_dict(orient="records"))}
+        data = self.encoder.fit_transform(subset)
+        self.indexer.index(data)
+        self.__trained = True
+        return self
+
+    def query_text(self, text, n_neighbors=10):
         """
         Query the service
         """
         data = self.encoder.transform([text])
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
         return [
-            {"text": self.storage[idx[0][i]]["text"], "dist": dist[0][i]}
-            for i in range(len(idx[0]))
+            {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
+            for i in range(idx.shape[1])
+        ]
+
+    def query(self, n_neighbors=10, **kwargs):
+        """
+        Query the service
+        """
+        print(pd.DataFrame([{**kwargs}]))
+        data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
+        print(data)
+        idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
+        return [
+            {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
+            for i in range(idx.shape[1])
         ]
 
     def save(self, path):
