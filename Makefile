@@ -1,8 +1,8 @@
 black:
-	black clumper tests setup.py --check
+	black simsity tests setup.py --check
 
 flake:
-	flake8 clumper tests setup.py
+	flake8 simsity tests setup.py
 
 test:
 	pytest
@@ -13,7 +13,7 @@ install:
 
 interrogate:
 	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method --fail-under 100 tests
-	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method --fail-under 100 clumper
+	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method --fail-under 100 simsity
 
 pypi:
 	python setup.py sdist
