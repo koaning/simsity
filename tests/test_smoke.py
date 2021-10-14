@@ -11,7 +11,7 @@ def test_smoke():
         indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer()
     )
 
-    service.train_from_csv("clinc-data.csv", text_col="text")
+    service.train_from_csv("tests/data/clinc-data.csv", text_col="text")
 
     service.query("give me directions", n_neighbors=100)
 
