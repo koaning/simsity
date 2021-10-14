@@ -2,7 +2,7 @@
 
 # simsity
 
-> Super Simple Similarities Services
+> It's a Super Simple Similarities Services
 
 This repository contains simple tools to help in similarity
 retreival scenarios. Typical usecases include early stage bulk
