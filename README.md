@@ -2,11 +2,16 @@
 
 # simsity
 
-> It's a Super Simple Similarities Services
+> it's about building a neighborhood
 
-This repository contains simple tools to help in similarity
-retreival scenarios. Typical usecases include early stage bulk
-labelling and duplication discovery.
+Simsity is a Super Simple Similarities Service. This repository contains
+simple tools to help in similarity retreival scenarios by making a convient
+wrapper around encoding strategies as well as nearest neighbor approaches. 
+Typical usecases include early stage bulk labelling and duplication discovery.
+
+## Warning
+
+Alpha software. Expect things to break. Do not use in production.
 
 ## Example
 

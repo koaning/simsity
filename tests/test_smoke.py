@@ -1,9 +1,11 @@
+import pandas as pd
+
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
 from sklearn.feature_extraction.text import CountVectorizer
 
 
-def test_smoke():
+def test_smoke(tmpdir):
     """
     Run a simple smoke test to ensure that the service is working.
     """
@@ -11,8 +13,13 @@ def test_smoke():
         indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer()
     )
 
-    service.train_from_csv("tests/data/clinc-data.csv", text_col="text")
+    df = pd.read_csv("tests/data/clinc-data.csv")
+    service.train_text_from_dataf(df, text_col="text")
 
-    service.query("give me directions", n_neighbors=100)
+    service.query(text="give me directions", n_neighbors=100)
 
-    service.save("/tmp/simple-model")
+    service.save(tmpdir)
+
+    reloaded = Service.load(tmpdir)
+
+    assert reloaded._trained
