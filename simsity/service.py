@@ -15,11 +15,11 @@ class Service:
         storage: A dictionary containing the data to be retreived with index. Meant to be ignored by humans.
     """
 
-    def __init__(self, encoder, indexer, storage={}) -> None:
+    def __init__(self, encoder, indexer, storage=None) -> None:
         self.encoder = encoder
         self.indexer = indexer
-        self.storage = storage
-        self.__trained = False
+        self.storage = storage if storage else {}
+        self._trained = False
 
     def train_text_from_dataf(self, df, text_col="text"):
         """
@@ -33,7 +33,7 @@ class Service:
         self.storage = {i: {"text": t} for i, t in enumerate(texts)}
         data = self.encoder.fit_transform(texts)
         self.indexer.index(data)
-        self.__trained = True
+        self._trained = True
         return self
 
     def train_from_dataf(self, df, features=None):
@@ -50,7 +50,7 @@ class Service:
         self.storage = {i: r for i, r in enumerate(subset.to_dict(orient="records"))}
         data = self.encoder.fit_transform(subset)
         self.indexer.index(data)
-        self.__trained = True
+        self._trained = True
         return self
 
     def query_text(self, text, n_neighbors=10):
@@ -68,9 +68,9 @@ class Service:
         """
         Query the service
         """
-        print(pd.DataFrame([{**kwargs}]))
+        if not self._trained:
+            raise RuntimeError("Cannot save, Service is not trained.")
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
-        print(data)
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
         return [
             {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
@@ -84,8 +84,8 @@ class Service:
         Arguments:
             path: Path to the folder to save the service to.
         """
-        if not self.__trained:
-            raise Exception("Cannot save, Service is not trained.")
+        if not self._trained:
+            raise RuntimeError("Cannot save, Service is not trained.")
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
         storage_path = pathlib.Path(path) / "storage.json"
         storage_path.write_text(json.dumps(self.storage))
@@ -106,4 +106,6 @@ class Service:
         storage = {int(k): v for k, v in json.loads(storage_path.read_text()).items()}
         encoder = load(pathlib.Path(path) / "encoder.joblib")
         decoder = load(pathlib.Path(path) / "indexer.joblib")
-        return cls(encoder, decoder, storage)
+        service = cls(encoder, decoder, storage)
+        service._trained = True
+        return service
