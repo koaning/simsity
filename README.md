@@ -2,11 +2,12 @@
 
 # simsity
 
-> simsity: it's all about the neighborhood
+> it's about building a neighborhood
 
 Simsity is a Super Simple Similarities Service. This repository contains
-simple tools to help in similarity retreival scenarios. Typical usecases
-include early stage bulk labelling and duplication discovery.
+simple tools to help in similarity retreival scenarios by making a convient
+wrapper around encoding strategies as well as nearest neighbor approaches. 
+Typical usecases include early stage bulk labelling and duplication discovery.
 
 ## Warning
 
