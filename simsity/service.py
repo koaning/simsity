@@ -3,6 +3,7 @@ import pathlib
 
 import pandas as pd
 from joblib import dump, load
+from simsity import __version__
 
 
 class Service:
@@ -89,6 +90,8 @@ class Service:
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
         storage_path = pathlib.Path(path) / "storage.json"
         storage_path.write_text(json.dumps(self.storage))
+        metadata_path = pathlib.Path(path) / "metadata.json"
+        metadata_path.write_text(json.dumps({"version": __version__}))
         dump(self.encoder, pathlib.Path(path) / "encoder.joblib")
         dump(self.indexer, pathlib.Path(path) / "indexer.joblib")
 
@@ -102,6 +105,12 @@ class Service:
         """
         if not pathlib.Path(path).exists():
             raise FileNotFoundError(f"{path} does not exist")
+        metadata_path = pathlib.Path(path) / "metadata.json"
+        metadata = json.loads(metadata_path.read_text())
+        if metadata["version"] != __version__:
+            raise RuntimeError(
+                f"Version mismatch. Expected {__version__}, got {metadata['version']}"
+            )
         storage_path = pathlib.Path(path) / "storage.json"
         storage = {int(k): v for k, v in json.loads(storage_path.read_text()).items()}
         encoder = load(pathlib.Path(path) / "encoder.joblib")

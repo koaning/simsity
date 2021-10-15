@@ -1,6 +1,8 @@
 import pathlib
 from setuptools import setup, find_packages
 
+from simsity import __version__
+
 
 base_packages = [
     "scikit-learn>=1.0.0",
@@ -28,7 +30,7 @@ dev_packages = base_packages + docs_packages + test_packages
 
 setup(
     name="simsity",
-    version="0.0.1",
+    version=__version__,
     author="Vincent D. Warmerdam",
     packages=find_packages(exclude=["notebooks", "docs"]),
     description="Simple Similarity Service",
