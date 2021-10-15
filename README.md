@@ -18,6 +18,7 @@ Alpha software. Expect things to break. Do not use in production.
 This is the basic setup for this package.
 
 ```python
+import pandas as pd
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -31,10 +32,11 @@ service = Service(
 )
 
 # Index the datapoints
-service.train_from_csv("clinc-data.csv", text_col="text")
+df = pd.read_csv("tests/data/clinc-data.csv")
+service.train_text_from_dataf(df, text_col='text')
 
 # Query the datapoints
-service.query("give me directions", n_neighbors=100)
+service.query_text("bank credit", n_neighbors=20)
 
 # Save the entire system
 service.save("/tmp/simple-model")
