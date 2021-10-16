@@ -15,6 +15,7 @@ docs_packages = [
     "mkdocs==1.1",
     "mkdocs-material==4.6.3",
     "mkdocstrings==0.8.0",
+    "mktestdocs==0.1.2",
 ]
 
 test_packages = [
@@ -23,6 +24,7 @@ test_packages = [
     "pytest>=4.0.2",
     "black>=19.3b0",
     "pre-commit>=2.2.0",
+    "dirty-cat==0.2.0",
 ]
 
 dev_packages = base_packages + docs_packages + test_packages
