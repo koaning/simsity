@@ -8,12 +8,27 @@ from simsity import __version__
 
 class Service:
     """
-    Super Simple Similarities Service
+    This object represents a nearest neighbor lookup service. You can
+    pass it an encoder and a method to index the data.
 
     Arguments:
         encoder: A scikit-learn compatible encoder for the input.
         indexer: A compatible indexer for the nearest neighbor search.
         storage: A dictionary containing the data to be retreived with index. Meant to be ignored by humans.
+
+    Usage:
+
+    ```python
+    from simsity.service import Service
+    from simsity.indexer import PyNNDescentIndexer
+    from sklearn.feature_extraction.text import CountVectorizer
+
+
+    service = Service(
+        encoder=CountVectorizer(),
+        indexer=PyNNDescentIndexer(metric="euclidean")
+    )
+    ```
     """
 
     def __init__(self, encoder, indexer, storage=None) -> None:
@@ -29,6 +44,25 @@ class Service:
         Arguments:
             df: Pandas DataFrame that contains text to train the service with.
             text_col: Name of the column containing text.
+
+        Usage:
+
+        ```python
+        import pandas as pd
+        from sklearn.feature_extraction.text import CountVectorizer
+
+        from simsity.service import Service
+        from simsity.indexer import PyNNDescentIndexer
+
+
+        service = Service(
+            encoder=CountVectorizer(),
+            indexer=PyNNDescentIndexer(metric="euclidean")
+        )
+
+        df = pd.read_csv("tests/data/clinc-data.csv").head(100)
+        service.train_text_from_dataf(df, text_col="text")
+        ```
         """
         texts = list(df[text_col])
         self.storage = {i: {"text": t} for i, t in enumerate(texts)}
@@ -43,7 +77,28 @@ class Service:
 
         Arguments:
             df: Pandas DataFrame that contains text to train the service with.
-            features: Name of the column containing text.
+            features: Names of the features to encode.
+
+        Usage:
+
+        ```python
+        import pandas as pd
+
+        from simsity.service import Service
+        from simsity.indexer import PyNNDescentIndexer
+        from dirty_cat import GapEncoder
+
+        df = pd.read_csv("tests/data/votes.csv")
+
+        service = Service(
+            indexer=PyNNDescentIndexer(metric="euclidean"),
+            encoder=GapEncoder()
+        )
+
+        service.train_from_dataf(df)
+        res = service.query(name="khimerc thmas", suburb="chariotte", postcode="28273", n_neighbors=3)
+        pd.DataFrame([{**r['item'], 'dist': r['dist']} for r in res])
+        ```
         """
         subset = df
         if features:
@@ -57,6 +112,24 @@ class Service:
     def query_text(self, text, n_neighbors=10):
         """
         Query the service
+
+        ```python
+        import pandas as pd
+        from sklearn.feature_extraction.text import CountVectorizer
+
+        from simsity.service import Service
+        from simsity.indexer import PyNNDescentIndexer
+
+
+        service = Service(
+            encoder=CountVectorizer(),
+            indexer=PyNNDescentIndexer(metric="euclidean")
+        )
+
+        df = pd.read_csv("tests/data/clinc-data.csv").head(100)
+        service.train_text_from_dataf(df, text_col="text")
+        service.query_text("Hello there", n_neighbors=10)
+        ```
         """
         data = self.encoder.transform([text])
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
