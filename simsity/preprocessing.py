@@ -16,6 +16,10 @@ class Identity(BaseEstimator, TransformerMixin):
         """Transforms the data per scikit-learn API."""
         return X
 
+    def fit_transform(self, X, y=None, **fit_params):
+        """Transforms the data per scikit-learn API."""
+        return self.fit(X, y).transform(X)
+
 
 class ColumnLister(BaseEstimator, TransformerMixin):
     """Takes a pandas column as a list of text."""
@@ -30,6 +34,10 @@ class ColumnLister(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Transforms the data per scikit-learn API."""
         return X[self.column].to_list()
+
+    def fit_transform(self, X, y=None, **fit_params):
+        """Transforms the data per scikit-learn API."""
+        return self.fit(X, y).transform(X)
 
 
 class SparseMinHasher(BaseEstimator, TransformerMixin):
@@ -59,3 +67,7 @@ class SparseMinHasher(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Transforms the data per scikit-learn API."""
         return [self.to_minhash({str(idx) for idx in x.indices}) for x in X]
+
+    def fit_transform(self, X, y=None, **fit_params):
+        """Transforms the data per scikit-learn API."""
+        return self.fit(X, y).transform(X)

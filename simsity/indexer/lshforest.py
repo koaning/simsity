@@ -40,7 +40,6 @@ class MinHashIndexer:
             query: The query to query the index with.
             n_neighbors: The number of neighbors to return.
         """
-        print(query.num_perm)
         idx = self.forest.query(query, k=n_neighbors)
         if len(idx) == 0:
             return list(range(n_neighbors)), [9999] * n_neighbors
