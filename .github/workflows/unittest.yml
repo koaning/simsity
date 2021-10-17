@@ -23,5 +23,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Testing Dependencies
       run: make install
-    - name: Automated Checking Mechanism
-      run: make check
+    - name: Interrogate
+      run: make interrogate
+    - name: Black
+      run: make black
+    - name: Flake8
+      run: make flake
+    - name: Unittest
+      run: make test
