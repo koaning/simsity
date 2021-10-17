@@ -85,10 +85,12 @@ class Service:
             raise ValueError(
                 "n_neighbors cannot be greater than the number of items in the storage."
             )
-        print(kwargs)
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
-        res = [{"item": self.storage[idx[i]], "dist": dist[i]} for i in range(len(idx))]
+        res = [
+            {"item": self.storage[idx[i]], "dist": float(dist[i])}
+            for i in range(len(idx))
+        ]
         if out == "list":
             return res
         if out == "dataframe":
