@@ -41,4 +41,5 @@ class PyNNDescentIndexer:
             query: The query to query the index with.
             n_neighbors: The number of neighbors to return.
         """
-        return self.model.query(query, n_neighbors)
+        idx, dist = self.model.query(query, n_neighbors)
+        return list(idx[0]), list(dist[0])

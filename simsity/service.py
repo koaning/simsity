@@ -134,22 +134,22 @@ class Service:
         data = self.encoder.transform([text])
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
         return [
-            {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
-            for i in range(idx.shape[1])
+            {"item": self.storage[idx[0][i]], "dist": dist[0][i]} for i in range(idx)
         ]
 
-    def query(self, n_neighbors=10, **kwargs):
+    def query(self, n_neighbors=10, out="list", **kwargs):
         """
         Query the service
         """
         if not self._trained:
             raise RuntimeError("Cannot save, Service is not trained.")
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
-        idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
-        return [
-            {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
-            for i in range(idx.shape[1])
-        ]
+        idx, dist = self.indexer.query(data[0], n_neighbors=n_neighbors)
+        res = [{"item": self.storage[idx[i]], "dist": dist[i]} for i in range(len(idx))]
+        if out == "list":
+            return res
+        if out == "dataframe":
+            return pd.DataFrame([{**r["item"], "dist": r["dist"]} for r in res])
 
     def save(self, path):
         """
