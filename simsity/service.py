@@ -75,44 +75,16 @@ class Service:
         self._trained = True
         return self
 
-    def query_text(self, text, n_neighbors=10):
-        """
-        Query the service
-
-        ```python
-        import pandas as pd
-        from sklearn.feature_extraction.text import CountVectorizer
-
-        from simsity.service import Service
-        from simsity.indexer import PyNNDescentIndexer
-
-
-        service = Service(
-            encoder=CountVectorizer(),
-            indexer=PyNNDescentIndexer(metric="euclidean")
-        )
-
-        df = pd.read_csv("tests/data/clinc-data.csv").head(100)
-        service.train_text_from_dataf(df, text_col="text")
-        service.query_text("Hello there", n_neighbors=10)
-        ```
-        """
-        data = self.encoder.transform([text])
-        idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
-        return [
-            {"item": self.storage[idx[0][i]], "dist": dist[0][i]} for i in range(idx)
-        ]
-
     def query(self, n_neighbors=10, out="list", **kwargs):
         """
         Query the service.
         """
+        if not self._trained:
+            raise RuntimeError("Cannot save, Service is not trained.")
         if n_neighbors > len(self.storage):
             raise ValueError(
                 "n_neighbors cannot be greater than the number of items in the storage."
             )
-        if not self._trained:
-            raise RuntimeError("Cannot save, Service is not trained.")
         print(kwargs)
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
