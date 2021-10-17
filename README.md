@@ -2,11 +2,13 @@
 
 # simsity
 
-> simsity: it's all about the neighborhood
+> Simsity is a Super Simple Similarities Service[tm]. <br>
+> It's all about building a neighborhood. Literally!
 
-Simsity is a Super Simple Similarities Service. This repository contains
-simple tools to help in similarity retreival scenarios. Typical usecases
-include early stage bulk labelling and duplication discovery.
+This repository contains
+simple tools to help in similarity retreival scenarios by making a convient
+wrapper around encoding strategies as well as nearest neighbor approaches. 
+Typical usecases include early stage bulk labelling and duplication discovery.
 
 ## Warning
 
@@ -18,9 +20,6 @@ This is the basic setup for this package.
 
 ```python
 import pandas as pd
-
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import CountVectorizer
 
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
