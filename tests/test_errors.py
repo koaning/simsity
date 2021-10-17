@@ -48,3 +48,11 @@ def test_version_load_error(test_smoke_clinc, tmpdir):
     metadata_file.write_text(json.dumps({"version": "0.0.0"}))
     with pytest.raises(RuntimeError):
         Service.load(tmpdir)
+
+
+def test_query_smaller_than_data_error(test_smoke_clinc, tmpdir):
+    """
+    You cannot query more than we have in storage.
+    """
+    with pytest.raises(ValueError):
+        test_smoke_clinc.query(text="give me directions", n_neighbors=100_000)
