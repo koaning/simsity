@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.responses import ORJSONResponse
 
 from pydantic import BaseModel, validator
 from simsity.service import Service
@@ -23,7 +22,7 @@ def create_app(service: Service):
     """Start a small webserver with the Service."""
     app = FastAPI()
 
-    @app.post("/query", response_class=ORJSONResponse)
+    @app.post("/query")
     def query(params: Params):
         """The main query endpoint."""
         return service.query(**params.query, n_neighbors=params.n_neighbors)
