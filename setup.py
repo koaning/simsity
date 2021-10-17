@@ -11,6 +11,10 @@ base_packages = [
     "pandas>=1.3.3",
 ]
 
+minhash_packages = ["datasketch>=1.5.3"]
+
+serve_packages = ["uvicorn>=0.15.0", "fastapi>=0.70.0"]
+
 docs_packages = [
     "mkdocs==1.1",
     "mkdocs-material==4.6.3",
@@ -24,10 +28,11 @@ test_packages = [
     "pytest>=4.0.2",
     "black>=19.3b0",
     "pre-commit>=2.2.0",
-    "dirty-cat==0.2.0",
+    "dirty-cat>=0.2.0",
 ]
 
-dev_packages = base_packages + docs_packages + test_packages
+all_packages = base_packages + minhash_packages + serve_packages
+dev_packages = all_packages + docs_packages + test_packages
 
 
 setup(
@@ -45,9 +50,7 @@ setup(
         "Issue Tracker": "https://github.com/koaning/simsity/issues",
     },
     install_requires=base_packages,
-    extras_require={
-        "dev": dev_packages,
-    },
+    extras_require={"dev": dev_packages, "minhash": minhash_packages},
     classifiers=[
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",

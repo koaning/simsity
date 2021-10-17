@@ -37,40 +37,6 @@ class Service:
         self.storage = storage if storage else {}
         self._trained = False
 
-    def train_text_from_dataf(self, df, text_col="text"):
-        """
-        Trains the service from a dataframe assuming text as input.
-
-        Arguments:
-            df: Pandas DataFrame that contains text to train the service with.
-            text_col: Name of the column containing text.
-
-        Usage:
-
-        ```python
-        import pandas as pd
-        from sklearn.feature_extraction.text import CountVectorizer
-
-        from simsity.service import Service
-        from simsity.indexer import PyNNDescentIndexer
-
-
-        service = Service(
-            encoder=CountVectorizer(),
-            indexer=PyNNDescentIndexer(metric="euclidean")
-        )
-
-        df = pd.read_csv("tests/data/clinc-data.csv").head(100)
-        service.train_text_from_dataf(df, text_col="text")
-        ```
-        """
-        texts = list(df[text_col])
-        self.storage = {i: {"text": t} for i, t in enumerate(texts)}
-        data = self.encoder.fit_transform(texts)
-        self.indexer.index(data)
-        self._trained = True
-        return self
-
     def train_from_dataf(self, df, features=None):
         """
         Trains the service from a dataframe.
@@ -109,47 +75,26 @@ class Service:
         self._trained = True
         return self
 
-    def query_text(self, text, n_neighbors=10):
+    def query(self, n_neighbors=10, out="list", **kwargs):
         """
-        Query the service
-
-        ```python
-        import pandas as pd
-        from sklearn.feature_extraction.text import CountVectorizer
-
-        from simsity.service import Service
-        from simsity.indexer import PyNNDescentIndexer
-
-
-        service = Service(
-            encoder=CountVectorizer(),
-            indexer=PyNNDescentIndexer(metric="euclidean")
-        )
-
-        df = pd.read_csv("tests/data/clinc-data.csv").head(100)
-        service.train_text_from_dataf(df, text_col="text")
-        service.query_text("Hello there", n_neighbors=10)
-        ```
-        """
-        data = self.encoder.transform([text])
-        idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
-        return [
-            {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
-            for i in range(idx.shape[1])
-        ]
-
-    def query(self, n_neighbors=10, **kwargs):
-        """
-        Query the service
+        Query the service.
         """
         if not self._trained:
             raise RuntimeError("Cannot save, Service is not trained.")
+        if n_neighbors > len(self.storage):
+            raise ValueError(
+                "n_neighbors cannot be greater than the number of items in the storage."
+            )
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
-        return [
-            {"item": self.storage[idx[0][i]], "dist": dist[0][i]}
-            for i in range(idx.shape[1])
+        res = [
+            {"item": self.storage[idx[i]], "dist": float(dist[i])}
+            for i in range(len(idx))
         ]
+        if out == "list":
+            return res
+        if out == "dataframe":
+            return pd.DataFrame([{**r["item"], "dist": r["dist"]} for r in res])
 
     def save(self, path):
         """
@@ -191,3 +136,22 @@ class Service:
         service = cls(encoder, decoder, storage)
         service._trained = True
         return service
+
+    def serve(self, host, port=8080):
+        """
+        Start a server for the service.
+
+        Once the server is started, you can `POST` the service using the following URL:
+
+        ```
+        http://<host>:<port>/query
+        ```
+
+        Arguments:
+            host: Host to bind the server to.
+            port: Port to bind the server to.
+        """
+        import uvicorn
+        from simsity.serve import create_app
+
+        uvicorn.run(create_app(self), host=host, port=port)

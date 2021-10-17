@@ -2,7 +2,6 @@ import json
 import pytest
 import pathlib
 
-import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
 from simsity.service import Service
@@ -33,24 +32,27 @@ def test_train_save_error(tmpdir):
     You cannot save without training.
     """
     service = Service(
-        indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer()
+        encoder=CountVectorizer(),
+        indexer=PyNNDescentIndexer(metric="euclidean"),
     )
     with pytest.raises(RuntimeError):
         service.save(tmpdir)
 
 
-def test_version_load_error(tmpdir):
+def test_version_load_error(clinc_service, tmpdir):
     """
     The metadata needs to state the same version.
     """
-    service = Service(
-        indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer()
-    )
-
-    df = pd.read_csv("tests/data/clinc-data.csv").head(100)
-    service.train_text_from_dataf(df, text_col="text")
-    service.save(tmpdir)
+    clinc_service.save(tmpdir)
     metadata_file = pathlib.Path(tmpdir) / "metadata.json"
     metadata_file.write_text(json.dumps({"version": "0.0.0"}))
     with pytest.raises(RuntimeError):
         Service.load(tmpdir)
+
+
+def test_query_smaller_than_data_error(clinc_service):
+    """
+    You cannot query more than we have in storage.
+    """
+    with pytest.raises(ValueError):
+        clinc_service.query(text="give me directions", n_neighbors=100_000)
