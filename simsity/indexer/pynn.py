@@ -18,9 +18,10 @@ class PyNNDescentIndexer:
     ```
     """
 
-    def __init__(self, metric="euclidean", n_neighbors=10) -> None:
+    def __init__(self, metric="euclidean", n_neighbors=10, random_state=42) -> None:
         self.metric = metric
         self.n_neighbors = n_neighbors
+        self.random_state = random_state
         self.model = None
 
     def index(self, data):
@@ -30,7 +31,12 @@ class PyNNDescentIndexer:
         Arguments:
             data: The data to index.
         """
-        self.model = NNDescent(data, metric=self.metric, n_neighbors=self.n_neighbors)
+        self.model = NNDescent(
+            data,
+            metric=self.metric,
+            n_neighbors=self.n_neighbors,
+            random_state=self.random_state,
+        )
         self.model.prepare()
 
     def query(self, query, n_neighbors=1):

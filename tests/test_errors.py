@@ -2,13 +2,10 @@ import json
 import pytest
 import pathlib
 
-import pandas as pd
-from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import CountVectorizer
 
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
-from simsity.preprocessing import ColumnLister
 
 
 def test_query_raises_error_no_train():
@@ -42,18 +39,11 @@ def test_train_save_error(tmpdir):
         service.save(tmpdir)
 
 
-def test_version_load_error(tmpdir):
+def test_version_load_error(test_smoke_clinc, tmpdir):
     """
     The metadata needs to state the same version.
     """
-    service = Service(
-        encoder=make_pipeline(ColumnLister(column="text"), CountVectorizer()),
-        indexer=PyNNDescentIndexer(metric="euclidean"),
-    )
-
-    df = pd.read_csv("tests/data/clinc-data.csv").head(100)
-    service.train_from_dataf(df, features=["text"])
-    service.save(tmpdir)
+    test_smoke_clinc.save(tmpdir)
     metadata_file = pathlib.Path(tmpdir) / "metadata.json"
     metadata_file.write_text(json.dumps({"version": "0.0.0"}))
     with pytest.raises(RuntimeError):
