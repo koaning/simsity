@@ -12,14 +12,19 @@ include early stage bulk labelling and duplication discovery.
 
 Alpha software. Expect things to break. Do not use in production.
 
-## Example
+## Quickstart
 
 This is the basic setup for this package.
 
 ```python
+import pandas as pd
+
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import CountVectorizer
+
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
-from sklearn.feature_extraction.text import CountVectorizer
+from simsity.preprocessing import Identity, ColumnLister
 
 
 # The Indexer handles the nearest neighbor search
@@ -29,15 +34,37 @@ service = Service(
     encoder=CountVectorizer()
 )
 
-# Index the datapoints
-service.train_from_csv("clinc-data.csv", text_col="text")
+# The encoder defines how we encode the data going in.
+encoder = make_pipeline(
+    ColumnLister(column="text"),
+    CountVectorizer()
+)
+
+# The indexer handles the nearest neighbor lookup.
+indexer = PyNNDescentIndexer(metric="euclidean", n_neighbors=2)
+
+# The service combines the two into a single object.
+service_clinc = Service(
+    encoder=encoder,
+    indexer=indexer,
+)
+
+# We can now train the service.
+df_clinc = pd.read_csv("tests/data/clinc-data.csv")
+service_clinc.train_from_dataf(df_clinc, features=["text"])
 
 # Query the datapoints
-service.query("give me directions", n_neighbors=100)
+service.query("give me directions", n_neighbors=20)
 
 # Save the entire system
 service.save("/tmp/simple-model")
 
 # You can also load the model now.
-Service.load("/tmp/simple-model")
+reloaded = Service.load("/tmp/simple-model")
+
+# We can also host it as a web service
+reloaded.serve(host='0.0.0.0', port=8080)
+
+# You can now POST to http://0.0.0.0:8080/query with payload:
+# {"query": {"text": "hello there"}, "n_neighbors": 20}
 ```
