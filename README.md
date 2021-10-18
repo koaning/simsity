@@ -50,10 +50,13 @@ service_clinc = Service(
 
 # We can now train the service.
 df_clinc = pd.read_csv("tests/data/clinc-data.csv")
+
+# Important for later: we're only passing the 'text' column to encode
 service_clinc.train_from_dataf(df_clinc, features=["text"])
 
 # Query the datapoints
-service.query("give me directions", n_neighbors=20)
+# Note that the keyword argument here refers to 'text'-column
+service.query(text="give me directions", n_neighbors=20)
 
 # Save the entire system
 service.save("/tmp/simple-model")
@@ -66,4 +69,5 @@ reloaded.serve(host='0.0.0.0', port=8080)
 
 # You can now POST to http://0.0.0.0:8080/query with payload:
 # {"query": {"text": "hello there"}, "n_neighbors": 20}
+# Note that the query content here refers to 'text'-column once again
 ```
