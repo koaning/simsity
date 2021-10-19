@@ -1,5 +1,6 @@
 import pytest
-from mktestdocs import check_docstring, get_codeblock_members
+import pathlib
+from mktestdocs import check_docstring, get_codeblock_members, grab_code_blocks
 
 from simsity.datasets import fetch_clinc, fetch_voters
 from simsity.service import Service
@@ -26,3 +27,8 @@ def test_indexer_members(obj):
 def test_function_docstrings(func):
     """Test the docstring code of some functions."""
     check_docstring(obj=func)
+
+
+def test_readme_file():
+    """Test the README file."""
+    grab_code_blocks(pathlib.Path("README.md").read_text())

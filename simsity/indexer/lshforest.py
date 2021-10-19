@@ -11,9 +11,9 @@ class MinHashIndexer:
     Usage:
 
     ```python
-    from simsity.indexer import MinHashLSHForest
+    from simsity.indexer import MinHashIndexer
 
-    indexer = MinHashLSHForest(metric="euclidean", n_neighbors=10)
+    indexer = MinHashIndexer(num_perm=128)
     ```
     """
 
