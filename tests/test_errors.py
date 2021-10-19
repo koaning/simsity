@@ -3,17 +3,31 @@ import pytest
 import pathlib
 
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.pipeline import make_pipeline
 
 from simsity.service import Service
-from simsity.indexer import PyNNDescentIndexer
+from simsity.preprocessing import SparseMinHasher
+from simsity.indexer import PyNNDescentIndexer, MinHashLSHForestIndexer
 
 
-def test_query_raises_error_no_train():
+def test_query_raises_error_no_train1():
     """
     You cannot query without training.
     """
     service = Service(
         indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer()
+    )
+    with pytest.raises(RuntimeError):
+        service.query(text="give me directions", n_neighbors=100)
+
+
+def test_query_raises_error_no_train2():
+    """
+    You cannot query without training.
+    """
+    service = Service(
+        indexer=MinHashLSHForestIndexer(),
+        encoder=make_pipeline(CountVectorizer(), SparseMinHasher()),
     )
     with pytest.raises(RuntimeError):
         service.query(text="give me directions", n_neighbors=100)
