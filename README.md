@@ -4,7 +4,7 @@
 
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>
-> The reason why this library is hard to find is why it exists. 
+> The reason why this library is hard to google kind of why it exists. 
 
 This repository contains
 simple tools to help in similarity retreival scenarios by making a convient
