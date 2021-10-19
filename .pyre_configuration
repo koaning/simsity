@@ -1,8 +1,0 @@
-{
-  "source_directories": [
-    "simsity"
-  ],
-  "search_path": [
-    {"site-package": "simsity"}
-  ]
-}
