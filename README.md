@@ -1,4 +1,4 @@
-<img src="docs/icon.png" width=125 height=125 align="right">
+<img src="docs/icon.png" width=150 height=150 align="right">
 
 # simsity
 
