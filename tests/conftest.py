@@ -3,7 +3,7 @@ import pytest
 import pandas as pd
 
 from simsity.service import Service
-from simsity.indexer import PyNNDescentIndexer, MinHashLSHForestIndexer
+from simsity.indexer import PyNNDescentIndexer, MinHashIndexer
 from simsity.preprocessing import Identity, ColumnLister, SparseMinHasher
 
 from sklearn.datasets import load_iris
@@ -44,7 +44,7 @@ def clinc_minhash_service():
     """Create a service trained on clinc."""
     df_clinc = pd.read_csv("tests/data/clinc-data.csv")
     service_clinc = Service(
-        indexer=MinHashLSHForestIndexer(),
+        indexer=MinHashIndexer(),
         encoder=make_pipeline(CountVectorizer(), SparseMinHasher()),
     )
     service_clinc.train_from_dataf(df_clinc, features=["text"])

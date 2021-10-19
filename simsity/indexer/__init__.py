@@ -1,4 +1,4 @@
 from .pynn import PyNNDescentIndexer
-from .lshforest import MinHashLSHForestIndexer
+from .lshforest import MinHashIndexer
 
-__all__ = ["PyNNDescentIndexer", "MinHashLSHForestIndexer"]
+__all__ = ["PyNNDescentIndexer", "MinHashIndexer"]
