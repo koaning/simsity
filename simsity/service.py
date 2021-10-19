@@ -52,6 +52,8 @@ class Service:
 
         from simsity.service import Service
         from simsity.indexer import PyNNDescentIndexer
+
+        # Showing dirty_cat as an example encoder
         from dirty_cat import GapEncoder
 
         df = pd.read_csv("tests/data/votes.csv")

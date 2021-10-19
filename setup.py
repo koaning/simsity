@@ -30,6 +30,7 @@ test_packages = [
     "pre-commit>=2.2.0",
     "pyanalyze>=0.3.1",
     "requests>=2.26.0",
+    "dirty_cat",
 ]
 
 all_packages = base_packages + minhash_packages + serve_packages
