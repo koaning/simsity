@@ -7,7 +7,7 @@ from sklearn.pipeline import make_pipeline
 
 from simsity.service import Service
 from simsity.preprocessing import SparseMinHasher
-from simsity.indexer import PyNNDescentIndexer, MinHashLSHForestIndexer
+from simsity.indexer import PyNNDescentIndexer, MinHashIndexer
 
 
 def test_query_raises_error_no_train1():
@@ -26,7 +26,7 @@ def test_query_raises_error_no_train2():
     You cannot query without training.
     """
     service = Service(
-        indexer=MinHashLSHForestIndexer(),
+        indexer=MinHashIndexer(),
         encoder=make_pipeline(CountVectorizer(), SparseMinHasher()),
     )
     with pytest.raises(RuntimeError):
