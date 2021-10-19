@@ -7,14 +7,6 @@ class MinHashIndexer:
 
     Arguments:
         num_perm: The number of permutations to build.
-
-    Usage:
-
-    ```python
-    from simsity.indexer import MinHashIndexer
-
-    indexer = MinHashIndexer(num_perm=128)
-    ```
     """
 
     def __init__(self, num_perm=128) -> None:

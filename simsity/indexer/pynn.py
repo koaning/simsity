@@ -8,14 +8,6 @@ class PyNNDescentIndexer:
     Arguments:
         metric: The metric to use for the index.
         n_neighbors: The number of neighbors to use for the index.
-
-    Usage:
-
-    ```python
-    from simsity.indexer import PyNNDescentIndexer
-
-    indexer = PyNNDescentIndexer(metric="euclidean", n_neighbors=10)
-    ```
     """
 
     def __init__(self, metric="euclidean", n_neighbors=10, random_state=42) -> None:

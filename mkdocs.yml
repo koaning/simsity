@@ -12,6 +12,7 @@ nav:
     - simsity.service: api/service.md
     - simsity.indexer: api/indexer.md
     - simsity.datasets: api/datasets.md
+    - simsity.preprocessing: api/preprocessing.md
 plugins:
   - mkdocstrings
   - search
