@@ -58,17 +58,28 @@ service_clinc.train_from_dataf(df_clinc, features=["text"])
 # Query the datapoints
 # Note that the keyword argument here refers to 'text'-column
 service.query(text="give me directions", n_neighbors=20)
+```
 
+If you'd like you can also save and load the service on disk. 
+
+```python
 # Save the entire system
 service.save("/tmp/simple-model")
 
 # You can also load the model now.
 reloaded = Service.load("/tmp/simple-model")
-
-# We can also host it as a web service
-reloaded.serve(host='0.0.0.0', port=8080)
-
-# You can now POST to http://0.0.0.0:8080/query with payload:
-# {"query": {"text": "hello there"}, "n_neighbors": 20}
-# Note that the query content here refers to 'text'-column once again
 ```
+
+You could even run it as a webservice if you were so inclined. 
+
+```python
+reloaded.serve(host='0.0.0.0', port=8080)
+```
+
+You can now POST to http://0.0.0.0:8080/query with payload:
+
+```
+{"query": {"text": "hello there"}, "n_neighbors": 20}
+```
+
+Note that the query content here refers to `"text"`-column once again.
