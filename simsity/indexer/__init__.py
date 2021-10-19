@@ -1,4 +1,11 @@
+from simsity.error import NotInstalled
 from .pynn import PyNNDescentIndexer
-from .lshforest import MinHashIndexer
+
+
+try:
+    from .lshforest import MinHashIndexer
+except ModuleNotFoundError:
+    MinHashIndexer = NotInstalled("MinHashIndexer", "minhash")
+
 
 __all__ = ["PyNNDescentIndexer", "MinHashIndexer"]
