@@ -45,7 +45,9 @@ def clinc_minhash_service():
     df_clinc = pd.read_csv("tests/data/clinc-data.csv")
     service_clinc = Service(
         indexer=MinHashIndexer(),
-        encoder=make_pipeline(CountVectorizer(), SparseMinHasher()),
+        encoder=make_pipeline(
+            ColumnLister(column="text"), CountVectorizer(), SparseMinHasher()
+        ),
     )
     service_clinc.train_from_dataf(df_clinc, features=["text"])
     return service_clinc
