@@ -39,19 +39,3 @@ def test_smoke_clinc(clinc_service, tmpdir):
     reloaded = Service.load(tmpdir)
 
     assert reloaded._trained
-
-
-def test_smoke_minhash_clinc(clinc_minhash_service, tmpdir):
-    """
-    Run a simple smoke test to ensure that the service is working.
-    """
-    res = clinc_minhash_service.query(text="hello there", n_neighbors=10)
-
-    assert res[0]["dist"] == 0.0
-    assert len(res) == 10
-
-    clinc_minhash_service.save(tmpdir)
-
-    reloaded = Service.load(tmpdir)
-
-    assert reloaded._trained
