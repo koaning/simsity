@@ -29,6 +29,7 @@ test_packages = [
     "black>=19.3b0",
     "pre-commit>=2.2.0",
     "pyanalyze>=0.3.1",
+    "requests>=2.26.0",
 ]
 
 all_packages = base_packages + minhash_packages + serve_packages
