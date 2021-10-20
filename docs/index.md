@@ -1,8 +1,11 @@
-<img src="simsity-thin.jpg" width="100%"/>
+<img src="icon.png" width=150 height=150 align="right">
+
+<b><h1 style="color:black;">simsity</h1></b>
 
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>
 
+<br>
 This project contains simple tools to help in similarity retreival scenarios
 by making a convientwrapper around encoding strategies as well as nearest neighbor
 approaches. Typical usecases include early stage bulk labelling and duplication discovery.
