@@ -84,4 +84,10 @@ Note that the query content here refers to `"text"`-column once again.
 
 ## Examples 
 
-Check the `examples` folder for some interesting use-cases and tool integrations. 
+Check the `examples` folder for some interesting use-cases and tool integrations.
+
+In particular: 
+
+- [benchmark.ipynb](https://github.com/koaning/simsity/blob/main/examples/benchmark.ipynb) demonstrates an example on how you might benchmark simsity
+- [votes-example.ipynb](https://github.com/koaning/simsity/blob/main/examples/votes-example.ipynb) demonstrates how to label similar data using pigeon and simsity
+- [text-widget-example.ipynb](https://github.com/koaning/simsity/blob/main/examples/text-widget-example.ipynb) demonstrates how to add interactivity with ipywidgets
