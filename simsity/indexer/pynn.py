@@ -8,12 +8,17 @@ class PyNNDescentIndexer:
     Arguments:
         metric: The metric to use for the index.
         n_neighbors: The number of neighbors to use for the index.
+        random_state: The random state to use for the index.
+        n_jobs: The number of parallel jobs to run for neighbors index construction. `None` means 1 while `-1` means all processors.
     """
 
-    def __init__(self, metric="euclidean", n_neighbors=10, random_state=42) -> None:
+    def __init__(
+        self, metric="euclidean", n_neighbors=10, random_state=42, n_jobs=None
+    ) -> None:
         self.metric = metric
         self.n_neighbors = n_neighbors
         self.random_state = random_state
+        self.n_jobs = n_jobs
         self.model = None
 
     def index(self, data):
@@ -28,6 +33,7 @@ class PyNNDescentIndexer:
             metric=self.metric,
             n_neighbors=self.n_neighbors,
             random_state=self.random_state,
+            n_jobs=self.n_jobs,
         )
         self.model.prepare()
 

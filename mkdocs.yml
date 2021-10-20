@@ -8,6 +8,7 @@ nav:
   - Home: index.md
   - Getting Started:
     - Quickstart: quickstart/index.md
+    - Deduplication: quickstart/dedup.md
   - API:
     - simsity.service: api/service.md
     - simsity.indexer: api/indexer.md
