@@ -94,7 +94,7 @@ But also here you'd need to mind the parameters that you send
 to the server. They need to correspond with the column names
 in the dataframe. This would be an appropriate payload for `https://0.0.0.0:8080/query`.
 
-```python
+```
 {
     "query": {
         "name": "khimerc thmas",
