@@ -13,7 +13,7 @@
         <meta name="description" content="Simsity is a Super Simple Similarities Service.">
       
       
-        <link rel="canonical" href="https://koaning.github.io/simsity/api/datasets/">
+        <link rel="canonical" href="https://koaning.github.io/simsity/quickstart/dedup/">
       
       
         <meta name="author" content="Vincent D. Warmerdam">
@@ -42,7 +42,7 @@
     
     
       
-        <title>simsity.datasets - simsity</title>
+        <title>Deduplication - simsity</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#from-simsitydatasets-import-fetch_clinc" tabindex="0" class="md-skip">
+      <a href="#example" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                simsity.datasets
+                Deduplication
               
             </span>
           
@@ -206,7 +206,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../../quickstart/" class="md-tabs__link">
+        <a href="../" class="md-tabs__link md-tabs__link--active">
           Getting Started
         </a>
       
@@ -219,7 +219,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../service/" class="md-tabs__link md-tabs__link--active">
+        <a href="../../api/service/" class="md-tabs__link">
           API
         </a>
       
@@ -286,10 +286,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       Getting Started
@@ -307,82 +309,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../quickstart/" title="Quickstart" class="md-nav__link">
+    <a href="../" title="Quickstart" class="md-nav__link">
       Quickstart
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../quickstart/dedup/" title="Deduplication" class="md-nav__link">
-      Deduplication
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../quickstart/cool/" title="Cool Tricks" class="md-nav__link">
-      Cool Tricks
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
-    
-    <label class="md-nav__link" for="nav-3">
-      API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../service/" title="simsity.service" class="md-nav__link">
-      simsity.service
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../indexer/" title="simsity.indexer" class="md-nav__link">
-      simsity.indexer
     </a>
   </li>
 
@@ -400,11 +328,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        simsity.datasets
+        Deduplication
       </label>
     
-    <a href="./" title="simsity.datasets" class="md-nav__link md-nav__link--active">
-      simsity.datasets
+    <a href="./" title="Deduplication" class="md-nav__link md-nav__link--active">
+      Deduplication
     </a>
     
       
@@ -416,15 +344,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_clinc" class="md-nav__link">
-    from simsity.datasets import fetch_clinc
+  <a href="#example" class="md-nav__link">
+    Example
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_voters" class="md-nav__link">
-    from simsity.datasets import fetch_voters
+  <a href="#similarity-service" class="md-nav__link">
+    Similarity Service!
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query" class="md-nav__link">
+    Query
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    HTTP
   </a>
   
 </li>
@@ -446,7 +388,79 @@
 
 
   <li class="md-nav__item">
-    <a href="../preprocessing/" title="simsity.preprocessing" class="md-nav__link">
+    <a href="../cool/" title="Cool Tricks" class="md-nav__link">
+      Cool Tricks
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/service/" title="simsity.service" class="md-nav__link">
+      simsity.service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/indexer/" title="simsity.indexer" class="md-nav__link">
+      simsity.indexer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/datasets/" title="simsity.datasets" class="md-nav__link">
+      simsity.datasets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/preprocessing/" title="simsity.preprocessing" class="md-nav__link">
       simsity.preprocessing
     </a>
   </li>
@@ -476,15 +490,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_clinc" class="md-nav__link">
-    from simsity.datasets import fetch_clinc
+  <a href="#example" class="md-nav__link">
+    Example
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_voters" class="md-nav__link">
-    from simsity.datasets import fetch_voters
+  <a href="#similarity-service" class="md-nav__link">
+    Similarity Service!
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query" class="md-nav__link">
+    Query
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    HTTP
   </a>
   
 </li>
@@ -505,24 +533,179 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/koaning/simsity/edit/master/docs/api/datasets.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/koaning/simsity/edit/master/docs/quickstart/dedup.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>simsity.datasets</h1>
+                  <h1>Deduplication</h1>
                 
-                <h2 id="from-simsitydatasets-import-fetch_clinc"><code>from simsity.datasets import fetch_clinc</code><a class="headerlink" href="#from-simsitydatasets-import-fetch_clinc" title="Permanent link">&para;</a></h2>
-<p>Loads the clinc conversational intents data.</p>
-<p>Usage:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">simsity.datasets</span> <span class="kn">import</span> <span class="n">fetch_clinc</span>
-
-<span class="n">fetch_clinc</span><span class="p">()</span>
-</code></pre></div>
-<h2 id="from-simsitydatasets-import-fetch_voters"><code>from simsity.datasets import fetch_voters</code><a class="headerlink" href="#from-simsitydatasets-import-fetch_voters" title="Permanent link">&para;</a></h2>
-<p>Loads the voters dataset.</p>
-<p>Usage:</p>
+                <p>An interesting use-case for simsity is to use it as a tool that
+explores deduplication.</p>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<p>Let's consider the <code>voters</code> dataset.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">simsity.datasets</span> <span class="kn">import</span> <span class="n">fetch_voters</span>
 
-<span class="n">fetch_voters</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">fetch_voters</span><span class="p">()</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th align="left">name</th>
+<th align="left">suburb</th>
+<th align="left">postcode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">khimerc thomas</td>
+<td align="left">charlotte</td>
+<td align="left">2826g</td>
+</tr>
+<tr>
+<td align="left">lucille richardst</td>
+<td align="left">kannapolis</td>
+<td align="left">28o81</td>
+</tr>
+<tr>
+<td align="left">reb3cca bauerboand</td>
+<td align="left">raleigh</td>
+<td align="left">27615</td>
+</tr>
+<tr>
+<td align="left">maleda mccloud</td>
+<td align="left">goldsboro</td>
+<td align="left">2753o</td>
+</tr>
+<tr>
+<td align="left">belida stovall</td>
+<td align="left">morrisvill</td>
+<td align="left">27560</td>
+</tr>
+</tbody>
+</table>
+<p>This dataset contains information about "voters" and the concern is that
+some of these rows may represent the same person. The persons name might occur
+in different spellings and the postcodes may contain typos, but they could
+still refer to the same person. In other words; there may be duplicates in this
+dataframe that we cannot remove with <code>.drop_duplicates()</code>. So how might we go
+about finding these?</p>
+<h2 id="similarity-service">Similarity Service!<a class="headerlink" href="#similarity-service" title="Permanent link">&para;</a></h2>
+<p>Let's build a similarity service, but now we'll use encoders from
+the <a href="https://dirty-cat.github.io/stable/">dirty_cat</a> package. These
+encoders are designed to handle dirty categorical data, which would
+be perfect for our use-case here.</p>
+<div class="highlight"><pre><span></span><code><span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span>
+    <span class="n">indexer</span><span class="o">=</span><span class="n">PyNNDescentIndexer</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">encoder</span><span class="o">=</span><span class="n">GapEncoder</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">service</span><span class="o">.</span><span class="n">train_from_dataf</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that in this example, we've not specified any <code>features=</code>-parameters
+in our <code>service.train_from_dataf</code> call. In this case the service will assume
+all columns in the dataframe are relevant to encode.</p>
+<h2 id="query">Query<a class="headerlink" href="#query" title="Permanent link">&para;</a></h2>
+<p>If we now want to construct a query, we will need to use all columns that
+we've encoded in our query call. That means that we need to query with a
+<code>"name"</code>, <code>"suburb"</code> and <code>"postcode"</code> keyword argument.</p>
+<div class="highlight"><pre><span></span><code><span class="n">service</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;khimerc thmas&quot;</span><span class="p">,</span>
+              <span class="n">suburb</span><span class="o">=</span><span class="s2">&quot;chariotte&quot;</span><span class="p">,</span>
+              <span class="n">postcode</span><span class="o">=</span><span class="s2">&quot;28273&quot;</span><span class="p">,</span>
+              <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;dataframe&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>This is the dataframe that we get out.</p>
+<table>
+<thead>
+<tr>
+<th align="left">name</th>
+<th align="left">suburb</th>
+<th align="left">postcode</th>
+<th align="right">dist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">chimerc thmas</td>
+<td align="left">chaflotte</td>
+<td align="left">28269</td>
+<td align="right">3.43277</td>
+</tr>
+<tr>
+<td align="left">quianna pope</td>
+<td align="left">charlotte</td>
+<td align="left">28213</td>
+<td align="right">3.65635</td>
+</tr>
+<tr>
+<td align="left">chimerc thomas</td>
+<td align="left">charlotte</td>
+<td align="left">28269</td>
+<td align="right">3.93795</td>
+</tr>
+<tr>
+<td align="left">khimerc thomas</td>
+<td align="left">charlotte</td>
+<td align="left">2826g</td>
+<td align="right">3.99429</td>
+</tr>
+<tr>
+<td align="left">quianha pope</td>
+<td align="left">charlotre</td>
+<td align="left">28213</td>
+<td align="right">5.47086</td>
+</tr>
+<tr>
+<td align="left">kendel beachum</td>
+<td align="left">charlotte</td>
+<td align="left">28226</td>
+<td align="right">6.22856</td>
+</tr>
+<tr>
+<td align="left">mariq simpsony</td>
+<td align="left">charlotte</td>
+<td align="left">28269</td>
+<td align="right">6.36486</td>
+</tr>
+<tr>
+<td align="left">quiarina pope</td>
+<td align="left">charlotte</td>
+<td align="left">28113</td>
+<td align="right">6.57162</td>
+</tr>
+<tr>
+<td align="left">andrean polchow</td>
+<td align="left">waxhaw</td>
+<td align="left">28173</td>
+<td align="right">7.21047</td>
+</tr>
+<tr>
+<td align="left">maria simpson</td>
+<td align="left">charlotte</td>
+<td align="left">28269</td>
+<td align="right">8.2501</td>
+</tr>
+</tbody>
+</table>
+<p>It certainly seems like the first few rows may indeed contain
+duplicates that we're interested in detecting.</p>
+<p>It deserves mentioning, once again, that the quality of our
+retreival depends a lot on our choice of index and encoding.
+But experimenting with this is exactly what this library
+makes easy.</p>
+<h2 id="http">HTTP<a class="headerlink" href="#http" title="Permanent link">&para;</a></h2>
+<p>As always, you can easily turn this service into an API.</p>
+<div class="highlight"><pre><span></span><code><span class="n">service</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+</code></pre></div>
+<p>But also here you'd need to mind the parameters that you send
+to the server. They need to correspond with the column names
+in the dataframe. This would be an appropriate payload for <code>https://0.0.0.0:8080/query</code>.</p>
+<div class="highlight"><pre><span></span><code>{
+    &quot;query&quot;: {
+        &quot;name&quot;: &quot;khimerc thmas&quot;,
+        &quot;suburb&quot;: &quot;chariotte&quot;,
+        &quot;postcode&quot;: &quot;28273
+    },
+    &quot;n_neighbors&quot;: 5
+}
 </code></pre></div>
                 
                   
@@ -545,7 +728,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../indexer/" title="simsity.indexer" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../" title="Quickstart" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -554,19 +737,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                simsity.indexer
+                Quickstart
               </span>
             </div>
           </a>
         
         
-          <a href="../preprocessing/" title="simsity.preprocessing" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../cool/" title="Cool Tricks" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                simsity.preprocessing
+                Cool Tricks
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

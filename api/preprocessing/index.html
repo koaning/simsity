@@ -13,7 +13,7 @@
         <meta name="description" content="Simsity is a Super Simple Similarities Service.">
       
       
-        <link rel="canonical" href="https://koaning.github.io/simsity/api/datasets/">
+        <link rel="canonical" href="https://koaning.github.io/simsity/api/preprocessing/">
       
       
         <meta name="author" content="Vincent D. Warmerdam">
@@ -42,7 +42,7 @@
     
     
       
-        <title>simsity.datasets - simsity</title>
+        <title>simsity.preprocessing - simsity</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#from-simsitydatasets-import-fetch_clinc" tabindex="0" class="md-skip">
+      <a href="#identity" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                simsity.datasets
+                simsity.preprocessing
               
             </span>
           
@@ -391,6 +391,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../datasets/" title="simsity.datasets" class="md-nav__link">
+      simsity.datasets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -400,11 +412,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        simsity.datasets
+        simsity.preprocessing
       </label>
     
-    <a href="./" title="simsity.datasets" class="md-nav__link md-nav__link--active">
-      simsity.datasets
+    <a href="./" title="simsity.preprocessing" class="md-nav__link md-nav__link--active">
+      simsity.preprocessing
     </a>
     
       
@@ -416,15 +428,57 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_clinc" class="md-nav__link">
-    from simsity.datasets import fetch_clinc
+  <a href="#identity" class="md-nav__link">
+    Identity
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_voters" class="md-nav__link">
-    from simsity.datasets import fetch_voters
+  <a href="#simsity.preprocessing._identity.Identity.fit" class="md-nav__link">
+    fit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._identity.Identity.fit_transform" class="md-nav__link">
+    fit_transform()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._identity.Identity.transform" class="md-nav__link">
+    transform()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#columnlister" class="md-nav__link">
+    ColumnLister
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._columnlist.ColumnLister.fit" class="md-nav__link">
+    fit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._columnlist.ColumnLister.fit_transform" class="md-nav__link">
+    fit_transform()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._columnlist.ColumnLister.transform" class="md-nav__link">
+    transform()
   </a>
   
 </li>
@@ -437,18 +491,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../preprocessing/" title="simsity.preprocessing" class="md-nav__link">
-      simsity.preprocessing
-    </a>
   </li>
 
         
@@ -476,15 +518,57 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_clinc" class="md-nav__link">
-    from simsity.datasets import fetch_clinc
+  <a href="#identity" class="md-nav__link">
+    Identity
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-simsitydatasets-import-fetch_voters" class="md-nav__link">
-    from simsity.datasets import fetch_voters
+  <a href="#simsity.preprocessing._identity.Identity.fit" class="md-nav__link">
+    fit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._identity.Identity.fit_transform" class="md-nav__link">
+    fit_transform()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._identity.Identity.transform" class="md-nav__link">
+    transform()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#columnlister" class="md-nav__link">
+    ColumnLister
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._columnlist.ColumnLister.fit" class="md-nav__link">
+    fit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._columnlist.ColumnLister.fit_transform" class="md-nav__link">
+    fit_transform()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simsity.preprocessing._columnlist.ColumnLister.transform" class="md-nav__link">
+    transform()
   </a>
   
 </li>
@@ -505,25 +589,75 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/koaning/simsity/edit/master/docs/api/datasets.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/koaning/simsity/edit/master/docs/api/preprocessing.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>simsity.datasets</h1>
+                  <h1>simsity.preprocessing</h1>
                 
-                <h2 id="from-simsitydatasets-import-fetch_clinc"><code>from simsity.datasets import fetch_clinc</code><a class="headerlink" href="#from-simsitydatasets-import-fetch_clinc" title="Permanent link">&para;</a></h2>
-<p>Loads the clinc conversational intents data.</p>
-<p>Usage:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">simsity.datasets</span> <span class="kn">import</span> <span class="n">fetch_clinc</span>
-
-<span class="n">fetch_clinc</span><span class="p">()</span>
+                <h2 id="identity"><code>Identity</code><a class="headerlink" href="#identity" title="Permanent link">&para;</a></h2>
+<p>Encoder/Transformer that keeps data as-is.</p>
+<h2 id="simsity.preprocessing._identity.Identity.fit"><code class="highlight"><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code><a class="headerlink" href="#simsity.preprocessing._identity.Identity.fit" title="Permanent link">&para;</a></h2>
+<details class="note"><summary>Show source code in <code>preprocessing/_identity.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Identity&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fits the estimator. No-op.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
-<h2 id="from-simsitydatasets-import-fetch_voters"><code>from simsity.datasets import fetch_voters</code><a class="headerlink" href="#from-simsitydatasets-import-fetch_voters" title="Permanent link">&para;</a></h2>
-<p>Loads the voters dataset.</p>
-<p>Usage:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">simsity.datasets</span> <span class="kn">import</span> <span class="n">fetch_voters</span>
-
-<span class="n">fetch_voters</span><span class="p">()</span>
+</td></tr></table>
+</details>
+<p>Fits the estimator. No-op.</p>
+<h2 id="simsity.preprocessing._identity.Identity.fit_transform"><code class="highlight"><span class="n">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span></code><a class="headerlink" href="#simsity.preprocessing._identity.Identity.fit_transform" title="Permanent link">&para;</a></h2>
+<details class="note"><summary>Show source code in <code>preprocessing/_identity.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Transforms the data per scikit-learn API.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
+</td></tr></table>
+</details>
+<p>Transforms the data per scikit-learn API.</p>
+<h2 id="simsity.preprocessing._identity.Identity.transform"><code class="highlight"><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span></code><a class="headerlink" href="#simsity.preprocessing._identity.Identity.transform" title="Permanent link">&para;</a></h2>
+<details class="note"><summary>Show source code in <code>preprocessing/_identity.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Transforms the data per scikit-learn API.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">X</span>
+</code></pre></div>
+</td></tr></table>
+</details>
+<p>Transforms the data per scikit-learn API.</p>
+<h2 id="columnlister"><code>ColumnLister</code><a class="headerlink" href="#columnlister" title="Permanent link">&para;</a></h2>
+<p>Takes a pandas column as a list of text.</p>
+<h2 id="simsity.preprocessing._columnlist.ColumnLister.fit"><code class="highlight"><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code><a class="headerlink" href="#simsity.preprocessing._columnlist.ColumnLister.fit" title="Permanent link">&para;</a></h2>
+<details class="note"><summary>Show source code in <code>preprocessing/_columnlist.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ColumnLister&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fits the estimator. No-op.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+</td></tr></table>
+</details>
+<p>Fits the estimator. No-op.</p>
+<h2 id="simsity.preprocessing._columnlist.ColumnLister.fit_transform"><code class="highlight"><span class="n">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span></code><a class="headerlink" href="#simsity.preprocessing._columnlist.ColumnLister.fit_transform" title="Permanent link">&para;</a></h2>
+<details class="note"><summary>Show source code in <code>preprocessing/_columnlist.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Transforms the data per scikit-learn API.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table>
+</details>
+<p>Transforms the data per scikit-learn API.</p>
+<h2 id="simsity.preprocessing._columnlist.ColumnLister.transform"><code class="highlight"><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span></code><a class="headerlink" href="#simsity.preprocessing._columnlist.ColumnLister.transform" title="Permanent link">&para;</a></h2>
+<details class="note"><summary>Show source code in <code>preprocessing/_columnlist.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Transforms the data per scikit-learn API.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+</code></pre></div>
+</td></tr></table>
+</details>
+<p>Transforms the data per scikit-learn API.</p>
                 
                   
                 
@@ -545,7 +679,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../indexer/" title="simsity.indexer" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../datasets/" title="simsity.datasets" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -554,25 +688,11 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                simsity.indexer
+                simsity.datasets
               </span>
             </div>
           </a>
         
-        
-          <a href="../preprocessing/" title="simsity.preprocessing" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                simsity.preprocessing
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
         
       </nav>
     </div>

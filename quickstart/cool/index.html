@@ -1,0 +1,873 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Simsity is a Super Simple Similarities Service.">
+      
+      
+        <link rel="canonical" href="https://koaning.github.io/simsity/quickstart/cool/">
+      
+      
+        <meta name="author" content="Vincent D. Warmerdam">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../venn.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Cool Tricks - simsity</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#benchmarking" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://koaning.github.io/simsity/" title="simsity" aria-label="simsity" class="md-header-nav__button md-logo">
+          
+            <img alt="logo" src="../../venn.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              simsity
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Cool Tricks
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/koaning/simsity/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" class="md-tabs__link md-tabs__link--active">
+          Getting Started
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../api/service/" class="md-tabs__link">
+          API
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://koaning.github.io/simsity/" title="simsity" class="md-nav__button md-logo">
+      
+        <img alt="logo" src="../../venn.png" width="48" height="48">
+      
+    </a>
+    simsity
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/koaning/simsity/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Getting Started
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Quickstart" class="md-nav__link">
+      Quickstart
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dedup/" title="Deduplication" class="md-nav__link">
+      Deduplication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Cool Tricks
+      </label>
+    
+    <a href="./" title="Cool Tricks" class="md-nav__link md-nav__link--active">
+      Cool Tricks
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarking" class="md-nav__link">
+    Benchmarking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactive-widgets" class="md-nav__link">
+    Interactive Widgets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labelling-aid" class="md-nav__link">
+    Labelling Aid
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#machine-learning" class="md-nav__link">
+    Machine Learning
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/service/" title="simsity.service" class="md-nav__link">
+      simsity.service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/indexer/" title="simsity.indexer" class="md-nav__link">
+      simsity.indexer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/datasets/" title="simsity.datasets" class="md-nav__link">
+      simsity.datasets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/preprocessing/" title="simsity.preprocessing" class="md-nav__link">
+      simsity.preprocessing
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarking" class="md-nav__link">
+    Benchmarking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactive-widgets" class="md-nav__link">
+    Interactive Widgets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labelling-aid" class="md-nav__link">
+    Labelling Aid
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#machine-learning" class="md-nav__link">
+    Machine Learning
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/koaning/simsity/edit/master/docs/quickstart/cool.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Cool Tricks</h1>
+                
+                <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script src="https://cdn.jsdelivr.net/gh/koaning/justcharts/justcharts.js"></script>
+
+<p>This document explores some cool/useful tricks you can pull off with this library.</p>
+<h2 id="benchmarking">Benchmarking<a class="headerlink" href="#benchmarking" title="Permanent link">&para;</a></h2>
+<p>Before diving into benchmarking, we should be acknowledge that coming
+up with meaningful benchmarks is hard. The goal of this document is to
+inspire folks to think about benchmarking, not to suggest that this page
+highlights a state of the art result.</p>
+<p>Having said that ... let's say that you're interested in building a retreival service and
+you happen to have a dataset that's labelled. In that case you may
+be able to calculate precision-at-k and recall-at-k (<a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k">wiki</a>). The <a href="">examples/benchmark.ipynb</a> file on the
+GitHub repository shows a full example using the clinc-dataset.</p>
+<p>The benchmark compares two encoders. One is fairly basic and only
+tracks word-tokens while the other includes subword <a href="https://rasahq.github.io/whatlies/api/language/bpemb_lang/">embeddings</a> and
+countvectors.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Original Encoder Pipeline</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
+    <span class="n">ColumnLister</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">),</span>
+    <span class="n">CountVectorizer</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># New Encoder Pipeline</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
+    <span class="n">ColumnLister</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">),</span>
+    <span class="n">make_union</span><span class="p">(</span>
+        <span class="n">CountVectorizer</span><span class="p">(),</span>
+        <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="s2">&quot;char&quot;</span><span class="p">,</span> <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+        <span class="n">BytePairLanguage</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">vs</span><span class="o">=</span><span class="mi">1_000</span><span class="p">),</span>
+        <span class="n">BytePairLanguage</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">vs</span><span class="o">=</span><span class="mi">100_000</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>The results from the comparison are summarised in the chart below.
+Feel free to click/drag/hover/zoom. You can double-click to reset the
+view.</p>
+<p><vegachart schema-url="../pretty-chart.json"></vegachart></p>
+<p>Again, we don't want to suggest that the encoders that we used are
+state of the art, but we do hope the notebook offers a convenient
+starting point for folks to start benchmarking experiments.</p>
+<h2 id="interactive-widgets">Interactive Widgets<a class="headerlink" href="#interactive-widgets" title="Permanent link">&para;</a></h2>
+<p>For extra interactivity you may be interested in using simsity with
+interactive jupyter widgets. To use these, you'll want to double
+check that you're using a modern jupyterlab installation and that
+the <code>ipywidgets</code> library is installed.</p>
+<div class="highlight"><pre><span></span><code>pip install ipywidgets
+jupyter nbextension enable --py widgetsnbextension
+</code></pre></div>
+<p>You can now re-use a service as an interactive widget.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+
+<span class="k">def</span> <span class="nf">reduce</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;dataframe&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">()</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">interactive_output</span><span class="p">(</span><span class="n">reduce</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+<span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">q</span><span class="p">,</span> <span class="n">out</span><span class="p">])</span>
+</code></pre></div>
+<p>Here's what the experience is like:</p>
+<p><img alt="" src="../text-widget.gif" /></p>
+<p>If you're unfamiliar with the widgets and appreciate a course we recommend
+checking <a href="https://calmcode.io/ipywidgets/introduction.html">this calmcode.io course</a>.</p>
+<h2 id="labelling-aid">Labelling Aid<a class="headerlink" href="#labelling-aid" title="Permanent link">&para;</a></h2>
+<p>Suppose you've started working on a deduplication use-case. Then odds are
+that you don't have a ground truth of labels just yet. So how might simsity
+help out in such a use-case?</p>
+<p>If you're looking for a simple way to label inside of a jupyter notebook
+you can use <a href="https://github.com/agermanidis/pigeon">pigeon</a>. There's a
+course <a href="https://calmcode.io/pigeon/introduction.html">here</a> if you're unfamiliar.
+Make sure it's installed beforehand via:</p>
+<div class="highlight"><pre><span></span><code>pip install pigeon-jupyter
+</code></pre></div>
+<p>Let's demonstrate how you can use a service here.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">simsity.service</span> <span class="kn">import</span> <span class="n">Service</span>
+<span class="kn">from</span> <span class="nn">simsity.datasets</span> <span class="kn">import</span> <span class="n">fetch_voters</span>
+<span class="kn">from</span> <span class="nn">simsity.indexer</span> <span class="kn">import</span> <span class="n">PyNNDescentIndexer</span>
+
+<span class="c1"># Don&#39;t forget to pip install dirty_cat</span>
+<span class="kn">from</span> <span class="nn">dirty_cat</span> <span class="kn">import</span> <span class="n">GapEncoder</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">fetch_voters</span><span class="p">()</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">GapEncoder</span><span class="p">()</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span>
+    <span class="n">indexer</span><span class="o">=</span><span class="n">PyNNDescentIndexer</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">),</span>
+    <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span>
+<span class="p">)</span>
+
+<span class="n">service</span><span class="o">.</span><span class="n">train_from_dataf</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</code></pre></div>
+<p>Given that we have a service that can find similar items. We
+now need a function that can generate candidates that may
+be similar.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">generate_pair</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">n_consider</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">storage</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">df_out</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="o">**</span><span class="n">query</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_consider</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df_out</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;dist&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">generate_pair</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
+</code></pre></div>
+<p>This function will generate a dataframe that contains a pair
+of potentially similar items. This function can be used in a
+pigeon loop for labelling.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">pigeon</span> <span class="kn">import</span> <span class="n">annotate</span>
+
+<span class="n">annotations</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span>
+  <span class="p">(</span><span class="n">generate_pair</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">n_consider</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">)),</span>
+  <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;similar&#39;</span><span class="p">,</span> <span class="s1">&#39;not similar&#39;</span><span class="p">],</span>
+  <span class="n">display_fn</span><span class="o">=</span><span class="n">display</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Here's what the experience is like.</p>
+<p><img alt="" src="../pigeon-widget.gif" /></p>
+<h3 id="machine-learning">Machine Learning<a class="headerlink" href="#machine-learning" title="Permanent link">&para;</a></h3>
+<p>After generating <code>annotations</code> you can inspect them. Here's a
+helper function that can give an overview of the labels.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">annot_to_dataf</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annotations</span><span class="p">:</span>
+        <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">_1&#39;</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">_2&#39;</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d2</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="o">**</span><span class="n">d1</span><span class="p">,</span> <span class="o">**</span><span class="n">d2</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">annot_to_dataf</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
+</code></pre></div>
+<p>Here's an example of what you might see.</p>
+<table>
+<thead>
+<tr>
+<th align="left">name_1</th>
+<th align="left">suburb_1</th>
+<th align="right">postcode_1</th>
+<th align="left">name_2</th>
+<th align="left">suburb_2</th>
+<th align="right">postcode_2</th>
+<th align="left">label</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">jamara bigger</td>
+<td align="left">gastonia</td>
+<td align="right">28054</td>
+<td align="left">jeffrey cox</td>
+<td align="left">flexer</td>
+<td align="right">28702</td>
+<td align="left">not similar</td>
+</tr>
+<tr>
+<td align="left">ashlee kreer</td>
+<td align="left">hickry</td>
+<td align="right">28601</td>
+<td align="left">frank lea</td>
+<td align="left">new bern</td>
+<td align="right">28562</td>
+<td align="left">not similar</td>
+</tr>
+<tr>
+<td align="left">perry kirksey</td>
+<td align="left">leland</td>
+<td align="right">28451</td>
+<td align="left">james skipper</td>
+<td align="left">rocky point</td>
+<td align="right">28457</td>
+<td align="left">not similar</td>
+</tr>
+<tr>
+<td align="left">jimmy penny</td>
+<td align="left">pittsboro</td>
+<td align="right">27312</td>
+<td align="left">audrey noel</td>
+<td align="left">greensboro</td>
+<td align="right">27405</td>
+<td align="left">not similar</td>
+</tr>
+<tr>
+<td align="left">terri foster</td>
+<td align="left">yanceyville</td>
+<td align="right">27379</td>
+<td align="left">ter5i foster</td>
+<td align="left">yankeyville</td>
+<td align="right">27379</td>
+<td align="left">similar</td>
+</tr>
+</tbody>
+</table>
+<p>Given these labels, you can now try to train a model that can detect if two rows are "similar".
+We can re-use the encoders that we used before.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">annot_to_X_y</span><span class="p">(</span><span class="n">annotations</span><span class="p">,</span> <span class="n">encoder</span><span class="p">):</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annotations</span><span class="p">:</span>
+        <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+        <span class="n">data1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+        <span class="n">data2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+        <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">X1</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">))</span>
+    <span class="n">X2</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">ys</span>
+
+<span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">annot_to_X_y</span><span class="p">(</span><span class="n">annotations</span><span class="p">,</span> <span class="n">encoder</span><span class="p">)</span>
+</code></pre></div>
+<p>The <code>X1</code> and <code>X2</code> arrays resemble the encodings of the rows that we
+labelled before. We could take the difference between these two rows
+and leave it to a machine learning algorithm to figure out which
+items in the array matter when it comes to "being similar".</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">X_difference</span> <span class="o">=</span> <span class="n">X1</span> <span class="o">-</span> <span class="n">X2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_difference</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_difference</span><span class="p">)</span>
+
+<span class="c1"># This is the train performance</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+<p>The more data you collect, the better this model may become. Once
+you're satisfied with the performance you can use the original <code>service</code>
+to find items that are "close" and you can use this model to
+pluck out the candidates that matter. The goal is to save the annotator
+some time while doing this.</p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../dedup/" title="Deduplication" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Deduplication
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../api/service/" title="simsity.service" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                simsity.service
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Maintained by <a href="https://twitter.com/fishnets88">Vincent</a>.
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:"../.."}})</script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
