@@ -1,6 +1,4 @@
-<img src="docs/icon.png" width=150 height=150 align="right">
-
-# simsity
+<img src="docs/simsity-thin.jpg" width="100%"/>
 
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>

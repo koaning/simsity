@@ -78,6 +78,10 @@ out = widgets.interactive_output(reduce, {'q': q})
 widgets.VBox([q, out])
 ```
 
+Here's what the experience is like:
+
+![](../text-widget.gif)
+
 If you're unfamiliar with the widgets and appreciate a course we recommend
 checking [this calmcode.io course](https://calmcode.io/ipywidgets/introduction.html).
 
@@ -150,6 +154,10 @@ annotations = annotate(
   display_fn=display
 )
 ```
+
+Here's what the experience is like.
+
+![](../pigeon-widget.gif)
 
 ### Machine Learning
 
