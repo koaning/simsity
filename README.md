@@ -24,20 +24,13 @@ python -m pip install simsity
 This is the basic setup for this package.
 
 ```python
-import pandas as pd
-
 from simsity.service import Service
 from simsity.datasets import fetch_clinc
 from simsity.indexer import PyNNDescentIndexer
 from simsity.preprocessing import Identity, ColumnLister
 
-
-# The Indexer handles the nearest neighbor search
-# The Encoder handles the encoding of the datapoints
-service = Service(
-    indexer=PyNNDescentIndexer(metric="euclidean"),
-    encoder=CountVectorizer()
-)
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import CountVectorizer
 
 # The encoder defines how we encode the data going in.
 encoder = make_pipeline(
