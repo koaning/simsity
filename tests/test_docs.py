@@ -1,28 +1,17 @@
 import pytest
-from mktestdocs import check_docstring, get_codeblock_members
+import pathlib
+from mktestdocs import check_docstring, grab_code_blocks
 
 from simsity.datasets import fetch_clinc, fetch_voters
-from simsity.service import Service
-from simsity.indexer import PyNNDescentIndexer
-
-
-@pytest.mark.parametrize(
-    "obj", get_codeblock_members(Service), ids=lambda d: d.__qualname__
-)
-def test_service_members(obj):
-    """Test methods of the `Service` class."""
-    check_docstring(obj)
-
-
-@pytest.mark.parametrize(
-    "obj", get_codeblock_members(PyNNDescentIndexer), ids=lambda d: d.__qualname__
-)
-def test_indexer_members(obj):
-    """Test methods of the `Indexer` class."""
-    check_docstring(obj)
 
 
 @pytest.mark.parametrize("func", [fetch_clinc, fetch_voters], ids=lambda d: d.__name__)
 def test_function_docstrings(func):
     """Test the docstring code of some functions."""
     check_docstring(obj=func)
+
+
+@pytest.mark.parametrize("fpath", ["README.md", "docs/quickstart/index.md"])
+def test_quickstart_docs_file(fpath):
+    """Test the quickstart files."""
+    grab_code_blocks(pathlib.Path(fpath).read_text())

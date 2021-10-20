@@ -5,6 +5,7 @@ import pandas as pd
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
 from simsity.preprocessing import Identity, ColumnLister
+
 from sklearn.datasets import load_iris
 from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import CountVectorizer

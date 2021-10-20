@@ -15,20 +15,6 @@ class Service:
         encoder: A scikit-learn compatible encoder for the input.
         indexer: A compatible indexer for the nearest neighbor search.
         storage: A dictionary containing the data to be retreived with index. Meant to be ignored by humans.
-
-    Usage:
-
-    ```python
-    from simsity.service import Service
-    from simsity.indexer import PyNNDescentIndexer
-    from sklearn.feature_extraction.text import CountVectorizer
-
-
-    service = Service(
-        encoder=CountVectorizer(),
-        indexer=PyNNDescentIndexer(metric="euclidean")
-    )
-    ```
     """
 
     def __init__(self, encoder, indexer, storage=None) -> None:
@@ -44,27 +30,6 @@ class Service:
         Arguments:
             df: Pandas DataFrame that contains text to train the service with.
             features: Names of the features to encode.
-
-        Usage:
-
-        ```python
-        import pandas as pd
-
-        from simsity.service import Service
-        from simsity.indexer import PyNNDescentIndexer
-        from dirty_cat import GapEncoder
-
-        df = pd.read_csv("tests/data/votes.csv")
-
-        service = Service(
-            indexer=PyNNDescentIndexer(metric="euclidean"),
-            encoder=GapEncoder()
-        )
-
-        service.train_from_dataf(df)
-        res = service.query(name="khimerc thmas", suburb="chariotte", postcode="28273", n_neighbors=3)
-        pd.DataFrame([{**r['item'], 'dist': r['dist']} for r in res])
-        ```
         """
         subset = df
         if features:
@@ -78,6 +43,11 @@ class Service:
     def query(self, n_neighbors=10, out="list", **kwargs):
         """
         Query the service.
+
+        Arguments:
+            n_neighbors: Number of neighbors to return.
+            out: Output format. Can be either "list" or "dataframe".
+            kwargs: Arguments to pass as the query.
         """
         if not self._trained:
             raise RuntimeError("Cannot save, Service is not trained.")

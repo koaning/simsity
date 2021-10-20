@@ -7,14 +7,6 @@ class MinHashIndexer:
 
     Arguments:
         num_perm: The number of permutations to build.
-
-    Usage:
-
-    ```python
-    from simsity.indexer import MinHashLSHForest
-
-    indexer = MinHashLSHForest(metric="euclidean", n_neighbors=10)
-    ```
     """
 
     def __init__(self, num_perm=128) -> None:

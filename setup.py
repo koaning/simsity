@@ -28,7 +28,9 @@ test_packages = [
     "pytest>=4.0.2",
     "black>=19.3b0",
     "pre-commit>=2.2.0",
-    "dirty-cat>=0.2.0",
+    "pyanalyze>=0.3.1",
+    "requests>=2.26.0",
+    "dirty_cat",
 ]
 
 all_packages = base_packages + minhash_packages + serve_packages
