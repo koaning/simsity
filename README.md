@@ -9,6 +9,14 @@ This repository contains simple tools to help in similarity retreival scenarios
 by making a convientwrapper around encoding strategies as well as nearest neighbor
 approaches. Typical usecases include early stage bulk labelling and duplication discovery.
 
+## Install 
+
+You can install simsity via pip. 
+
+```
+python -m pip install simsity
+```
+
 ## Quickstart
 
 This is the basic setup for this package.
