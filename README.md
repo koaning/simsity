@@ -1,6 +1,4 @@
-<img src="docs/icon.png" width=150 height=150 align="right">
-
-# simsity
+<img src="docs/simsity-thin.jpg" width="100%"/>
 
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>
@@ -17,6 +15,7 @@ This is the basic setup for this package.
 import pandas as pd
 
 from simsity.service import Service
+from simsity.datasets import fetch_clinc
 from simsity.indexer import PyNNDescentIndexer
 from simsity.preprocessing import Identity, ColumnLister
 
@@ -43,8 +42,8 @@ service_clinc = Service(
     indexer=indexer,
 )
 
-# We can now train the service.
-df_clinc = pd.read_csv("tests/data/clinc-data.csv")
+# We can now train the service using this data.
+df_clinc = fetch_clinc()
 
 # Important for later: we're only passing the 'text' column to encode
 service_clinc.train_from_dataf(df_clinc, features=["text"])
