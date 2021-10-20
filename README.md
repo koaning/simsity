@@ -5,6 +5,8 @@
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>
 
+<br> 
+
 This repository contains simple tools to help in similarity retreival scenarios
 by making a convientwrapper around encoding strategies as well as nearest neighbor
 approaches. Typical usecases include early stage bulk labelling and duplication discovery.
