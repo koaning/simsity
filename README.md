@@ -88,3 +88,7 @@ You can now POST to http://0.0.0.0:8080/query with payload:
 ```
 
 Note that the query content here refers to `"text"`-column once again.
+
+## Examples 
+
+Check the `examples` folder for some interesting use-cases and tool integrations. 
