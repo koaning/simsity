@@ -8,7 +8,7 @@
 <br> 
 
 This repository contains simple tools to help in similarity retreival scenarios
-by making a convientwrapper around encoding strategies as well as nearest neighbor
+by making a convient wrapper around encoding strategies as well as nearest neighbor
 approaches. Typical usecases include early stage bulk labelling and duplication discovery.
 
 ## Install 
