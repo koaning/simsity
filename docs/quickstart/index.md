@@ -2,6 +2,18 @@ The goal of this tool is to offer you a simple service for similarity detection.
 
 So let's build an example! We'll build a similarity searching tool for a text dataset.
 
+## Install
+
+We should make sure that `simsity` is installed before we move on.
+
+```
+python -m pip install simsity
+```
+
+In general, it's a lot less error prone to install python packages via `python -m pip install`
+compared to a normal `pip install`. If you'd like to learn more about why, you may appreciate
+this [helpful course on virtual environments](https://calmcode.io/virtualenv/intro.html).
+
 ## Example Data
 
 Let's look at the [clinc](https://github.com/clinc/oos-eval) dataset. This dataset

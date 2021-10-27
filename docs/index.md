@@ -18,6 +18,10 @@ You can install simsity via `pip`.
 python -m pip install simsity
 ```
 
+In general, it's a lot less error prone to install python packages via `python -m pip install`
+compared to a normal `pip install`. If you'd like to learn more about why, you may appreciate
+this [helpful course on virtual environments](https://calmcode.io/virtualenv/intro.html).
+
 ## Getting Started
 
 If you'd like to get started, we recommend starting [here](quickstart/).

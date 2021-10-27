@@ -58,7 +58,7 @@ check that you're using a modern jupyterlab installation and that
 the `ipywidgets` library is installed.
 
 ```
-pip install ipywidgets
+python -m pip install ipywidgets
 jupyter nbextension enable --py widgetsnbextension
 ```
 

@@ -34,6 +34,10 @@ encoders are designed to handle dirty categorical data, which would
 be perfect for our use-case here.
 
 ```python
+from simsity.service import Service
+from simsity.indexer import PyNNDescentIndexer
+from dirty_cat import GapEncoder
+
 service = Service(
     indexer=PyNNDescentIndexer(metric="euclidean", n_jobs=10),
     encoder=GapEncoder()
