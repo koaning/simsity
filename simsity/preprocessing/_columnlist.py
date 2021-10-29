@@ -7,9 +7,11 @@ class ColumnLister(BaseEstimator, TransformerMixin):
 
     def __init__(self, column) -> None:
         self.column = column
+        self._is_fitted = False
 
     def fit(self, X, y) -> "ColumnLister":
         """Fits the estimator. No-op."""
+        self._is_fitted = True
         return self
 
     def transform(self, X) -> List[str]:

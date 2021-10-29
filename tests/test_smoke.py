@@ -39,3 +39,37 @@ def test_smoke_clinc(clinc_service, tmpdir):
     reloaded = Service.load(tmpdir)
 
     assert reloaded._trained
+
+
+def test_smoke_pretrained_clinc(pretrained_clinc_service, tmpdir):
+    """
+    Run a simple smoke test to ensure that the service with a pretrained encoder is working.
+    """
+    res = pretrained_clinc_service.query(text="hello there", n_neighbors=10)
+
+    assert res[0]["dist"] == 0.0
+    assert len(res) == 10
+
+    pretrained_clinc_service.save(tmpdir)
+
+    reloaded = Service.load(tmpdir)
+
+    assert reloaded._trained
+
+
+def test_smoke_encoded_clinc(encoded_clinc_service, tmpdir):
+    """
+    Run a simple smoke test to ensure that the service with a pretrained encoder is working.
+    """
+    encoded_data = encoded_clinc_service.encoder.transform(["hello there"])
+    res = encoded_clinc_service.query(data=encoded_data, n_neighbors=10)
+
+    assert res[0]["dist"] == 0.0
+    assert len(res) == 10
+
+    encoded_clinc_service.save(tmpdir)
+
+    reloaded = Service.load(tmpdir)
+
+    assert reloaded._trained
+
