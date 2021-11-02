@@ -57,7 +57,6 @@ class Service:
         Arguments:
             n_neighbors: Number of neighbors to return.
             out: Output format. Can be either "list" or "dataframe".
-            data: Data which has already been transformed by the encoder.
             kwargs: Arguments to pass as the query.
         """
         if not self._trained:
