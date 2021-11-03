@@ -6,6 +6,7 @@ from joblib import dump, load
 from simsity import __version__
 from simsity.preprocessing import Identity
 
+
 class Service:
     """
     This object represents a nearest neighbor lookup service. You can
