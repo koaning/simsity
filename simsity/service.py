@@ -1,10 +1,11 @@
 import json
 import pathlib
+import warnings
 
 import pandas as pd
 from joblib import dump, load
 from simsity import __version__
-import warnings
+from simsity.preprocessing import Identity
 
 
 class Service:
@@ -18,7 +19,9 @@ class Service:
         storage: A dictionary containing the data to be retreived with index. Meant to be ignored by humans.
     """
 
-    def __init__(self, encoder, indexer, storage=None, refit=True) -> None:
+    def __init__(
+        self, encoder=Identity(), indexer=None, storage=None, refit=True
+    ) -> None:
         self.encoder = encoder
         self.indexer = indexer
         self.storage = storage if storage else {}
