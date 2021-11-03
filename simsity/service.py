@@ -6,6 +6,7 @@ from joblib import dump, load
 from simsity import __version__
 import warnings
 
+
 class Service:
     """
     This object represents a nearest neighbor lookup service. You can
@@ -22,10 +23,7 @@ class Service:
         self.indexer = indexer
         self.storage = storage if storage else {}
 
-        if refit:
-            self._trained = False
-        else:
-            self._trained = True
+        self._trained = not refit
 
     def train_from_dataf(self, df, features=None):
         """
@@ -40,15 +38,17 @@ class Service:
             subset = df[features]
 
         self.storage = {i: r for i, r in enumerate(subset.to_dict(orient="records"))}
-        
-        if self._trained:
-            try:
-                data = self.encoder.transform(subset)
-            except Exception as e:
-                warnings.warn("Encountered error using pretrained encoder. Are you sure it is trained?")
-                raise e
-        else:
-            data = self.encoder.fit_transform(subset)
+
+        if not self._trained:
+            self.encoder.fit(subset, y=None)
+
+        try:
+            data = self.encoder.transform(subset)
+        except Exception as e:
+            warnings.warn(
+                "Encountered error using pretrained encoder. Are you sure it is trained?"
+            )
+            raise e
 
         self.indexer.index(data)
         self._trained = True
@@ -71,7 +71,7 @@ class Service:
             raise ValueError(
                 "n_neighbors cannot be greater than the number of items in the storage."
             )
-        
+
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
 
