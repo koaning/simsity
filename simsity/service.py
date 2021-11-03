@@ -4,7 +4,7 @@ import pathlib
 import pandas as pd
 from joblib import dump, load
 from simsity import __version__
-
+import warnings
 
 class Service:
     """
@@ -38,10 +38,15 @@ class Service:
         subset = df
         if features:
             subset = df[features]
+
         self.storage = {i: r for i, r in enumerate(subset.to_dict(orient="records"))}
         
         if self._trained:
-            data = self.encoder.transform(subset)
+            try:
+                data = self.encoder.transform(subset)
+            except Exception as e:
+                warnings.warn("Encountered error using pretrained encoder. Are you sure it is trained?")
+                raise e
         else:
             data = self.encoder.fit_transform(subset)
 

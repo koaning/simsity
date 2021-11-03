@@ -2,8 +2,10 @@ import json
 import pytest
 import pathlib
 
+import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import make_pipeline
+from sklearn.exceptions import NotFittedError
 
 from simsity.service import Service
 from simsity.preprocessing import SparseMinHasher
@@ -31,6 +33,20 @@ def test_query_raises_error_no_train2():
     )
     with pytest.raises(RuntimeError):
         service.query(text="give me directions", n_neighbors=100)
+
+
+def test_train_raises_error_no_fit():
+    """
+    You cannot have refit=False without a trained encoder.
+    """
+    df = pd.DataFrame(["give me directions"], columns=["text"])
+    service = Service(
+        indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer(),
+        refit=False
+    )
+    # Since the encoder is a sklearn transformer it will throw a NotFittedError
+    with pytest.raises(NotFittedError):
+        service.train_from_dataf(df, features=["text"])
 
 
 def test_train_path_no_exists(tmpdir):
