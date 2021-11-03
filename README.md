@@ -7,8 +7,8 @@
 
 <br> 
 
-This repository contains simple tools to help in similarity retreival scenarios
-by making a convient wrapper around encoding strategies as well as nearest neighbor
+This repository contains simple tools to help in similarity retrieval scenarios
+by making a convenient wrapper around encoding strategies as well as nearest neighbor
 approaches. Typical usecases include early stage bulk labelling and duplication discovery.
 
 ## Install 
