@@ -1,5 +1,6 @@
 from simsity.error import NotInstalled
 from .pynn import PyNNDescentIndexer
+from .common import Indexer
 
 
 try:
@@ -8,4 +9,4 @@ except ModuleNotFoundError:
     MinHashIndexer = NotInstalled("MinHashIndexer", "minhash")
 
 
-__all__ = ["PyNNDescentIndexer", "MinHashIndexer"]
+__all__ = ["PyNNDescentIndexer", "MinHashIndexer", "Indexer"]

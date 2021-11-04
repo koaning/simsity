@@ -1,7 +1,9 @@
 from pynndescent import NNDescent
 
+from simsity.indexer.common import Indexer
 
-class PyNNDescentIndexer:
+
+class PyNNDescentIndexer(Indexer):
     """
     An indexer based on PyNNDescent.
 
