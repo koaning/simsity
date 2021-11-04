@@ -55,5 +55,3 @@ def test_smoke_pretrained_clinc(pretrained_clinc_service, tmpdir):
     reloaded = Service.load(tmpdir)
 
     assert reloaded._trained
-
-

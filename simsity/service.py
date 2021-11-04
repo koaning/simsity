@@ -6,6 +6,7 @@ import pandas as pd
 from joblib import dump, load
 from simsity import __version__
 from simsity.preprocessing import Identity
+from simsity.indexer import Indexer
 
 
 class Service:
@@ -20,7 +21,7 @@ class Service:
     """
 
     def __init__(
-        self, encoder=Identity(), indexer=None, storage=None, refit=True
+        self, encoder=Identity(), indexer: Indexer = None, storage=None, refit=True
     ) -> None:
         self.encoder = encoder
         self.indexer = indexer

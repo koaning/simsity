@@ -41,8 +41,9 @@ def test_train_raises_error_no_fit():
     """
     df = pd.DataFrame(["give me directions"], columns=["text"])
     service = Service(
-        indexer=PyNNDescentIndexer(metric="euclidean"), encoder=CountVectorizer(),
-        refit=False
+        indexer=PyNNDescentIndexer(metric="euclidean"),
+        encoder=CountVectorizer(),
+        refit=False,
     )
     # Since the encoder is a sklearn transformer it will throw a NotFittedError
     with pytest.raises(NotFittedError):

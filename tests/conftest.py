@@ -47,6 +47,7 @@ def untrained_service():
         indexer=PyNNDescentIndexer(metric="euclidean", n_neighbors=2),
     )
 
+
 @pytest.fixture(scope="session")
 def pretrained_clinc_service():
     """Create a service with a pretrained encoder"""
@@ -58,11 +59,9 @@ def pretrained_clinc_service():
     pretrained_service_clinc = Service(
         encoder=pretrained_encoder,
         indexer=PyNNDescentIndexer(metric="euclidean", n_neighbors=2),
-        refit=False
+        refit=False,
     )
 
     pretrained_service_clinc.train_from_dataf(df_clinc, features=["text"])
 
     return pretrained_service_clinc
-
-

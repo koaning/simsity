@@ -1,3 +1,9 @@
+"""
+This demo is kept around so that we can confirm that optional dependencies
+do not break the rest of the toolkit. This script only contains tools that
+come with the base install of simsity.
+"""
+
 import pandas as pd
 
 from simsity.service import Service
