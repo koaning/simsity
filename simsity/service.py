@@ -1,5 +1,6 @@
 import json
 import pathlib
+import warnings
 
 import pandas as pd
 from joblib import dump, load
@@ -18,11 +19,14 @@ class Service:
         storage: A dictionary containing the data to be retreived with index. Meant to be ignored by humans.
     """
 
-    def __init__(self, encoder=Identity(), indexer=None, storage=None) -> None:
+    def __init__(
+        self, encoder=Identity(), indexer=None, storage=None, refit=True
+    ) -> None:
         self.encoder = encoder
         self.indexer = indexer
         self.storage = storage if storage else {}
-        self._trained = False
+
+        self._trained = not refit
 
     def train_from_dataf(self, df, features=None):
         """
@@ -35,10 +39,23 @@ class Service:
         subset = df
         if features:
             subset = df[features]
+
         self.storage = {i: r for i, r in enumerate(subset.to_dict(orient="records"))}
-        data = self.encoder.fit_transform(subset)
+
+        if not self._trained:
+            self.encoder.fit(subset, y=None)
+
+        try:
+            data = self.encoder.transform(subset)
+        except Exception as e:
+            warnings.warn(
+                "Encountered error using pretrained encoder. Are you sure it is trained?"
+            )
+            raise e
+
         self.indexer.index(data)
         self._trained = True
+
         return self
 
     def query(self, n_neighbors=10, out="list", **kwargs):
@@ -51,13 +68,16 @@ class Service:
             kwargs: Arguments to pass as the query.
         """
         if not self._trained:
-            raise RuntimeError("Cannot save, Service is not trained.")
+            raise RuntimeError("Cannot query, Service is not trained.")
+
         if n_neighbors > len(self.storage):
             raise ValueError(
                 "n_neighbors cannot be greater than the number of items in the storage."
             )
+
         data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
         idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
+
         res = [
             {"item": self.storage[idx[i]], "dist": float(dist[i])}
             for i in range(len(idx))

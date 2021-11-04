@@ -46,3 +46,23 @@ def untrained_service():
         encoder=make_pipeline(ColumnLister(column="text"), CountVectorizer()),
         indexer=PyNNDescentIndexer(metric="euclidean", n_neighbors=2),
     )
+
+@pytest.fixture(scope="session")
+def pretrained_clinc_service():
+    """Create a service with a pretrained encoder"""
+    df_clinc = pd.read_csv("tests/data/clinc-data.csv")
+
+    pretrained_encoder = make_pipeline(ColumnLister(column="text"), CountVectorizer())
+    pretrained_encoder.fit(df_clinc)
+
+    pretrained_service_clinc = Service(
+        encoder=pretrained_encoder,
+        indexer=PyNNDescentIndexer(metric="euclidean", n_neighbors=2),
+        refit=False
+    )
+
+    pretrained_service_clinc.train_from_dataf(df_clinc, features=["text"])
+
+    return pretrained_service_clinc
+
+
