@@ -22,7 +22,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Testing Dependencies
-      run: make install
+      run: python -m pip install interrogate black flake8
     - name: Interrogate
       run: make interrogate
     - name: Black
