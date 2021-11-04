@@ -593,11 +593,7 @@ about finding these?</p>
 the <a href="https://dirty-cat.github.io/stable/">dirty_cat</a> package. These
 encoders are designed to handle dirty categorical data, which would
 be perfect for our use-case here.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">simsity.service</span> <span class="kn">import</span> <span class="n">Service</span>
-<span class="kn">from</span> <span class="nn">simsity.indexer</span> <span class="kn">import</span> <span class="n">PyNNDescentIndexer</span>
-<span class="kn">from</span> <span class="nn">dirty_cat</span> <span class="kn">import</span> <span class="n">GapEncoder</span>
-
-<span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span>
     <span class="n">indexer</span><span class="o">=</span><span class="n">PyNNDescentIndexer</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
     <span class="n">encoder</span><span class="o">=</span><span class="n">GapEncoder</span><span class="p">()</span>
 <span class="p">)</span>
