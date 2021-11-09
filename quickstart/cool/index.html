@@ -617,6 +617,24 @@ jupyter nbextension enable --py widgetsnbextension
 <p><img alt="" src="../text-widget.gif" /></p>
 <p>If you're unfamiliar with the widgets and appreciate a course we recommend
 checking <a href="https://calmcode.io/ipywidgets/introduction.html">this calmcode.io course</a>.</p>
+<p>You could even extend the widget to allow for a comparison between two services.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+
+<span class="k">def</span> <span class="nf">reduce1</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="n">subset1</span> <span class="o">=</span> <span class="n">service1</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;dataframe&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">subset1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">reduce2</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="n">subset2</span> <span class="o">=</span> <span class="n">service2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;dataframe&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">subset2</span><span class="p">)</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">()</span>
+
+<span class="n">out1</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">interactive_output</span><span class="p">(</span><span class="n">reduce1</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+<span class="n">out2</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">interactive_output</span><span class="p">(</span><span class="n">reduce2</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+<span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">q</span><span class="p">,</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">out1</span><span class="p">,</span> <span class="n">out2</span><span class="p">])])</span>
+</code></pre></div>
 <h2 id="labelling-aid">Labelling Aid<a class="headerlink" href="#labelling-aid" title="Permanent link">&para;</a></h2>
 <p>Suppose you've started working on a deduplication use-case. Then odds are
 that you don't have a ground truth of labels just yet. So how might simsity

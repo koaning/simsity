@@ -588,7 +588,7 @@ pass it an encoder and a method to index the data.</p>
 </tr>
 <tr>
 <td><code>indexer</code></td>
-<td></td>
+<td><code>Indexer</code></td>
 <td>A compatible indexer for the nearest neighbor search.</td>
 <td><code>None</code></td>
 </tr>
@@ -601,8 +601,7 @@ pass it an encoder and a method to index the data.</p>
 </tbody>
 </table>
 <h2 id="simsity.service.Service.load"><code class="highlight"><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></code> <em>(classmethod)</em><a class="headerlink" href="#simsity.service.Service.load" title="Permanent link">&para;</a></h2>
-<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
-<span class="normal">108</span>
+<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -623,7 +622,8 @@ pass it an encoder and a method to index the data.</p>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
-<span class="normal">129</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="nd">@classmethod</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads a service</span>
@@ -670,8 +670,7 @@ pass it an encoder and a method to index the data.</p>
 </tbody>
 </table>
 <h2 id="simsity.service.Service.query"><code class="highlight"><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code><a class="headerlink" href="#simsity.service.Service.query" title="Permanent link">&para;</a></h2>
-<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
-<span class="normal">62</span>
+<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
@@ -697,7 +696,8 @@ pass it an encoder and a method to index the data.</p>
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
-<span class="normal">88</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query the service.</span>
 
@@ -761,8 +761,7 @@ pass it an encoder and a method to index the data.</p>
 </tbody>
 </table>
 <h2 id="simsity.service.Service.save"><code class="highlight"><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code><a class="headerlink" href="#simsity.service.Service.save" title="Permanent link">&para;</a></h2>
-<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
-<span class="normal"> 91</span>
+<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
@@ -776,7 +775,8 @@ pass it an encoder and a method to index the data.</p>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the service</span>
 
@@ -816,8 +816,7 @@ pass it an encoder and a method to index the data.</p>
 </tbody>
 </table>
 <h2 id="simsity.service.Service.serve"><code class="highlight"><span class="n">serve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span></code><a class="headerlink" href="#simsity.service.Service.serve" title="Permanent link">&para;</a></h2>
-<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
-<span class="normal">132</span>
+<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
@@ -833,7 +832,8 @@ pass it an encoder and a method to index the data.</p>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">serve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">):</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">serve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start a server for the service.</span>
 
@@ -884,8 +884,7 @@ pass it an encoder and a method to index the data.</p>
 </tbody>
 </table>
 <h2 id="simsity.service.Service.train_from_dataf"><code class="highlight"><span class="n">train_from_dataf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code><a class="headerlink" href="#simsity.service.Service.train_from_dataf" title="Permanent link">&para;</a></h2>
-<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
+<details class="note"><summary>Show source code in <code>simsity/service.py</code></summary><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
@@ -912,7 +911,8 @@ pass it an encoder and a method to index the data.</p>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">train_from_dataf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="normal">59</span>
+<span class="normal">60</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">train_from_dataf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the service from a dataframe.</span>
 
