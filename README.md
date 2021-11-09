@@ -55,14 +55,14 @@ service_clinc.train_from_dataf(df_clinc, features=["text"])
 
 # Query the datapoints
 # Note that the keyword argument here refers to 'text'-column
-service.query(text="give me directions", n_neighbors=20)
+service_clinc.query(text="give me directions", n_neighbors=20)
 ```
 
 If you'd like you can also save and load the service on disk.
 
 ```python
 # Save the entire system
-service.save("/tmp/simple-model")
+service_clinc.save("/tmp/simple-model")
 
 # You can also load the model now.
 reloaded = Service.load("/tmp/simple-model")
