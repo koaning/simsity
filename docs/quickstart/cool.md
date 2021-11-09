@@ -91,11 +91,11 @@ You could even extend the widget to allow for a comparison between two services.
 import ipywidgets as widgets
 
 def reduce1(q):
-    subset1 = service_clinc1.query(text=q, n_neighbors=5, out="dataframe")
+    subset1 = service1.query(text=q, n_neighbors=5, out="dataframe")
     display(subset1)
 
 def reduce2(q):
-    subset2 = service_clinc2.query(text=q, n_neighbors=5, out="dataframe")
+    subset2 = service2.query(text=q, n_neighbors=5, out="dataframe")
     display(subset2)
 
 q = widgets.Text()
