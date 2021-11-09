@@ -85,6 +85,27 @@ Here's what the experience is like:
 If you're unfamiliar with the widgets and appreciate a course we recommend
 checking [this calmcode.io course](https://calmcode.io/ipywidgets/introduction.html).
 
+You could even extend the widget to allow for a comparison between two services.
+
+```python
+import ipywidgets as widgets
+
+def reduce1(q):
+    subset1 = service_clinc1.query(text=q, n_neighbors=5, out="dataframe")
+    display(subset1)
+
+def reduce2(q):
+    subset2 = service_clinc2.query(text=q, n_neighbors=5, out="dataframe")
+    display(subset2)
+
+q = widgets.Text()
+
+out1 = widgets.interactive_output(reduce1, {'q': q})
+out2 = widgets.interactive_output(reduce2, {'q': q})
+
+widgets.VBox([q, widgets.HBox([out1, out2])])
+```
+
 ## Labelling Aid
 
 Suppose you've started working on a deduplication use-case. Then odds are
