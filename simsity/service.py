@@ -136,9 +136,7 @@ class Service:
             return AnnoyIndexer.load(path)
         if "pynn" in metadata:
             return PyNNDescentIndexer.load(path)
-        if "scann" in metadata:
-            return AnnoyIndexer.load(path)
-        raise ValueError("Metadata should contain either `annoy`, `pynn` and `scann`.")
+        raise ValueError("Metadata should contain either `annoy` or `pynn`.")
 
     def serve(self, host, port=8080):
         """

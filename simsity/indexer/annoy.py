@@ -1,5 +1,5 @@
 import json
-import numpy as np
+import pandas as pd
 from pathlib import Path
 from annoy import AnnoyIndex
 from scipy.sparse import spmatrix
@@ -37,12 +37,13 @@ class AnnoyIndexer(Indexer):
         """
         if isinstance(data, spmatrix):
             raise ValueError("Annoy index does not support sparse matrices.")
-        if isinstance(data, list):
-            data = np.array(data)
         self.feature_size = data.shape[1]
         self.model = AnnoyIndex(self.feature_size, self.metric)
         for i in range(data.shape[0]):
-            self.model.add_item(i, data[i])
+            if isinstance(data, pd.DataFrame):
+                self.model.add_item(i, data.iloc[i].values)
+            else:
+                self.model.add_item(i, data[i])
         self.model.build(self.n_trees, n_jobs=self.n_jobs)
 
     def query(self, query, n_neighbors=1):
@@ -55,10 +56,14 @@ class AnnoyIndexer(Indexer):
         """
         if not self.model:
             raise RuntimeError("Index not yet built.")
+
+        if isinstance(query, pd.DataFrame):
+            query = query.iloc[0].values
+
         idx, dist = self.model.get_nns_by_vector(
             query, n=n_neighbors, include_distances=True
         )
-        return list(idx[0]), list(dist[0])
+        return idx, dist
 
     def save(self, path) -> None:
         """

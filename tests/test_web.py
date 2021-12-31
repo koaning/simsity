@@ -16,7 +16,7 @@ def test_basic_post_rqs(clinc_service, payload, exp):
     """Confirm that the basic queries come back right"""
     client = TestClient(create_app(clinc_service))
     resp = client.post("/query", json=payload)
-    print(resp.json())
+
     assert resp.status_code == 200
     assert len(resp.json()) == payload["n_neighbors"]
     assert any(exp in s["item"]["text"] for s in resp.json())

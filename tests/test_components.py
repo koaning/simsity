@@ -29,8 +29,6 @@ def test_column_lister(dataf):
 )
 def test_column_min_hash(data):
     """Test the SparseMinHasher estimator."""
-    print(data)
     pipe = make_pipeline(CountVectorizer(), SparseMinHasher())
     X_out = pipe.fit_transform(data)
-    print(X_out)
     assert len(X_out) == len(data)
