@@ -23,3 +23,9 @@ service = Service(indexer=PyNNDescentIndexer(metric="euclidean"), encoder=encode
 
 service.train_from_dataf(df, features=["text"])
 service.query(text="where is my phone", n_neighbors=3, out="dataframe")
+
+# Save the entire system
+service.save("/tmp/simple-model")
+
+# You can also load the model now.
+reloaded = Service.load("/tmp/simple-model")
