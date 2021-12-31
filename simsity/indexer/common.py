@@ -17,6 +17,26 @@ class Indexer(ABC):
         """
         pass
 
+    @abstractmethod
+    def save(self, path) -> None:
+        """
+        Save the indexer in a path.
+
+        Arguments:
+            path: string or pathlib.Path to folder.
+        """
+        pass
+
+    @abstractmethod
+    def load(self, path) -> "Indexer":
+        """
+        Load the indexer in a path.
+
+        Arguments:
+            path: string or pathlib.Path to folder.
+        """
+        pass
+
     def query(self, query, n_neighbors=1) -> Tuple[List, List]:
         """
         Query the index.
