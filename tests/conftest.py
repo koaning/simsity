@@ -3,7 +3,7 @@ import pytest
 import pandas as pd
 
 from simsity.service import Service
-from simsity.indexer import PyNNDescentIndexer
+from simsity.indexer import AnnoyIndexer, PyNNDescentIndexer
 from simsity.preprocessing import Identity, ColumnLister
 
 from sklearn.datasets import load_iris
@@ -20,7 +20,7 @@ def iris_service():
     ]
     service_iris = Service(
         encoder=Identity(),
-        indexer=PyNNDescentIndexer(metric="euclidean", n_neighbors=2),
+        indexer=AnnoyIndexer(metric="euclidean", n_trees=10),
     )
     service_iris.train_from_dataf(df_iris)
 

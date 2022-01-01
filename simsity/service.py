@@ -5,6 +5,7 @@ import warnings
 import pandas as pd
 from joblib import dump, load
 from simsity import __version__
+from simsity.indexer import AnnoyIndexer, PyNNDescentIndexer
 from simsity.preprocessing import Identity
 from simsity.indexer import Indexer
 
@@ -103,7 +104,7 @@ class Service:
         metadata_path = pathlib.Path(path) / "metadata.json"
         metadata_path.write_text(json.dumps({"version": __version__}))
         dump(self.encoder, pathlib.Path(path) / "encoder.joblib")
-        dump(self.indexer, pathlib.Path(path) / "indexer.joblib")
+        self.indexer.save(pathlib.Path(path))
 
     @classmethod
     def load(cls, path):
@@ -124,10 +125,18 @@ class Service:
         storage_path = pathlib.Path(path) / "storage.json"
         storage = {int(k): v for k, v in json.loads(storage_path.read_text()).items()}
         encoder = load(pathlib.Path(path) / "encoder.joblib")
-        decoder = load(pathlib.Path(path) / "indexer.joblib")
-        service = cls(encoder, decoder, storage)
+        indexer = cls._load_indexer(pathlib.Path(path), metadata)
+        service = cls(encoder, indexer, storage)
         service._trained = True
         return service
+
+    @classmethod
+    def _load_indexer(self, path, metadata):
+        if "annoy" in metadata:
+            return AnnoyIndexer.load(path)
+        if "pynn" in metadata:
+            return PyNNDescentIndexer.load(path)
+        raise ValueError("Metadata should contain either `annoy` or `pynn`.")
 
     def serve(self, host, port=8080):
         """

@@ -9,6 +9,7 @@ base_packages = [
     "pynndescent>=0.5",
     "numba>=0.54.1",
     "pandas>=1.3.3",
+    "annoy>=1.17.0",
 ]
 
 minhash_packages = ["datasketch>=1.5.3"]
