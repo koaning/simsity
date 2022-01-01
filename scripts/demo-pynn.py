@@ -25,12 +25,18 @@ indexer = PyNNDescentIndexer(metric="euclidean")
 service = Service(indexer=indexer, encoder=encoder)
 
 # We can now train the service using this data.
-# Important for later: we're only passing the 'text' column to encode
+# Important for later: we're only passing the 'text' column to encode.
 service.train_from_dataf(df, features=["text"])
 service.query(text="where is my phone", n_neighbors=3, out="dataframe")
 
-# Save the entire system
+# Run a query.
+service.query(text="hello world")
+
+# Save the entire system.
 service.save("/tmp/simple-pynn")
 
 # You can also load the model now.
 reloaded = Service.load("/tmp/simple-pynn")
+
+# Run a query, again.
+reloaded.query(text="hello world")

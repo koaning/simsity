@@ -32,8 +32,14 @@ service_clinc = Service(
 df_clinc = fetch_clinc()
 service_clinc.train_from_dataf(df_clinc, features=["text"])
 
+# Run a query
+service_clinc.query(text="hello world")
+
 # Save the entire system
 service_clinc.save("/tmp/simple-annoy")
 
 # You can also load the model now.
 reloaded = Service.load("/tmp/simple-annoy")
+
+# Run a query, again
+reloaded.query(text="hello world")
