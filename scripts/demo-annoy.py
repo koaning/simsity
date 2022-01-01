@@ -1,3 +1,9 @@
+"""
+This demo is kept around so that we can confirm that optional dependencies
+do not break the rest of the toolkit. This script only contains tools that
+come with the base install of simsity.
+"""
+
 from simsity.service import Service
 from simsity.datasets import fetch_clinc
 from simsity.indexer import PyNNDescentIndexer
@@ -13,7 +19,6 @@ encoder = make_pipeline(
 )
 
 # The indexer handles the nearest neighbor lookup.
-# indexer = AnnoyIndexer(metric="euclidean", n_trees=10)
 indexer = PyNNDescentIndexer()
 
 # The service combines the two into a single object.
@@ -23,13 +28,12 @@ service_clinc = Service(
 )
 
 # We can now train the service using this data.
-df_clinc = fetch_clinc()
-
 # Important for later: we're only passing the 'text' column to encode
+df_clinc = fetch_clinc()
 service_clinc.train_from_dataf(df_clinc, features=["text"])
 
 # Save the entire system
-service_clinc.save("/tmp/simple-model")
+service_clinc.save("/tmp/simple-annoy")
 
 # You can also load the model now.
-reloaded = Service.load("/tmp/simple-model")
+reloaded = Service.load("/tmp/simple-annoy")
