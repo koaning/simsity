@@ -711,6 +711,14 @@ out of the box.</p>
 <p>There are many <a href="https://pynndescent.readthedocs.io/en/latest/index.html#why-use-pynndescent">distance metrics</a>
 that PyNNDescent supports and it's also able to index in parallel by setting the
 <code>n_jobs</code> parameter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We'll be using the <code>PyNNDescentIndexer</code> indexer in this demo because it's very flexible.
+It supports dense arrays as well as sparse ones! The only downside is that it does take
+a while to index all the data. If you're looking for a faster indexing method you may want
+to try the <code>AnnoyIndexer</code> based on <a href="https://github.com/spotify/annoy">annoy</a>. If you're
+curious to learn how it works, you may appreciate this <a href="https://calmcode.io/annoy/intro.html">segment on calmcode</a>.</p>
+</div>
 <h2 id="building-a-service">Building a Service<a class="headerlink" href="#building-a-service" title="Permanent link">&para;</a></h2>
 <p>Once you have an encoder and an indexer, you can construct a service.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">simsity.service</span> <span class="kn">import</span> <span class="n">Service</span>
