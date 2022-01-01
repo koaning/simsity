@@ -85,6 +85,15 @@ There are many [distance metrics](https://pynndescent.readthedocs.io/en/latest/i
 that PyNNDescent supports and it's also able to index in parallel by setting the
 `n_jobs` parameter.
 
+!!! note
+
+    We'll be using the `PyNNDescentIndexer` indexer in this demo because it's very flexible.
+    It supports dense arrays as well as sparse ones! The only downside is that it does take
+    a while to index all the data. If you're looking for a faster indexing method you may want
+    to try the `AnnoyIndexer` based on [annoy](https://github.com/spotify/annoy). If you're
+    curious to learn how it works, you may appreciate this [segment on calmcode](https://calmcode.io/annoy/intro.html).
+
+
 
 ## Building a Service
 
