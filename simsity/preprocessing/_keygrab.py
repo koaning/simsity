@@ -8,7 +8,7 @@ class KeyGrabber(BaseEstimator, TransformerMixin):
     def __init__(self, key) -> None:
         self.key = key
 
-    def fit(self, X, y) -> "ColumnLister":
+    def fit(self, X, y) -> "KeyGrabber":
         """Fits the estimator. No-op."""
         return self
 

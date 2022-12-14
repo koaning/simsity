@@ -1,6 +1,5 @@
 import warnings
 
-from simsity import __version__
 from simsity.preprocessing import Identity
 from simsity.indexer import Indexer
 
