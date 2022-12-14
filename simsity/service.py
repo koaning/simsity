@@ -15,9 +15,7 @@ class Service:
         indexer: A compatible indexer for the nearest neighbor search.
     """
 
-    def __init__(
-        self, encoder=Identity(), indexer: Indexer = None
-    ) -> None:
+    def __init__(self, encoder=Identity(), indexer: Indexer = None) -> None:
         self.encoder = encoder
         self.indexer = indexer
 
