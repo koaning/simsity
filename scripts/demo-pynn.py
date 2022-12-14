@@ -25,7 +25,7 @@ indexer = PyNNDescentIndexer(metric="euclidean")
 service = Service(indexer=indexer, encoder=encoder)
 
 # We can now train the service using this data.
-# Important for later: we're only passing the 'text' column to encode.
+encoder.fit(df)
 service.index(df)
 service.query(text="where is my phone", n_neighbors=3, out="dataframe")
 
