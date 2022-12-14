@@ -6,11 +6,11 @@ from simsity import __version__
 
 base_packages = [
     "scikit-learn>=1.0.0",
-    "pynndescent>=0.5",
-    "numba>=0.54.1",
     "pandas>=1.3.3",
     "annoy>=1.17.0",
 ]
+
+pynn_pacakages = ["pynndescent>=0.5", "numba>=0.54.1"]
 
 serve_packages = ["uvicorn>=0.15.0", "fastapi>=0.70.0"]
 
@@ -32,7 +32,7 @@ test_packages = [
     "dirty_cat",
 ]
 
-all_packages = base_packages + serve_packages
+all_packages = base_packages + serve_packages + pynn_pacakages
 dev_packages = all_packages + docs_packages + test_packages
 
 
@@ -51,7 +51,7 @@ setup(
         "Issue Tracker": "https://github.com/koaning/simsity/issues",
     },
     install_requires=base_packages,
-    extras_require={"dev": dev_packages},
+    extras_require={"dev": dev_packages, "pynn": pynn_pacakages},
     classifiers=[
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
