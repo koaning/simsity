@@ -14,7 +14,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 @pytest.fixture(scope="session")
 def iris_service():
     """Create a service trained on iris."""
-    X, y = load_iris(return_X_y==True)
+    X, y = load_iris(return_X_y=True)
     service_iris = Service(
         encoder=Identity(),
         indexer=AnnoyIndexer(metric="euclidean", n_trees=10),

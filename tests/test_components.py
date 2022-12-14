@@ -1,7 +1,6 @@
 import pytest
 import pandas as pd
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import CountVectorizer
+
 from simsity.preprocessing import KeyGrabber, ColumnGrabber, Identity
 
 
@@ -27,4 +26,4 @@ def test_column_lister(dataf):
 def test_key_lister():
     """Test the ColumnLister estimator."""
     data = [{"text": "yes"}]
-    assert KeyGrabber(column="text").fit_transform(data) == ["yes"]
+    assert KeyGrabber(key="text").fit_transform(data) == ["yes"]
