@@ -2,13 +2,13 @@ from typing import List
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
-class ColumnLister(BaseEstimator, TransformerMixin):
+class ColumnGrabber(BaseEstimator, TransformerMixin):
     """Takes a pandas column as a list of text."""
 
     def __init__(self, column) -> None:
         self.column = column
 
-    def fit(self, X, y) -> "ColumnLister":
+    def fit(self, X, y) -> "ColumnGrabber":
         """Fits the estimator. No-op."""
         return self
 

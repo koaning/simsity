@@ -1,5 +1,5 @@
 from ._identity import Identity
-from ._columnlist import ColumnLister
+from ._columngrab import ColumnGrabber
 from ._keygrab import KeyGrabber
 
-__all__ = ["Identity", "ColumnLister", "KeyGrabber"]
+__all__ = ["Identity", "ColumnGrabber", "KeyGrabber"]

@@ -12,8 +12,6 @@ base_packages = [
     "annoy>=1.17.0",
 ]
 
-minhash_packages = ["datasketch>=1.5.3"]
-
 serve_packages = ["uvicorn>=0.15.0", "fastapi>=0.70.0"]
 
 docs_packages = [
