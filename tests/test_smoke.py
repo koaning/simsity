@@ -1,57 +1,23 @@
-from simsity.service import Service
-
-
-def test_smoke_iris(iris_service, tmpdir):
+def test_smoke_iris(iris_service):
     """
     Run a simple smoke test to ensure that the service is working.
     """
     # Query an example from the training set
-    res = iris_service.query(
-        sepal_length=5.1,
-        sepal_width=3.3,
-        petal_length=1.7,
-        petal_width=0.5,
+    idx, dists = iris_service.query(
+        [[5.1, 3.3, 1.7, 0.5]],
         n_neighbors=10,
     )
 
     # The minimum distance should be zero
-    assert res[0]["dist"] == 0.0
-    assert len(res) == 10
-
-    iris_service.save(tmpdir)
-
-    reloaded = Service.load(tmpdir)
-
-    assert reloaded._trained
+    assert dists[0] == 0.0
+    assert len(idx) == 10
 
 
-def test_smoke_clinc(clinc_service, tmpdir):
+def test_smoke_clinc(clinc_service):
     """
     Run a simple smoke test to ensure that the service is working.
     """
-    res = clinc_service.query(text="hello there", n_neighbors=10)
+    idx, dists = clinc_service.query("hello there", n_neighbors=10)
 
-    assert res[0]["dist"] == 0.0
-    assert len(res) == 10
-
-    clinc_service.save(tmpdir)
-
-    reloaded = Service.load(tmpdir)
-
-    assert reloaded._trained
-
-
-def test_smoke_pretrained_clinc(pretrained_clinc_service, tmpdir):
-    """
-    Run a simple smoke test to ensure that the service with a pretrained encoder is working.
-    """
-    res = pretrained_clinc_service.query(text="hello there", n_neighbors=10)
-
-    assert res[0]["dist"] == 0.0
-    assert len(res) == 10
-
-    pretrained_clinc_service.save(tmpdir)
-
-    reloaded = Service.load(tmpdir)
-
-    assert reloaded._trained
+    assert dists[0] == 0.0
+    assert len(idx) == 10

@@ -24,7 +24,7 @@ def test_column_lister(dataf):
     assert ColumnGrabber(column=colname).fit_transform(dataf) == ["example"]
 
 
-def test_key_lister(dataf):
+def test_key_lister():
     """Test the ColumnLister estimator."""
     data = [{"text": "yes"}]
     assert KeyGrabber(column="text").fit_transform(data) == ["yes"]

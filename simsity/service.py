@@ -28,11 +28,11 @@ class Service:
         """
         try:
             data = self.encoder.transform(X)
-        except Exception as e:
+        except Exception as ex:
             warnings.warn(
                 "Encountered error using pretrained encoder. Are you sure it is trained?"
             )
-            raise e
+            raise ex
 
         self.indexer.index(data)
         return self
