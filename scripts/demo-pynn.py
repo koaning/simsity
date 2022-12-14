@@ -29,4 +29,4 @@ service = Service(indexer=indexer, encoder=encoder)
 service.index(df)
 
 # And use it
-idx, dists = service.query("where is my phone", n_neighbors=3)
+idx, dists = service.query(df.iloc[2], n_neighbors=3)
