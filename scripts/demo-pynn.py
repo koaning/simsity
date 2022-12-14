@@ -8,7 +8,7 @@ import pandas as pd
 
 from simsity.service import Service
 from simsity.indexer import PyNNDescentIndexer
-from simsity.preprocessing import ColumnLister
+from simsity.preprocessing import ColumnGrabber
 from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -16,7 +16,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 df = pd.read_csv("tests/data/clinc-data.csv").head(100)
 
 # The encoder defines how we encode the data going in.
-encoder = make_pipeline(ColumnLister(column="text"), CountVectorizer())
+encoder = make_pipeline(ColumnGrabber(column="text"), CountVectorizer())
 
 # The indexer handles the nearest neighbor lookup.
 indexer = PyNNDescentIndexer(metric="euclidean")
@@ -26,17 +26,9 @@ service = Service(indexer=indexer, encoder=encoder)
 
 # We can now train the service using this data.
 # Important for later: we're only passing the 'text' column to encode.
-service.train_from_dataf(df, features=["text"])
+service.index(df)
 service.query(text="where is my phone", n_neighbors=3, out="dataframe")
 
 # Run a query.
 service.query(text="hello world")
 
-# Save the entire system.
-service.save("/tmp/simple-pynn")
-
-# You can also load the model now.
-reloaded = Service.load("/tmp/simple-pynn")
-
-# Run a query, again.
-reloaded.query(text="hello world")
