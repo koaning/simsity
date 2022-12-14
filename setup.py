@@ -32,7 +32,7 @@ test_packages = [
     "dirty_cat",
 ]
 
-all_packages = base_packages + minhash_packages + serve_packages
+all_packages = base_packages + serve_packages
 dev_packages = all_packages + docs_packages + test_packages
 
 
