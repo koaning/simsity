@@ -27,8 +27,6 @@ service = Service(indexer=indexer, encoder=encoder)
 
 # We can now build the service using this data.
 service.index(df)
-service.query(text="where is my phone", n_neighbors=3, out="dataframe")
 
-# Run a query.
-service.query(text="hello world")
-
+# And use it
+idx, dists = service.query("where is my phone", n_neighbors=3)
