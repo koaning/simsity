@@ -17,6 +17,7 @@ df = pd.read_csv("tests/data/clinc-data.csv").head(100)
 
 # The encoder defines how we encode the data going in.
 encoder = make_pipeline(ColumnGrabber(column="text"), CountVectorizer())
+encoder.fit(df)
 
 # The indexer handles the nearest neighbor lookup.
 indexer = PyNNDescentIndexer(metric="euclidean")
@@ -24,8 +25,7 @@ indexer = PyNNDescentIndexer(metric="euclidean")
 # The service combines the two into a single object.
 service = Service(indexer=indexer, encoder=encoder)
 
-# We can now train the service using this data.
-encoder.fit(df)
+# We can now build the service using this data.
 service.index(df)
 service.query(text="where is my phone", n_neighbors=3, out="dataframe")
 
