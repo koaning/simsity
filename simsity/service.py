@@ -1,11 +1,6 @@
-import json
-import pathlib
 import warnings
 
-import pandas as pd
-from joblib import dump, load
 from simsity import __version__
-from simsity.indexer import AnnoyIndexer, PyNNDescentIndexer
 from simsity.preprocessing import Identity
 from simsity.indexer import Indexer
 
@@ -18,37 +13,24 @@ class Service:
     Arguments:
         encoder: A scikit-learn compatible encoder for the input.
         indexer: A compatible indexer for the nearest neighbor search.
-        storage: A dictionary containing the data to be retreived with index. Meant to be ignored by humans.
     """
 
     def __init__(
-        self, encoder=Identity(), indexer: Indexer = None, storage=None, refit=True
+        self, encoder=Identity(), indexer: Indexer = None
     ) -> None:
         self.encoder = encoder
         self.indexer = indexer
-        self.storage = storage if storage else {}
 
-        self._trained = not refit
-
-    def train_from_dataf(self, df, features=None):
+    def index(self, X):
         """
-        Trains the service from a dataframe.
+        Indexes the service from a dataframe.
 
         Arguments:
             df: Pandas DataFrame that contains text to train the service with.
             features: Names of the features to encode.
         """
-        subset = df
-        if features:
-            subset = df[features]
-
-        self.storage = {i: r for i, r in enumerate(subset.to_dict(orient="records"))}
-
-        if not self._trained:
-            self.encoder.fit(subset, y=None)
-
         try:
-            data = self.encoder.transform(subset)
+            data = self.encoder.transform(X)
         except Exception as e:
             warnings.warn(
                 "Encountered error using pretrained encoder. Are you sure it is trained?"
@@ -56,11 +38,9 @@ class Service:
             raise e
 
         self.indexer.index(data)
-        self._trained = True
-
         return self
 
-    def query(self, n_neighbors=10, out="list", **kwargs):
+    def query(self, X, n_neighbors=10):
         """
         Query the service.
 
@@ -69,74 +49,9 @@ class Service:
             out: Output format. Can be either "list" or "dataframe".
             kwargs: Arguments to pass as the query.
         """
-        if not self._trained:
-            raise RuntimeError("Cannot query, Service is not trained.")
-
-        if n_neighbors > len(self.storage):
-            raise ValueError(
-                "n_neighbors cannot be greater than the number of items in the storage."
-            )
-
-        data = self.encoder.transform(pd.DataFrame([{**kwargs}]))
-        idx, dist = self.indexer.query(data, n_neighbors=n_neighbors)
-
-        res = [
-            {"item": self.storage[idx[i]], "dist": float(dist[i])}
-            for i in range(len(idx))
-        ]
-        if out == "list":
-            return res
-        if out == "dataframe":
-            return pd.DataFrame([{**r["item"], "dist": r["dist"]} for r in res])
-
-    def save(self, path):
-        """
-        Save the service
-
-        Arguments:
-            path: Path to the folder to save the service to.
-        """
-        if not self._trained:
-            raise RuntimeError("Cannot save, Service is not trained.")
-        pathlib.Path(path).mkdir(parents=True, exist_ok=True)
-        storage_path = pathlib.Path(path) / "storage.json"
-        storage_path.write_text(json.dumps(self.storage))
-        metadata_path = pathlib.Path(path) / "metadata.json"
-        metadata_path.write_text(json.dumps({"version": __version__}))
-        dump(self.encoder, pathlib.Path(path) / "encoder.joblib")
-        self.indexer.save(pathlib.Path(path))
-
-    @classmethod
-    def load(cls, path):
-        """
-        Loads a service
-
-        Arguments:
-            path: Path to the folder to load the service from.
-        """
-        if not pathlib.Path(path).exists():
-            raise FileNotFoundError(f"{path} does not exist")
-        metadata_path = pathlib.Path(path) / "metadata.json"
-        metadata = json.loads(metadata_path.read_text())
-        if metadata["version"] != __version__:
-            raise RuntimeError(
-                f"Version mismatch. Expected {__version__}, got {metadata['version']}"
-            )
-        storage_path = pathlib.Path(path) / "storage.json"
-        storage = {int(k): v for k, v in json.loads(storage_path.read_text()).items()}
-        encoder = load(pathlib.Path(path) / "encoder.joblib")
-        indexer = cls._load_indexer(pathlib.Path(path), metadata)
-        service = cls(encoder, indexer, storage)
-        service._trained = True
-        return service
-
-    @classmethod
-    def _load_indexer(self, path, metadata):
-        if "annoy" in metadata:
-            return AnnoyIndexer.load(path)
-        if "pynn" in metadata:
-            return PyNNDescentIndexer.load(path)
-        raise ValueError("Metadata should contain either `annoy` or `pynn`.")
+        data = self.encoder.transform([X])
+        idx, dist = self.indexer.query(data[0], n_neighbors=n_neighbors)
+        return idx, dist
 
     def serve(self, host, port=8080):
         """
