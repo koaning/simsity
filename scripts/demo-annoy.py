@@ -17,8 +17,8 @@ from sklearn.decomposition import TruncatedSVD
 df = pd.read_csv("tests/data/clinc-data.csv").head(100)
 
 # The encoder defines how we encode the data going in.
-encoder = make_pipeline(ColumnGrabber(column="text"), CountVectorizer(), TruncatedSVD())
-encoder.fit(df)
+encoder = make_pipeline(CountVectorizer(), TruncatedSVD())
+encoder.fit(df['text'])
 
 # The indexer handles the nearest neighbor lookup.
 indexer = AnnoyIndexer()
@@ -27,7 +27,7 @@ indexer = AnnoyIndexer()
 service = Service(indexer=indexer, encoder=encoder)
 
 # We can now build the service using this data.
-service.index(df)
+service.index(df['text'])
 
 # And use it
 idx, dists = service.query(df.iloc[2], n_neighbors=3)
