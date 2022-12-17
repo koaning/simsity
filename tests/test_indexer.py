@@ -9,7 +9,8 @@ def test_basics(indexer):
     """Test the basic API of each indexer"""
     texts = ["this is text", "bla bla bla"]
     cv = CountVectorizer()
-    X = cv.fit_transform(texts)
+    X = cv.fit_transform(texts).todense()
     indexer.index(X)
-    idx, dist = indexer.query(cv.transform("bla")[0], n_neighbors=1)
+    q = cv.transform("bla").todense()[0]
+    idx, dist = indexer.query(q, n_neighbors=1)
     assert idx == 1
