@@ -29,9 +29,9 @@ class NMSlibIndexer(Indexer):
             "l2": "l2",
         }[self.metric]
 
-        self.nmslib_ = nmslib.init(method=self.method, space=space)
-        self.nmslib_.addDataPointBatch(data)
-        self.nmslib_.createIndex()
+        self.model = nmslib.init(method=self.method, space=space)
+        self.model.addDataPointBatch(data)
+        self.model.createIndex()
         return self
 
     def query(self, item, n_neighbors=1):
@@ -42,6 +42,8 @@ class NMSlibIndexer(Indexer):
             query: The query to query the index with.
             n_neighbors: The number of neighbors to return.
         """
-        results = self.nmslib_.knnQuery(item, k=n_neighbors)
+        if not self.model:
+            raise RuntimeError("Index not yet built.")
+        results = self.model.knnQuery(item, k=n_neighbors)
         indices, distances = zip(*results)
         return indices, distances
