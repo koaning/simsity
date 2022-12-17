@@ -11,6 +11,6 @@ def test_basics(indexer):
     cv = CountVectorizer()
     X = cv.fit_transform(texts).todense()
     indexer.index(X)
-    q = cv.transform("bla").todense()[0]
+    q = cv.transform("bla").toarray()[0]
     idx, dist = indexer.query(q, n_neighbors=1)
     assert idx == 1
