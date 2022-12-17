@@ -29,7 +29,7 @@ test_packages = [
     "pre-commit>=2.2.0",
     "pyanalyze>=0.3.1",
     "requests>=2.26.0",
-    "dirty_cat",
+    "httpx==0.23.1"
 ]
 
 all_packages = base_packages + serve_packages + pynn_pacakages
