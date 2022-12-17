@@ -1,8 +1,6 @@
 import pathlib
 from setuptools import setup, find_packages
 
-from simsity import __version__
-
 
 base_packages = [
     "scikit-learn>=1.0.0",
