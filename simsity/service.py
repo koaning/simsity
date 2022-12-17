@@ -37,7 +37,7 @@ class Service:
         self.indexer.index(data)
         return self
 
-    def query(self, X, n_neighbors=10):
+    def query(self, item, n_neighbors=10):
         """
         Query the service.
 
@@ -46,6 +46,6 @@ class Service:
             out: Output format. Can be either "list" or "dataframe".
             kwargs: Arguments to pass as the query.
         """
-        data = self.encoder.transform([X])
+        data = self.encoder.transform([item])
         idx, dist = self.indexer.query(data[0], n_neighbors=n_neighbors)
         return idx, dist
