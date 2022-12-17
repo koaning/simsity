@@ -49,22 +49,3 @@ class Service:
         data = self.encoder.transform([X])
         idx, dist = self.indexer.query(data[0], n_neighbors=n_neighbors)
         return idx, dist
-
-    def serve(self, host, port=8080):
-        """
-        Start a server for the service.
-
-        Once the server is started, you can `POST` the service using the following URL:
-
-        ```
-        http://<host>:<port>/query
-        ```
-
-        Arguments:
-            host: Host to bind the server to.
-            port: Port to bind the server to.
-        """
-        import uvicorn
-        from simsity.serve import create_app
-
-        uvicorn.run(create_app(self), host=host, port=port)
