@@ -6,12 +6,12 @@ come with the base install of simsity.
 
 import pandas as pd
 
-from simsity.service import Service
-from simsity.indexer import AnnoyIndexer
 from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import TruncatedSVD
 
+from simsity.service import Service
+from simsity.indexer import AnnoyIndexer
 
 df = pd.read_csv("tests/data/clinc-data.csv").head(100)
 
@@ -29,4 +29,4 @@ service = Service(indexer=indexer, encoder=encoder)
 service.index(df["text"].tolist())
 
 # And use it
-idx, dists = service.query(df.iloc[2], n_neighbors=3)
+idx, dists = service.query("this is an example", n_neighbors=3)
