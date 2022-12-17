@@ -18,7 +18,7 @@ df = pd.read_csv("tests/data/clinc-data.csv").head(100)
 
 # The encoder defines how we encode the data going in.
 encoder = make_pipeline(CountVectorizer(), TruncatedSVD())
-encoder.fit(df['text'])
+encoder.fit(df['text'].tolist())
 
 # The indexer handles the nearest neighbor lookup.
 indexer = AnnoyIndexer()
@@ -27,7 +27,7 @@ indexer = AnnoyIndexer()
 service = Service(indexer=indexer, encoder=encoder)
 
 # We can now build the service using this data.
-service.index(df['text'])
+service.index(df['text'].tolist())
 
 # And use it
 idx, dists = service.query(df.iloc[2], n_neighbors=3)
