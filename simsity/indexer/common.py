@@ -37,7 +37,7 @@ class Indexer(ABC):
         """
         pass
 
-    def query(self, query, n_neighbors=1) -> Tuple[List, List]:
+    def query(self, item, n_neighbors=1) -> Tuple[List, List]:
         """
         Query the index.
 
