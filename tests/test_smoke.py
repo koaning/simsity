@@ -4,7 +4,7 @@ def test_smoke_iris(iris_service):
     """
     # Query an example from the training set
     idx, dists = iris_service.query(
-        [[5.1, 3.3, 1.7, 0.5]],
+        [5.1, 3.3, 1.7, 0.5],
         n_neighbors=10,
     )
 
