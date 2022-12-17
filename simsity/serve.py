@@ -1,3 +1,5 @@
+from typing import AnyStr
+
 from fastapi import FastAPI
 
 from pydantic import BaseModel, validator
@@ -7,7 +9,7 @@ from simsity.service import Service
 class Params(BaseModel):
     """Parameters for the query endpoint."""
 
-    query: dict
+    query: AnyStr
     n_neighbors: int = 5
 
     @validator("n_neighbors")
@@ -25,6 +27,6 @@ def create_app(service: Service):
     @app.post("/query")
     def query(params: Params):
         """The main query endpoint."""
-        return service.query(**params.query, n_neighbors=params.n_neighbors)
+        return service.query(params.query, n_neighbors=params.n_neighbors)
 
     return app

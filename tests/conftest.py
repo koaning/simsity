@@ -28,12 +28,12 @@ def iris_service():
 def clinc_service():
     """Create a service trained on clinc."""
     df_clinc = pd.read_csv("tests/data/clinc-data.csv")
-    encoder = make_pipeline(ColumnGrabber(column="text"), CountVectorizer())
-    encoder.fit(df_clinc)
+    encoder = make_pipeline(CountVectorizer())
+    encoder.fit(df_clinc['text'])
     indexer = PyNNDescentIndexer(metric="euclidean", n_neighbors=2)
     service_clinc = Service(
         encoder=encoder,
         indexer=indexer,
     )
-    service_clinc.index(df_clinc)
+    service_clinc.index(df_clinc['text'])
     return service_clinc
