@@ -10,7 +10,9 @@ def test_basics(indexer):
     texts = ["this is text", "bla bla bla"]
     cv = CountVectorizer()
     X = cv.fit_transform(texts).toarray()
+    print(X)
     indexer.index(X)
     q = cv.transform("bla").toarray()[0]
+    print(q)
     idx, _ = indexer.query(q, n_neighbors=1)
     assert idx == 1
