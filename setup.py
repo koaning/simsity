@@ -30,6 +30,7 @@ test_packages = [
     "pyanalyze>=0.3.1",
     "requests>=2.26.0",
     "httpx==0.23.1",
+    "dirty_cat",
 ]
 
 all_packages = base_packages + serve_packages + pynn_packages

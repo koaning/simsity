@@ -137,4 +137,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 Untitled*.ipynb
-**/.ipynb
+**/*.ipynb
+*.ipynb
