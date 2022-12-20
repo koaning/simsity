@@ -33,3 +33,23 @@ def fetch_voters():
     return pd.read_csv(
         "https://raw.githubusercontent.com/koaning/simsity/main/tests/data/votes.csv"
     )
+
+
+def fetch_recipes():
+    """
+    Loads a dataset with recipe names.
+
+    It was originally found here:
+    https://huggingface.co/datasets/m3hrdadfi/recipe_nlg_lite
+
+    Usage:
+
+    ```python
+    from simsity.datasets import fetch_recipes
+
+    fetch_recipes()
+    ```
+    """
+    return pd.read_csv(
+        "https://raw.githubusercontent.com/koaning/simsity/main/tests/data/recipes.csv"
+    )

@@ -1,5 +1,6 @@
 black:
-	black simsity tests setup.py --check
+	black simsity tests setup.py scripts
+	black simsity tests setup.py scripts --check
 
 flake:
 	flake8 simsity tests setup.py

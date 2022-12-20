@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8, 3.9, "3.10"]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,8 +26,10 @@ jobs:
     - name: Check that demo runs without fail without extra deps.
       run: |
         python scripts/demo-annoy.py
-        python scripts/demo-pynn.py
     - name: Install Testing Dependencies
       run: make install
     - name: Unittest
       run: make test
+    - name: Check that demo runs without fail with extra deps.
+      run: |
+        python scripts/demo-pynn.py

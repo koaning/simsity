@@ -1,4 +1,4 @@
-<img src="icon.png" width=150 height=150 align="right">
+![](landing.png)
 
 <b><h1 style="color:black;">simsity</h1></b>
 
@@ -28,5 +28,5 @@ This tool becomes even more powerful when you combine it with existing tools.
 In particular this library was designed to work well with:
 
 - [scikit-learn](https://scikit-learn.org/) for general encoding tools and pipelines
-- [whatlies](https://rasahq.github.io/whatlies/api/language/bpemb_lang/) for encoding tools on text data
+- [embetter](https://github.com/koaning/embetter/) for encoding tools on text/image data
 - [dirty_cat](https://dirty-cat.github.io/stable/) for encoding tools on dirty categorical data

@@ -1,13 +1,11 @@
 from simsity.error import NotInstalled
-from .pynn import PyNNDescentIndexer
 from .annoy import AnnoyIndexer
 from .common import Indexer
 
-
 try:
-    from .lshforest import MinHashIndexer
+    from .pynn import PyNNDescentIndexer
 except ModuleNotFoundError:
-    MinHashIndexer = NotInstalled("MinHashIndexer", "minhash")
+    PyNNDescentIndexer = NotInstalled("PyNNDescentIndexer", "pynn")
 
 
-__all__ = ["PyNNDescentIndexer", "MinHashIndexer", "Indexer", "AnnoyIndexer"]
+__all__ = ["PyNNDescentIndexer", "Indexer", "AnnoyIndexer"]

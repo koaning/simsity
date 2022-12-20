@@ -25,8 +25,8 @@ class AnnoyIndexer(Indexer):
         self.metric = metric
         self.random_state = (random_state,)
         self.n_trees = n_trees
-        self.model = None
         self.n_jobs = n_jobs
+        self.model = None
 
     def index(self, data):
         """
@@ -56,9 +56,6 @@ class AnnoyIndexer(Indexer):
         """
         if not self.model:
             raise RuntimeError("Index not yet built.")
-
-        if isinstance(query, pd.DataFrame):
-            query = query.iloc[0].values
 
         idx, dist = self.model.get_nns_by_vector(
             query, n=n_neighbors, include_distances=True

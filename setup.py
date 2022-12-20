@@ -1,18 +1,16 @@
 import pathlib
 from setuptools import setup, find_packages
 
-from simsity import __version__
-
 
 base_packages = [
     "scikit-learn>=1.0.0",
-    "pynndescent>=0.5",
-    "numba>=0.54.1",
     "pandas>=1.3.3",
     "annoy>=1.17.0",
 ]
 
-minhash_packages = ["datasketch>=1.5.3"]
+pynn_packages = ["pynndescent>=0.5", "numba>=0.55.1"]
+
+nms_packages = ["nmslib>=2.1.1"]
 
 serve_packages = ["uvicorn>=0.15.0", "fastapi>=0.70.0"]
 
@@ -31,16 +29,17 @@ test_packages = [
     "pre-commit>=2.2.0",
     "pyanalyze>=0.3.1",
     "requests>=2.26.0",
+    "httpx==0.23.1",
     "dirty_cat",
 ]
 
-all_packages = base_packages + minhash_packages + serve_packages
+all_packages = base_packages + serve_packages + pynn_packages
 dev_packages = all_packages + docs_packages + test_packages
 
 
 setup(
     name="simsity",
-    version=__version__,
+    version="0.3.0",
     author="Vincent D. Warmerdam",
     packages=find_packages(exclude=["notebooks", "docs"]),
     description="Simple Similarity Service",
@@ -53,13 +52,14 @@ setup(
         "Issue Tracker": "https://github.com/koaning/simsity/issues",
     },
     install_requires=base_packages,
-    extras_require={"dev": dev_packages, "minhash": minhash_packages},
+    extras_require={"dev": dev_packages, "pynn": pynn_packages},
     classifiers=[
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Topic :: Scientific/Engineering",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
