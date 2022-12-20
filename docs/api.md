@@ -6,14 +6,14 @@ This object represents a nearest neighbor lookup service. You can
 pass it an encoder and a method to index the data.
 
 Arguments:
-    - **encoder**: A scikit-learn compatible encoder for the input.
-    - **indexer**: A compatible indexer for the nearest neighbor search.
+- **encoder**: A scikit-learn compatible encoder for the input.
+- **indexer**: A compatible indexer for the nearest neighbor search.
 
 ## Indexer Features
 
 The table below shows the features of each indexer.
 
-| name                 | support sparse | support save | incremental_index |
+| name                 | support sparse | support save | incremental index |
 |----------------------|----------------|--------------|-------------------|
 | `AnnoyIndexer`       | no             | yes          | no                |
 | `PynnDescentIndexer` | yes            | yes          | no                |

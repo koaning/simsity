@@ -47,7 +47,7 @@ def fetch_recipes():
     ```python
     from simsity.datasets import fetch_recipes
 
-    fetch_recipes()
+    fetch_recipes()['text']
     ```
     """
     return pd.read_csv(

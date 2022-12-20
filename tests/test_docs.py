@@ -2,10 +2,12 @@ import pytest
 import pathlib
 from mktestdocs import check_docstring, grab_code_blocks
 
-from simsity.datasets import fetch_clinc, fetch_voters
+from simsity.datasets import fetch_clinc, fetch_voters, fetch_recipes
 
 
-@pytest.mark.parametrize("func", [fetch_clinc, fetch_voters], ids=lambda d: d.__name__)
+@pytest.mark.parametrize(
+    "func", [fetch_clinc, fetch_voters, fetch_recipes], ids=lambda d: d.__name__
+)
 def test_function_docstrings(func):
     """Test the docstring code of some functions."""
     check_docstring(obj=func)
