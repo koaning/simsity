@@ -81,26 +81,3 @@ It deserves mentioning, once again, that the quality of our
 retreival depends a lot on our choice of index and encoding.
 But experimenting with this is exactly what this library
 makes easy.
-
-## HTTP
-
-As always, you can easily turn this service into an API.
-
-```python
-service.serve(host='0.0.0.0', port=8080)
-```
-
-But also here you'd need to mind the parameters that you send
-to the server. They need to correspond with the column names
-in the dataframe. This would be an appropriate payload for `https://0.0.0.0:8080/query`.
-
-```
-{
-    "query": {
-        "name": "khimerc thmas",
-        "suburb": "chariotte",
-        "postcode": "28273
-    },
-    "n_neighbors": 5
-}
-```

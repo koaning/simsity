@@ -30,3 +30,6 @@ jobs:
       run: make install
     - name: Unittest
       run: make test
+    - name: Check that demo runs without fail with extra deps.
+      run: |
+        python scripts/demo-pynn.py

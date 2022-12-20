@@ -1,30 +1,48 @@
-The goal of this tool is to offer you a simple service for similarity detection.
+The goal of this tool is to offer you a simple similarity service.
 
 So let's build an example! We'll build a similarity searching tool for a text dataset.
 
+## Install
+
+In this tutorial we will leverage pretrained language models that are provided
+via embetter. We will install that, together with simsity.
+
+```
+python -m pip install simsity "embetter[sentence-tfm]"
+```
+
+The install can take a while, because we are downloading PyTorch.
+
 ## Example Data
 
-Let's look at the [clinc](https://github.com/clinc/oos-eval) dataset. This dataset
-contains texts that represent intents that you might expect from a chatbot.
+For this tutorial we will explore a set of recipe names.
 
 ```python
-from simsity.datasets import fetch_clinc
+from simsity.datasets import fetch_recipes
 
-df = fetch_clinc()
+df_recipes = fetch_recipes()
 ```
 
 Here's what the top 5 rows look like.
 
-| text                                                   |   label | split   |
-|:-------------------------------------------------------|--------:|:--------|
-| get a text to mark                                     |      26 | valid   |
-| how do i let my bank know i'm going to vietnam         |     146 | train   |
-| what location did you live at before                   |      77 | train   |
-| i got to remove fishing from my calendar for soccer    |     105 | train   |
-| i need an uber to class tonight on the mainline campus |      39 | train   |
+| text                                        |
+|:--------------------------------------------|
+| pork chop noodle soup                       |
+| 5 ingredient almond cake with fresh berries |
+| shrimp cakes                                |
+| chili roasted okra                          |
+| slow cooker chicken chili                   |
 
-We see a bunch of information in this dataset but we're interested
-in exploring similarities in the `text` field.
+The goal is to be able to look for recipes without resorting to
+strict token equality. If we look for "meat" we'd like to see recipes
+that have meat in it, even if the word "meat" does not appear in the
+recipe title.
+
+We will work with a list of texts in this tutorial.
+
+```python
+recipes = list(df_recipes['text'])
+```
 
 ## The Tactic
 
@@ -39,60 +57,45 @@ to compare against, we don't want to compare *all* the possible solutions
 out there. Instead we'd prefer to index out data such that it's fast to retreive.
 
 To solve the first problem, simsity likes to re-use tools from the scikit-learn
-ecosystem. An encoder in simsity is simply a scikit-learn pipeline that transforms
+ecosystem. An encoder in simsity is simply a scikit-learn component/pipeline that transforms
 data. To solve the second problem, simsity wraps around existing tools for approximate
 nearest-neighbor lookup. The goal of simsity is to combine an encoder and an indexer
 into a service that's convenient for interaction.
 
 ### Example Encoder
 
-We're going to encode text, so a straightforward encoder would be the
-[countvectorizer from scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html). This way, we will index each word in the text in a sparse array.
-This sparse array will then get indexed by our indexer later.
-
-![](countvectorizer.png)
-
-Here's the code required to run this.
+We will now define a scikit-learn compatible encoder, which is provided
+by embetter in this case.
 
 ```python
-from simsity.preprocessing import ColumnLister
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import CountVectorizer
+from embetter.text import SentenceEncoder
 
-encoder = make_pipeline(ColumnLister(column="text"), CountVectorizer())
+# The encoder defines how we encode the data going in.
+encoder = SentenceEncoder()
 ```
-
-You may wonder why we're building a pipeline with a `ColumnLister` class.
-The simple story is that the `CountVectorizer` needs a list of strings as
-input. The only thing that the `ColumnLister` does is that it takes the
-dataframe and extracts the `"text"` column and outputs it as a list. By
-wrapping both components in a `make_pipeline`-call we're still dealing
-with a single encoder pipeline that we can pass along.
 
 ### Example Indexer
 
 Simsity provides indexers by wrapping around existing solutions. In particular
-it supports [PyNNDescent](https://pynndescent.readthedocs.io/en/latest/index.html)
-out of the box.
+it supports [annoy](https://github.com/spotify/annoy) out of the box.  If you're
+curious to learn how it works, you may appreciate this [segment on calmcode](https://calmcode.io/annoy/intro.html).
 
 ```python
-from simsity.indexer import PyNNDescentIndexer
+from simsity.indexer import AnnoyIndexer
 
-indexer = PyNNDescentIndexer(metric="euclidean", n_jobs=6)
+# Create an indexer
+indexer = AnnoyIndexer()
 ```
 
-There are many [distance metrics](https://pynndescent.readthedocs.io/en/latest/index.html#why-use-pynndescent)
-that PyNNDescent supports and it's also able to index in parallel by setting the
-`n_jobs` parameter.
+There are many [distance metrics](https://github.com/spotify/annoy#full-python-api)
+that annoy supports; `angular`, `euclidean`, `manhattan`, `hamming` and `dot`.
 
 !!! note
 
-    We'll be using the `PyNNDescentIndexer` indexer in this demo because it's very flexible.
-    It supports dense arrays as well as sparse ones! The only downside is that it does take
-    a while to index all the data. If you're looking for a faster indexing method you may want
-    to try the `AnnoyIndexer` based on [annoy](https://github.com/spotify/annoy). If you're
-    curious to learn how it works, you may appreciate this [segment on calmcode](https://calmcode.io/annoy/intro.html).
-
+    There are differences between indexers. Annoy is flexible, but you may need to add many
+    trees for it to become accurate. It also only supports sparse arrays. The `PyNNDescentIndexer` indexer
+    supports dense arrays as well as sparse ones! The only downside is that it does take
+    a while to index all the data.
 
 
 ## Building a Service
@@ -102,18 +105,16 @@ Once you have an encoder and an indexer, you can construct a service.
 ```python
 from simsity.service import Service
 
-service = Service(
-    indexer=indexer,
-    encoder=encoder
-)
+# The service combines the two into a single object.
+service = Service(indexer=indexer, encoder=encoder)
 ```
 
-This service can now train on your dataset. It will start by first training
+This service can now index on your dataset. It will start by first training
 the encoder pipeline. After that the data will be transformed and indexed
 by the indexer. All of this will be handled by the following call:
 
 ```python
-service.train_from_dataf(df, features=["text"])
+service.index(recipes)
 ```
 
 It's good to notice that we're being explicit here about which features
@@ -127,110 +128,72 @@ Note that the keyword argument `text=` corresponds with the features that
 we chose to index earlier.
 
 ```python
-service.query(text="please set a timer", n_neighbors=10, out="dataframe")
+# Get indices and distances
+idx, dists = service.query(text="meat", n_neighbors=10, out="dataframe")
+
+# Show as pandas dataframe
+import pandas as pd
+pd.DataFrame({"recipe": recipes}).iloc[idx].assign(dists=dists)
 ```
 
 This is the table that you'll get back.
 
-| text                           |    dist |
-|:-------------------------------|--------:|
-| please set a 4 minute timer    | 1       |
-| set a timer                    | 1       |
-| please set a timer for         | 1       |
-| "please set 5 minute timer     | 1       |
-| start a timer please           | 1.41421 |
-| please begin a timer           | 1.41421 |
-| set a 2 minute timer           | 1.41421 |
-| set a 4 minute timer           | 1.41421 |
-| set a 1 minute timer           | 1.41421 |
-| set a five minute timer please | 1.41421 |
+| recipe                    |    dists |
+|:--------------------------|---------:|
+| roast beef                | 0.840229 |
+| beef stew                 | 0.851083 |
+| buffalo chicken meatballs | 0.853497 |
+| meat feast pizza          | 0.873777 |
+| chicken marsala meatballs | 0.874075 |
+| meat dim sum              | 0.886897 |
+| moroccan meatballs        | 0.892015 |
+| meatball sub sandwich     | 0.899369 |
+| italian meatballs         | 0.899428 |
+| juicy italian meatballs   | 0.906681 |
 
 The quality of what you get back depends on the data that you give the system,
-the encoding and the indexer that you pick. It may very well be that we should add word
-embeddings via [whatlies](https://rasahq.github.io/whatlies/api/language/bpemb_lang/)
-or that we should consider a different metric when we index our data. It's also
-very well possible that text that is too long or too short won't compare easily.
+the encoding and the indexer that you pick. You can probably improve the results
+by picking an angular distance measure in annoy, but you could also try out other
+embedding models as well.
 
 The goal of this package is to make it easy to interact and experiment
 with the idea of "building neigborhoods of similar items". Hence the name: simsity.
-
-## Extra Features
-
-Training a service may take quite a bit of time, so it may be good to save
-your service on disk.
-
-```python
-service.save("/tmp/simple-model")
-```
-
-You can reload the service by using the `.load` classmethod.
-
-```python
-reloaded = Service.load("/tmp/simple-model")
-```
-
-You could even run it as a webservice if you were so inclined.
-
-```python
-reloaded.serve(host='0.0.0.0', port=8080)
-```
-
-You can now POST to http://0.0.0.0:8080/query with payload:
-
-```
-{"query": {"text": "please set a timer"}, "n_neighbors": 5}
-```
-
-This would be the response that you get back.
-
-```
-[{'item': {'text': 'set a timer'}, 'dist': 1.0},
- {'item': {'text': 'please set a timer for'}, 'dist': 1.0},
- {'item': {'text': '"please set 5 minute timer'}, 'dist': 1.0},
- {'item': {'text': 'please set a 4 minute timer'}, 'dist': 1.0},
- {'item': {'text': 'start a timer please'}, 'dist': 1.4142135381698608}]
-```
 
 ## All Code
 
 Here's the full code block that we've used in this section.
 
 ```python
+import pandas as pd
+from embetter.text import SentenceEncoder
+
+from simsity.datasets import fetch_recipes
 from simsity.service import Service
-from simsity.datasets import fetch_clinc
-from simsity.indexer import PyNNDescentIndexer
-from simsity.preprocessing import ColumnLister
+from simsity.indexer import AnnoyIndexer
 
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import CountVectorizer
 
-# We first fetch a dataset
-df = fetch_clinc()
+# Fetch data
+df_recipes = fetch_recipes()
+recipes = df_recipes['text']
 
-# The Encoder handles the encoding of the datapoints
-encoder = make_pipeline(ColumnLister(column="text"), CountVectorizer())
+# Create an indexer
+indexer = AnnoyIndexer()
 
-# The Indexer handles the nearest neighbor search
-indexer = PyNNDescentIndexer(metric="euclidean", n_jobs=6)
+# The service combines the two into a single object.
+service = Service(indexer=indexer, encoder=encoder)
 
-# The Service combines them together into a service
-service = Service(
-    indexer=indexer,
-    encoder=encoder
+# We can now build the service using this data.
+service.index(recipes)
+
+# And use it
+idx, dists = service.query("meat", n_neighbors=10)
+
+res = (pd.DataFrame({"recipe": recipes})
+    .iloc[idx]
+    .assign(dists=dists)
+    .to_markdown(index=False)
 )
 
-# Important for later: we're only passing the 'text' column to encode
-service.train_from_dataf(df, features=["text"])
-
-# Query the datapoints
-# Note that the keyword argument here refers to 'text'-column
-service.query(text="please set a timer", n_neighbors=10, out="dataframe")
-
-# Save the entire system
-service.save("/tmp/simple-model")
-
-# You can also load the model now.
-reloaded = Service.load("/tmp/simple-model")
-
-reloaded.serve(host='0.0.0.0', port=8080)
+# Show results
+print(res)
 ```

@@ -8,7 +8,7 @@ base_packages = [
     "annoy>=1.17.0",
 ]
 
-pynn_packages = ["pynndescent>=0.5", "numba>=0.54.1"]
+pynn_packages = ["pynndescent>=0.5", "numba>=0.55.1"]
 
 nms_packages = ["nmslib>=2.1.1"]
 

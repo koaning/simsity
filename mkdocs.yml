@@ -16,7 +16,6 @@ nav:
     - simsity.datasets: api/datasets.md
     - simsity.preprocessing: api/preprocessing.md
 plugins:
-  - mkdocstrings
   - search
 copyright: Maintained by <a href="https://twitter.com/fishnets88">Vincent</a>.
 theme:
@@ -29,10 +28,18 @@ theme:
     primary: white
     accent: blue
 markdown_extensions:
-  - toc:
-      permalink: true
+  - tables
+  - footnotes
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
 extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
