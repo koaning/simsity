@@ -15,7 +15,7 @@ def test_basics(indexer):
     # Not every indexer supports sparse arrays
     X = encoder.fit_transform(df_clinc["text"]).toarray()
     indexer.index(X)
-    q = encoder.transform("translate in english").toarray()[0]
+    q = encoder.transform(["translate in english"]).toarray()[0]
     
     print(X)
     print(q)
