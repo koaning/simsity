@@ -34,48 +34,51 @@ encoders are designed to handle dirty categorical data, which would
 be perfect for our use-case here.
 
 ```python
-service = Service(
-    indexer=PyNNDescentIndexer(metric="euclidean", n_jobs=10),
-    encoder=GapEncoder()
-)
+from simsity.service import Service
+from simsity.indexer import AnnoyIndexer
+from dirty_cat import GapEncoder
 
-service.train_from_dataf(df)
+# Set up
+indexer = AnnoyIndexer(n_trees=50)
+encoder = GapEncoder().fit(df)
+service = Service(indexer=indexer, encoder=encoder)
+
+# Index
+service.index(df)
 ```
-
-Note that in this example, we've not specified any `features=`-parameters
-in our `service.train_from_dataf` call. In this case the service will assume
-all columns in the dataframe are relevant to encode.
 
 ## Query
 
-If we now want to construct a query, we will need to use all columns that
-we've encoded in our query call. That means that we need to query with a
-`"name"`, `"suburb"` and `"postcode"` keyword argument.
+If we now want to construct a query, we will need to send a pandas row.
+The encoder assumes pandas, so we need to make sure our query is compatible.
 
 ```python
-service.query(name="khimerc thmas",
-              suburb="chariotte",
-              postcode="28273",
-              n_neighbors=10, out="dataframe")
+# Query as a dictionary
+dict_in = dict(name="khimerc thmas", suburb="chariotte", postcode="28273")
+# Single row from dataframe
+q_in = pd.DataFrame([dict_in]).iloc[0]
+
+idx, dists = service.query(q_in, n_neighbors=10)
+df.iloc[idx].assign(dist=dists)
 ```
 
 This is the dataframe that we get out.
 
-| name            | suburb    | postcode   |    dist |
-|:----------------|:----------|:-----------|--------:|
-| chimerc thmas   | chaflotte | 28269      | 3.43277 |
-| quianna pope    | charlotte | 28213      | 3.65635 |
-| chimerc thomas  | charlotte | 28269      | 3.93795 |
-| khimerc thomas  | charlotte | 2826g      | 3.99429 |
-| quianha pope    | charlotre | 28213      | 5.47086 |
-| kendel beachum  | charlotte | 28226      | 6.22856 |
-| mariq simpsony  | charlotte | 28269      | 6.36486 |
-| quiarina pope   | charlotte | 28113      | 6.57162 |
-| andrean polchow | waxhaw    | 28173      | 7.21047 |
-| maria simpson   | charlotte | 28269      | 8.2501  |
+| name              | suburb      | postcode   |    dist |
+|:------------------|:------------|:-----------|--------:|
+| chimerc thmas     | chaflotte   | 28269      | 3.14833 |
+| chimerc thomas    | charlotte   | 28269      | 3.95177 |
+| khimerc thomas    | charlotte   | 2826g      | 3.98925 |
+| angelique deas    | charlotte   | 28278      | 4.76251 |
+| barbara dambrosio | charlotte   | 28277      | 5.46748 |
+| kendel beachum    | charlotte   | 28226      | 5.6414  |
+| mariq simpsony    | charlotte   | 28269      | 6.76645 |
+| herber oxendine   | charlotte   | 28247      | 8.22691 |
+| steven twamley    | chapel hill | 27514      | 8.97374 |
+| herbert oxendin   | chsrlotte   | 28277      | 9.53476 |
 
-It certainly seems like the first few rows may indeed contain
-duplicates that we're interested in detecting.
+It certainly seems like we have some duplicates in here! So
+we may be able to use retreival/embedding tricks for that use-case.
 
 It deserves mentioning, once again, that the quality of our
 retreival depends a lot on our choice of index and encoding.

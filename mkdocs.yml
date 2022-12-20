@@ -6,15 +6,10 @@ site_author: Vincent D. Warmerdam
 
 nav:
   - Home: index.md
-  - Getting Started:
-    - Quickstart: quickstart/index.md
-    - Deduplication: quickstart/dedup.md
-    - Cool Tricks: quickstart/cool.md
-  - API:
-    - simsity.service: api/service.md
-    - simsity.indexer: api/indexer.md
-    - simsity.datasets: api/datasets.md
-    - simsity.preprocessing: api/preprocessing.md
+  - Guides:
+    - Quickstart: guides/index.md
+    - Deduplication: guides/dedup.md
+  - API: api.md
 plugins:
   - search
 copyright: Maintained by <a href="https://twitter.com/fishnets88">Vincent</a>.
