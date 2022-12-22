@@ -37,8 +37,9 @@ from simsity.indexer import AnnoyIndexer
 df_recipes = fetch_recipes()
 recipes = df_recipes['text']
 
-# Create an indexer
+# Create an indexer and encoder
 indexer = AnnoyIndexer()
+encoder = SentenceEncoder()
 
 # The service combines the two into a single object.
 service = Service(indexer=indexer, encoder=encoder)
