@@ -7,7 +7,7 @@ class NMSlibIndexer(Indexer):
     An indexer based on NMSLib.
     """
 
-    def __init__(self, n_neighbors=5, metric="euclidean", method="sw-graph", n_jobs=1):
+    def __init__(self, n_neighbors=5, metric="cosine", method="hnsw", n_jobs=1):
         self.n_neighbors = n_neighbors
         self.method = method
         self.metric = metric
@@ -29,9 +29,9 @@ class NMSlibIndexer(Indexer):
             "l2": "l2",
         }[self.metric]
 
-        self.model = nmslib.init(method=self.method, space=space)
-        self.model.addDataPointBatch(data)
-        self.model.createIndex()
+        self.model_ = nmslib.init(method=self.method, space=space)
+        self.model_.addDataPointBatch(data)
+        self.model_.createIndex()
         return self
 
     def query(self, item, n_neighbors=1):
@@ -42,8 +42,8 @@ class NMSlibIndexer(Indexer):
             query: The query to query the index with.
             n_neighbors: The number of neighbors to return.
         """
-        if not self.model:
+        if not self.model_:
             raise RuntimeError("Index not yet built.")
-        results = self.model.knnQuery(item, k=n_neighbors)
+        results = self.model_.knnQuery(item, k=n_neighbors)
         indices, distances = zip(*results)
         return indices, distances
