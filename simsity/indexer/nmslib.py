@@ -44,6 +44,11 @@ class NMSlibIndexer(Indexer):
         """
         if not self.model_:
             raise RuntimeError("Index not yet built.")
-        results = self.model_.knnQuery(item, k=n_neighbors)
-        indices, distances = zip(*results)
+        indices, distances = self.model_.knnQuery(item, k=n_neighbors)
         return indices, distances
+
+    def save(self, path):
+        self.model_.saveIndex(path, save_data=True)
+
+    def load(self, path):
+        self.model_.loadIndex(path, load_data=True)

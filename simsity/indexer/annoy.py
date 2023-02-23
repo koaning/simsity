@@ -20,7 +20,7 @@ class AnnoyIndexer(Indexer):
     """
 
     def __init__(
-        self, metric="euclidean", n_trees=10, random_state=42, n_jobs=1
+        self, metric="angular", n_trees=10, random_state=42, n_jobs=1
     ) -> None:
         self.metric = metric
         self.random_state = (random_state,)
