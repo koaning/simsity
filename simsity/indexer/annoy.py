@@ -85,7 +85,7 @@ class AnnoyIndexer(Indexer):
         metadata_path.write_text(json.dumps(metadata))
 
     @classmethod
-    def load(self, path) -> "Indexer":
+    def load(cls, path) -> "Indexer":
         """
         Load the indexer in a path.
 
