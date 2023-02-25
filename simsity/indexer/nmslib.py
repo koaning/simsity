@@ -18,7 +18,6 @@ class NMSlibIndexer(Indexer):
             "l1": "l1",
             "l2": "l2",
         }
-        self.model_ = None
 
     def index(self, data):
         """
@@ -44,6 +43,8 @@ class NMSlibIndexer(Indexer):
             query: The query to query the index with.
             n_neighbors: The number of neighbors to return.
         """
+        if not getattr(self, "model_", None):
+            raise RuntimeError("Must index before sending query.")
         indices, distances = self.model_.knnQuery(item, k=n_neighbors)
         return indices, distances
 
