@@ -76,9 +76,7 @@ class NMSlibIndexer(Indexer):
         # Construct an empty, but configured index, before loading from disk
         index = NMSlibIndexer(**keyword_args)
         space = index.lookup[index.metric]
-        index.model_ = nmslib.init(
-            method=index.method, space=space
-        )
+        index.model_ = nmslib.init(method=index.method, space=space)
         index.model_.loadIndex(str(path / "index.nmslib"), load_data=True)
         index.model_.createIndex()
         return index
