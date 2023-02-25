@@ -13,9 +13,9 @@ def test_can_index_retreive_save_load(indexer, tmpdir):
     idx, dist = indexer_obj.query(data[0])
     assert idx[0] == 0
     assert np.isclose(dist[0], 0.0, atol=0.0001)
-    indexer_obj.save(tmpdir)
-    loader_indexer = indexer.load(tmpdir)
-    idx, dist = loader_indexer.query(data[0])
+    indexer_obj.to_disk(tmpdir)
+    loaded_indexer = indexer.from_disk(tmpdir)
+    idx, dist = loaded_indexer.query(data[0])
     assert idx[0] == 0
     assert np.isclose(dist[0], 0.0, atol=0.0001)
 

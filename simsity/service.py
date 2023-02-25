@@ -1,7 +1,13 @@
+import srsly 
+from typing import List
+from pathlib import Path
 import warnings
 
-from simsity.preprocessing import Identity
 from simsity.indexer import Indexer
+from sklearn.base import TransformerMixin
+from skops.io import dump, load
+
+from simsity.indexer import AnnoyIndexer, PyNNDescentIndexer, NMSlibIndexer
 
 
 class Service:
@@ -14,11 +20,12 @@ class Service:
         indexer: A compatible indexer for the nearest neighbor search.
     """
 
-    def __init__(self, encoder=Identity(), indexer: Indexer = None) -> None:
+    def __init__(self, encoder: TransformerMixin, indexer: Indexer, data: List) -> None:
         self.encoder = encoder
         self.indexer = indexer
+        self.data = {i: v for i, v in enumerate(data)}
 
-    def index(self, X):
+    def index(self):
         """
         Indexes the service from a dataframe.
 
@@ -27,7 +34,7 @@ class Service:
             features: Names of the features to encode.
         """
         try:
-            data = self.encoder.transform(X)
+            data = self.encoder.transform([v for v in self.data.values])
         except Exception as ex:
             warnings.warn(
                 "Encountered error using pretrained encoder. Are you sure it is trained?"
@@ -48,4 +55,47 @@ class Service:
         """
         data = self.encoder.transform([item])
         idx, dist = self.indexer.query(data[0], n_neighbors=n_neighbors)
-        return idx, dist
+        return [self.data[i] for i in idx], dist
+    
+    def to_disk(self, path):
+        """
+        Writes the service to disk.
+        
+        Arguments:
+            path: folder to write service state into
+        """
+        path = Path(path)
+        metadata = {
+            "indexer": self.indexer.__class__().__name__
+        }
+        srsly.write_json(path / "metadata.json", metadata)
+        self.indexer.to_disk(path)
+        dump(self.encoder, path / "encoder.skops")
+        srsly.write_json(path / "data.json", self.data)
+    
+    @staticmethod
+    def _load_indexer(metadata) -> Indexer:
+        indexer_str = metadata["indexer"].lower()
+        if "annoy" in indexer_str:
+            return AnnoyIndexer
+        if "pynn" in indexer_str:
+            return PyNNDescentIndexer
+        if "nms" in indexer_str:
+            return NMSlibIndexer
+        raise RuntimeError("Did not recognize indexer from {indexer_str}.")
+    
+    @classmethod
+    def from_disk(cls, path):
+        """
+        Loads the service from disk.
+        
+        Arguments:
+            path: folder to write service from
+        """
+        path = Path(path)
+        encoder = load(path / "encoder.skops")
+        metadata = srsly.read_json(path / "metadata.json")
+        indexer = cls._load_indexer(metadata=metadata)
+        indexer.from_disk(path)
+        data = srsly.read_json(path / "data.json")
+        return Service(encoder, indexer, data)

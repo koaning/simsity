@@ -60,7 +60,7 @@ class AnnoyIndexer(Indexer):
         )
         return idx, dist
 
-    def save(self, path) -> None:
+    def to_disk(self, path) -> None:
         """
         Save the indexer in a path.
 
@@ -83,7 +83,7 @@ class AnnoyIndexer(Indexer):
         metadata_path.write_text(json.dumps(metadata))
 
     @classmethod
-    def load(cls, path) -> "Indexer":
+    def from_disk(cls, path) -> "Indexer":
         """
         Load the indexer in a path.
 

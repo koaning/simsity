@@ -57,7 +57,7 @@ class PyNNDescentIndexer(Indexer):
         idx, dist = self.model.query(query, n_neighbors)
         return list(idx[0]), list(dist[0])
 
-    def save(self, path) -> None:
+    def to_disk(self, path) -> None:
         """
         Save the indexer in a path.
 
@@ -79,7 +79,7 @@ class PyNNDescentIndexer(Indexer):
         metadata_path.write_text(json.dumps(metadata))
 
     @classmethod
-    def load(cls, path) -> "Indexer":
+    def from_disk(cls, path) -> "Indexer":
         """
         Load the indexer in a path.
 

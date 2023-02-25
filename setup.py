@@ -6,6 +6,8 @@ base_packages = [
     "scikit-learn>=1.0.0",
     "pandas>=1.3.3",
     "annoy>=1.17.0",
+    "srsly",
+    "skops"
 ]
 
 pynn_packages = ["pynndescent>=0.5", "numba>=0.55.1"]

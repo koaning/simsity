@@ -48,7 +48,7 @@ class NMSlibIndexer(Indexer):
         indices, distances = self.model_.knnQuery(item, k=n_neighbors)
         return indices, distances
 
-    def save(self, path):
+    def to_disk(self, path):
         """Save the model state to disk"""
         # Save the index
         self.model_.saveIndex(str(Path(path) / "index.nmslib"), save_data=True)
@@ -63,7 +63,7 @@ class NMSlibIndexer(Indexer):
         metadata_path.write_text(json.dumps(metadata))
 
     @classmethod
-    def load(cls, path):
+    def from_disk(cls, path):
         """Load the model state from disk"""
         metadata_path = Path(path) / "metadata.json"
         metadata = json.loads(metadata_path.read_text())["mnslib"]
