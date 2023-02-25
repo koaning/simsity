@@ -44,8 +44,6 @@ class NMSlibIndexer(Indexer):
             query: The query to query the index with.
             n_neighbors: The number of neighbors to return.
         """
-        if not self.model_:
-            raise RuntimeError("Index not yet built.")
         indices, distances = self.model_.knnQuery(item, k=n_neighbors)
         return indices, distances
 
@@ -80,6 +78,6 @@ class NMSlibIndexer(Indexer):
         index.model_ = nmslib.init(
             method=index.method, space=space
         )
-        index.model_.loadIndex(str(path / "index.nmslib"))
-        print(index.model_)
+        index.model_.loadIndex(str(path / "index.nmslib"), load_data=True)
+        index.model_.createIndex()
         return index
