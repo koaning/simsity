@@ -18,7 +18,7 @@ class Indexer(ABC):
         pass
 
     @abstractmethod
-    def save(self, path) -> None:
+    def to_disk(self, path) -> None:
         """
         Save the indexer in a path.
 
@@ -28,7 +28,7 @@ class Indexer(ABC):
         pass
 
     @abstractclassmethod
-    def load(self, path) -> "Indexer":
+    def from_disk(self, path) -> "Indexer":
         """
         Load the indexer in a path.
 

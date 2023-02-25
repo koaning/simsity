@@ -2,7 +2,7 @@ import srsly
 from typing import List
 from pathlib import Path
 import warnings
-
+import orjson
 from simsity.indexer import Indexer
 from sklearn.base import TransformerMixin
 from skops.io import dump, load
@@ -14,16 +14,12 @@ class Service:
     """
     This object represents a nearest neighbor lookup service. You can
     pass it an encoder and a method to index the data.
-
-    Arguments:
-        encoder: A scikit-learn compatible encoder for the input.
-        indexer: A compatible indexer for the nearest neighbor search.
     """
 
-    def __init__(self, encoder: TransformerMixin, indexer: Indexer, data: List) -> None:
+    def __init__(self, encoder, indexer, data):
         self.encoder = encoder
         self.indexer = indexer
-        self.data = {i: v for i, v in enumerate(data)}
+        self.data = dict(enumerate(data))
 
     def index(self):
         """
@@ -34,7 +30,7 @@ class Service:
             features: Names of the features to encode.
         """
         try:
-            data = self.encoder.transform([v for v in self.data.values])
+            data = self.encoder.transform(list(self.data.values()))
         except Exception as ex:
             warnings.warn(
                 "Encountered error using pretrained encoder. Are you sure it is trained?"
@@ -65,10 +61,11 @@ class Service:
             path: folder to write service state into
         """
         path = Path(path)
-        metadata = {"indexer": self.indexer.__class__().__name__}
+        metadata = {"indexer": self.indexer.__class__.__name__}
         srsly.write_json(path / "metadata.json", metadata)
         self.indexer.to_disk(path)
         dump(self.encoder, path / "encoder.skops")
+        print(self.data)
         srsly.write_json(path / "data.json", self.data)
 
     @staticmethod
@@ -81,7 +78,7 @@ class Service:
         if "nms" in indexer_str:
             return NMSlibIndexer
         raise RuntimeError("Did not recognize indexer from {indexer_str}.")
-
+    
     @classmethod
     def from_disk(cls, path):
         """
