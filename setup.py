@@ -27,8 +27,8 @@ test_packages = [
     "mktestdocs",
 ]
 
-all_packages = base_packages + pynn_packages
-dev_packages = all_packages + docs_packages + test_packages
+all_packages = base_packages + pynn_packages + nms_packages
+dev_packages = all_packages + docs_packages + test_packages + nms_packages
 
 
 setup(
