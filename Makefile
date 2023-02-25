@@ -13,7 +13,6 @@ types:
 
 install:
 	python -m pip install -e ".[dev]"
-	pre-commit install
 
 interrogate:
 	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method --fail-under 100 tests
