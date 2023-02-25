@@ -7,7 +7,7 @@ base_packages = [
     "pandas>=1.3.3",
     "annoy>=1.17.0",
     "srsly",
-    "skops"
+    "skops",
 ]
 
 pynn_packages = ["pynndescent>=0.5", "numba>=0.55.1"]

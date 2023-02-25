@@ -1,4 +1,4 @@
-import srsly 
+import srsly
 from typing import List
 from pathlib import Path
 import warnings
@@ -56,23 +56,21 @@ class Service:
         data = self.encoder.transform([item])
         idx, dist = self.indexer.query(data[0], n_neighbors=n_neighbors)
         return [self.data[i] for i in idx], dist
-    
+
     def to_disk(self, path):
         """
         Writes the service to disk.
-        
+
         Arguments:
             path: folder to write service state into
         """
         path = Path(path)
-        metadata = {
-            "indexer": self.indexer.__class__().__name__
-        }
+        metadata = {"indexer": self.indexer.__class__().__name__}
         srsly.write_json(path / "metadata.json", metadata)
         self.indexer.to_disk(path)
         dump(self.encoder, path / "encoder.skops")
         srsly.write_json(path / "data.json", self.data)
-    
+
     @staticmethod
     def _load_indexer(metadata) -> Indexer:
         indexer_str = metadata["indexer"].lower()
@@ -83,12 +81,12 @@ class Service:
         if "nms" in indexer_str:
             return NMSlibIndexer
         raise RuntimeError("Did not recognize indexer from {indexer_str}.")
-    
+
     @classmethod
     def from_disk(cls, path):
         """
         Loads the service from disk.
-        
+
         Arguments:
             path: folder to write service from
         """
