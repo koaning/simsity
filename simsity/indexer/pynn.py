@@ -69,7 +69,7 @@ class PyNNDescentIndexer(Indexer):
 
         # Save the metadata so that we have the parameters on load.
         metadata_path = Path(path) / "metadata.json"
-        metadata = json.loads(metadata_path.read_text())
+        metadata = {}
         metadata["pynn"] = dict(
             metric=self.metric,
             n_neighbors=self.n_neighbors,

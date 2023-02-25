@@ -19,9 +19,7 @@ class AnnoyIndexer(Indexer):
         n_jobs: Degree of parallism used while training.
     """
 
-    def __init__(
-        self, metric="angular", n_trees=10, random_state=42, n_jobs=1
-    ) -> None:
+    def __init__(self, metric="angular", n_trees=10, random_state=42, n_jobs=1) -> None:
         self.metric = metric
         self.random_state = (random_state,)
         self.n_trees = n_trees
@@ -74,7 +72,7 @@ class AnnoyIndexer(Indexer):
 
         # Save the metadata so that we have the parameters on load.
         metadata_path = Path(path) / "metadata.json"
-        metadata = json.loads(metadata_path.read_text())
+        metadata = {}
         metadata["annoy"] = dict(
             metric=self.metric,
             n_trees=self.n_trees,

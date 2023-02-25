@@ -1,5 +1,5 @@
 import json
-from pathlib import Path 
+from pathlib import Path
 import nmslib
 from simsity.indexer import Indexer
 
@@ -10,15 +10,15 @@ class NMSlibIndexer(Indexer):
     """
 
     def __init__(self, metric="cosine", method="hnsw"):
-        self.method = method
         self.metric = metric
+        self.method = method
         self.lookup = {
             "euclidean": "l2",
             "cosine": "cosinesimil",
             "l1": "l1",
             "l2": "l2",
         }
-        index.model_ = None
+        self.model_ = None
 
     def index(self, data):
         """
@@ -50,19 +50,22 @@ class NMSlibIndexer(Indexer):
         return indices, distances
 
     def save(self, path):
+        """Save the model state to disk"""
         # Save the index
         self.model_.saveIndex(str(Path(path) / "index.nmslib"), save_data=True)
 
         # Save the metadata so that we have the parameters on load.
         metadata_path = Path(path) / "metadata.json"
-        metadata = json.loads(metadata_path.read_text())
+        metadata = {}
         metadata["mnslib"] = dict(
             metric=self.metric,
             method=self.method,
         )
         metadata_path.write_text(json.dumps(metadata))
 
-    def load(self, path):
+    @classmethod
+    def load(cls, path):
+        """Load the model state from disk"""
         metadata_path = Path(path) / "metadata.json"
         metadata = json.loads(metadata_path.read_text())["mnslib"]
 
@@ -73,5 +76,10 @@ class NMSlibIndexer(Indexer):
         )
         # Construct an empty, but configured index, before loading from disk
         index = NMSlibIndexer(**keyword_args)
-        index.model_ = nmslib.init(method=index.method, space=index.lookup[index.method])
-        index.model_.loadIndex(path, load_data=True)
+        space = index.lookup[index.metric]
+        index.model_ = nmslib.init(
+            method=index.method, space=space
+        )
+        index.model_.loadIndex(str(path / "index.nmslib"))
+        print(index.model_)
+        return index

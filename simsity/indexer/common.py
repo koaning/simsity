@@ -1,5 +1,5 @@
 from typing import Tuple, List
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractclassmethod
 
 
 class Indexer(ABC):
@@ -27,7 +27,7 @@ class Indexer(ABC):
         """
         pass
 
-    @abstractmethod
+    @abstractclassmethod
     def load(self, path) -> "Indexer":
         """
         Load the indexer in a path.

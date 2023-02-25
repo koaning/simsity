@@ -7,5 +7,10 @@ try:
 except ModuleNotFoundError:
     PyNNDescentIndexer = NotInstalled("PyNNDescentIndexer", "pynn")
 
+try:
+    from .nmslib import NMSlibIndexer
+except ModuleNotFoundError:
+    NMSlibIndexer = NotInstalled("NMSlibIndexer", "nms")
 
-__all__ = ["PyNNDescentIndexer", "Indexer", "AnnoyIndexer"]
+
+__all__ = ["PyNNDescentIndexer", "Indexer", "AnnoyIndexer", "NMSlibIndexer"]
