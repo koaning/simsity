@@ -1,3 +1,4 @@
+import srsly
 import json
 from pathlib import Path
 import nmslib
@@ -55,7 +56,7 @@ class NMSlibIndexer(Indexer):
 
         # Save the metadata so that we have the parameters on load.
         metadata_path = Path(path) / "metadata.json"
-        metadata = {}
+        metadata = srsly.read_json(metadata_path)
         metadata["mnslib"] = dict(
             metric=self.metric,
             method=self.method,

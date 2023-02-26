@@ -1,3 +1,4 @@
+import srsly 
 import json
 import pathlib
 from pathlib import Path
@@ -69,7 +70,7 @@ class PyNNDescentIndexer(Indexer):
 
         # Save the metadata so that we have the parameters on load.
         metadata_path = Path(path) / "metadata.json"
-        metadata = {}
+        metadata = srsly.read_json(metadata_path)
         metadata["pynn"] = dict(
             metric=self.metric,
             n_neighbors=self.n_neighbors,
