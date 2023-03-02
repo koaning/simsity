@@ -3,14 +3,12 @@ from setuptools import setup, find_packages
 
 
 base_packages = [
-    "scikit-learn>=1.0.0",
-    "pandas>=1.3.3",
+    "tinydb",
+    "BetterJSONStorage",
+    "hnswlib",
     "annoy>=1.17.0",
+    "srsly"
 ]
-
-pynn_packages = ["pynndescent>=0.5", "numba>=0.55.1"]
-
-nms_packages = ["nmslib>=2.1.1"]
 
 docs_packages = [
     "mkdocs==1.1",
