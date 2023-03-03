@@ -24,7 +24,7 @@ jobs:
     - name: Install Base Dependencies
       run: |
         python -m pip install -e .
-        python -m pip install "embetter[sentence-tfm]""
+        python -m pip install "embetter[sentence-tfm]"
     - name: Check that demo runs
       run: |
         python tests/test.py
