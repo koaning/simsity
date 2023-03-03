@@ -77,7 +77,7 @@ def create_index(
             path / "metadata.json",
             {"created": str(dt.datetime.now())[:19], "dim": dim, "space": space},
         )
-    db = {i: k["data"] for i, k in enumerate(data)}
+    db = {i: k for i, k in enumerate(data)}
     return SimSityIndex(index=index, encoder=encoder, db=db)
 
 
@@ -87,5 +87,5 @@ def load_index(path, encoder):
     metadata = srsly.read_json(path / "metadata.json")
     index = Index(space=metadata["space"], dim=metadata["dim"])
     index.load_index(str(path / "index.bin"))
-    db = {i: k["data"] for i, k in enumerate(srsly.read_jsonl(path / "db.jsonl"))}
+    db = {i: k for i, k in enumerate(srsly.read_jsonl(path / "db.jsonl"))}
     return SimSityIndex(index=index, encoder=encoder, db=db)
