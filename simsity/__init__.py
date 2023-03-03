@@ -71,7 +71,10 @@ def create_index(
             path / "metadata.json",
             {"created": str(dt.datetime.now())[:19], "dim": dim, "space": space},
         )
-    return SimSityIndex(index=index, encoder=encoder, data=data)
+    db = {
+        i: k["data"] for i, k in enumerate(data)
+    }
+    return SimSityIndex(index=index, encoder=encoder, db=db)
 
 
 def load_index(path, encoder):

@@ -23,3 +23,10 @@ texts, dists = index.query("pork")
 for text in texts:
     assert "pork" in text
 assert index.index.element_count == 6118
+
+# Load an index from a path
+loader_index = load_index(path="demo", encoder=encoder)
+texts, dists = index.query("pork")
+for text in texts:
+    assert "pork" in text
+assert index.index.element_count == 6118
