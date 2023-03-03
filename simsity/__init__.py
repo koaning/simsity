@@ -14,17 +14,18 @@ class Transformer(Protocol):
 
 
 class SimSityIndex:
-    def __init__(self, path: Path, encoder: Transformer) -> None:
-        self.path = Path(path)
-        self.metadata = srsly.read_json(self.path / "metadata.json")
-        self.index = Index(space=self.metadata["space"], dim=self.metadata["dim"])
-        self.index.load_index(str(self.path / "index.bin"))
-        self.db = {
-            i: k["data"] for i, k in enumerate(srsly.read_jsonl(self.path / "db.jsonl"))
-        }
+    """Object for easy querying."""
+    def __init__(self, index, encoder, db) -> None:
+        self.index = index
         self.encoder = encoder
+        self.db = db
 
     def query(self, query, n=10):
+        """
+        Query using approximate nearest neighbors
+        
+        The object handles the encoder/data from disk.
+        """
         arr = self.encoder.transform(query)
         labels, distances = self.index.knn_query(arr, k=n)
         out = [self.db[int(label)] for label in labels[0]]
@@ -38,9 +39,12 @@ def batch(iterable, n=1):
 
 
 def create_index(
-    data: Iterable, encoder: Transformer, path: Path, space="cosine", pbar=True, batch_size=500
+    data: Iterable, encoder: Transformer, path: Path=None, space="cosine", pbar=True, batch_size=500
 ):
-    path = Path(path)
+    """
+    Creates a simple ANN index. Uses hnswlib under the hood. 
+    You need to provide a scikit-learn compatible encoder for the data manually.
+    """
     index = None 
     batches = batch(data, batch_size)
     if pbar:
@@ -54,19 +58,29 @@ def create_index(
             index = Index(space=space, dim=dim)
             index.init_index(max_elements=len(data))
         index.add_items(encoded)
-    path.mkdir(parents=True, exist_ok=True)
-    if (path / "db.jsonl").exists():
-        (path / "db.jsonl").unlink()
-    srsly.write_jsonl(
-        path / "db.jsonl", ({"data": item} for i, item in enumerate(data))
-    )
-    index.save_index(str(path / "index.bin"))
-    srsly.write_json(
-        path / "metadata.json",
-        {"created": str(dt.datetime.now())[:19], "dim": dim, "space": space},
-    )
-    return SimSityIndex(path=path, encoder=encoder)
+    if path:
+        path = Path(path)
+        path.mkdir(parents=True, exist_ok=True)
+        if (path / "db.jsonl").exists():
+            (path / "db.jsonl").unlink()
+        srsly.write_jsonl(
+            path / "db.jsonl", ({"data": item} for i, item in enumerate(data))
+        )
+        index.save_index(str(path / "index.bin"))
+        srsly.write_json(
+            path / "metadata.json",
+            {"created": str(dt.datetime.now())[:19], "dim": dim, "space": space},
+        )
+    return SimSityIndex(index=index, encoder=encoder, data=data)
 
 
 def load_index(path, encoder):
-    return SimSityIndex(path=path, encoder=encoder)
+    """Load in a simsity index from a path. Must supply same encoder."""
+    path = Path(path)
+    metadata = srsly.read_json(path / "metadata.json")
+    index = Index(space=metadata["space"], dim=metadata["dim"])
+    index.load_index(str(path / "index.bin"))
+    db = {
+        i: k["data"] for i, k in enumerate(srsly.read_jsonl(path / "db.jsonl"))
+    }
+    return SimSityIndex(index=index, encoder=encoder, db=db)

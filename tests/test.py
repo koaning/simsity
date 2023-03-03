@@ -7,10 +7,19 @@ from simsity.datasets import fetch_recipes
 df_recipes = fetch_recipes()
 recipes = df_recipes['text']
 
-# Create an indexer and encoder
+# Create an encoder
 encoder = SentenceEncoder()
-index = create_index(recipes, encoder, "demo")
+
+# Make an index without a path
+index = create_index(recipes, encoder)
 texts, dists = index.query("pork")
 for text in texts:
-    assert "prok" in text
+    assert "pork" in text
+assert index.index.element_count == 6118
+
+# Make an index with a path
+index = create_index(recipes, encoder, path="demo")
+texts, dists = index.query("pork")
+for text in texts:
+    assert "pork" in text
 assert index.index.element_count == 6118
