@@ -1,4 +1,5 @@
-![](docs/landing.png)
+
+![landing](https://user-images.githubusercontent.com/1019791/222645884-fd88cd66-3dd0-4b6e-98f4-65586040e538.png)
 
 # simsity
 
