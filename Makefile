@@ -1,6 +1,6 @@
 black:
-	black simsity tests setup.py scripts
-	black simsity tests setup.py scripts --check
+	black simsity tests setup.py
+	black simsity tests setup.py --check
 
 flake:
 	flake8 simsity tests setup.py
@@ -8,15 +8,8 @@ flake:
 test:
 	pytest
 
-types:
-	python -m pyanalyze simsity tests
-
 install:
 	python -m pip install -e ".[dev]"
-
-interrogate:
-	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method --fail-under 100 tests
-	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method --fail-under 100 simsity
 
 pypi:
 	python setup.py sdist
