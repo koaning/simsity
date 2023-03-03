@@ -5,7 +5,7 @@ from simsity.datasets import fetch_recipes
 
 # Fetch data
 df_recipes = fetch_recipes()
-recipes = df_recipes['text']
+recipes = df_recipes["text"]
 
 # Create an encoder
 encoder = SentenceEncoder()

@@ -15,6 +15,7 @@ class Transformer(Protocol):
 
 class SimSityIndex:
     """Object for easy querying."""
+
     def __init__(self, index, encoder, db) -> None:
         self.index = index
         self.encoder = encoder
@@ -23,7 +24,7 @@ class SimSityIndex:
     def query(self, query, n=10):
         """
         Query using approximate nearest neighbors
-        
+
         The object handles the encoder/data from disk.
         """
         arr = self.encoder.transform(query)
@@ -39,13 +40,18 @@ def batch(iterable, n=1):
 
 
 def create_index(
-    data: Iterable, encoder: Transformer, path: Path=None, space="cosine", pbar=True, batch_size=500
+    data: Iterable,
+    encoder: Transformer,
+    path: Path = None,
+    space="cosine",
+    pbar=True,
+    batch_size=500,
 ):
     """
-    Creates a simple ANN index. Uses hnswlib under the hood. 
+    Creates a simple ANN index. Uses hnswlib under the hood.
     You need to provide a scikit-learn compatible encoder for the data manually.
     """
-    index = None 
+    index = None
     batches = batch(data, batch_size)
     if pbar:
         batches, batches_copy = it.tee(batches)
@@ -71,9 +77,7 @@ def create_index(
             path / "metadata.json",
             {"created": str(dt.datetime.now())[:19], "dim": dim, "space": space},
         )
-    db = {
-        i: k["data"] for i, k in enumerate(data)
-    }
+    db = {i: k["data"] for i, k in enumerate(data)}
     return SimSityIndex(index=index, encoder=encoder, db=db)
 
 
@@ -83,7 +87,5 @@ def load_index(path, encoder):
     metadata = srsly.read_json(path / "metadata.json")
     index = Index(space=metadata["space"], dim=metadata["dim"])
     index.load_index(str(path / "index.bin"))
-    db = {
-        i: k["data"] for i, k in enumerate(srsly.read_jsonl(path / "db.jsonl"))
-    }
+    db = {i: k["data"] for i, k in enumerate(srsly.read_jsonl(path / "db.jsonl"))}
     return SimSityIndex(index=index, encoder=encoder, db=db)
