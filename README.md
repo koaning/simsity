@@ -20,23 +20,31 @@ You can install simsity via pip.
 python -m pip install simsity
 ```
 
+The goal of simsity is to be minimal, to make rapid prototyping very easy and to be "just enough" for medium sized datasets. You will mainly interact with these two functions. 
+
 ```python
-
-# Simsity provides two functions to create/load an index
 from simsity import create_index, load_index
-# It also has some dataset for demos 
-from simsity.datasets import fetch_recipes
-# Let's use embetter for embeddings 
-from embetter.text import SentenceEncoder
+```
 
-# Here's a list of data we'll encode/index
+As their names imply, you can use these to create an index or to load one from disk. 
+
+## Quickstart
+
+```python
+from simsity import create_index, load_index
+
+# Let's fetch some demo data
+from simsity.datasets import fetch_recipes
 df_recipes = fetch_recipes()
 recipes = df_recipes["text"]
+
+# Let's use embetter for embeddings 
+from embetter.text import SentenceEncoder
 
 # Create the (scikit-learn compatible) encoder
 encoder = SentenceEncoder()
 
-# Make an index without a path
+# Make an index and use it. 
 index = create_index(recipes, encoder)
 texts, dists = index.query("pork")
 ```
@@ -51,3 +59,5 @@ index = create_index(recipes, encoder, path="demo")
 loader_index = load_index(path="demo", encoder=encoder)
 texts, dists = index.query("pork")
 ```
+
+That's it! Happy hacking!
