@@ -8,8 +8,8 @@
 <br>
 
 This repository contains simple tools to help in similarity retrieval scenarios
-by making a convenient wrapper around encoding strategies as well as nearest neighbor
-approaches. Typical usecases include early stage bulk labelling and duplication discovery.
+by making a convenient wrapper around [hnswlib](https://github.com/nmslib/hnswlib/blob/master/examples/python/EXAMPLES.md).
+Typical usecases include early stage bulk labelling and duplication discovery.
 
 ## Install
 
@@ -19,43 +19,34 @@ You can install simsity via pip.
 python -m pip install simsity
 ```
 
-It's usually recommended that you also install [embetter](https://github.com/koaning/embetter).
-## Quickstart
-
-This is the basic setup for this package.
-
 ```python
-import pandas as pd
+
+# Simsity provides two functions to create/load an index
+from simsity import create_index, load_index
+# It also has some dataset for demos 
+from simsity.datasets import fetch_recipes
+# Let's use embetter for embeddings 
 from embetter.text import SentenceEncoder
 
-from simsity.datasets import fetch_recipes
-from simsity.service import Service
-from simsity.indexer import AnnoyIndexer
-
-
-# Fetch data
+# Here's a list of data we'll encode/index
 df_recipes = fetch_recipes()
-recipes = df_recipes['text']
+recipes = df_recipes["text"]
 
-# Create an indexer and encoder
-indexer = AnnoyIndexer()
+# Create the (scikit-learn compatible) encoder
 encoder = SentenceEncoder()
 
-# The service combines the two into a single object.
-service = Service(indexer=indexer, encoder=encoder)
+# Make an index without a path
+index = create_index(recipes, encoder)
+texts, dists = index.query("pork")
+```
 
-# We can now build the service using this data.
-service.index(recipes)
+You can also provide a path and then you'll be able to store/load everything.
 
-# And use it
-idx, dists = service.query("meat", n_neighbors=10)
+```python
+# Make an index with a path
+index = create_index(recipes, encoder, path="demo")
 
-res = (pd.DataFrame({"recipe": recipes})
-    .iloc[idx]
-    .assign(dists=dists)
-    .to_markdown(index=False)
-)
-
-# Show results
-print(res)
+# Load an index from a path
+loader_index = load_index(path="demo", encoder=encoder)
+texts, dists = index.query("pork")
 ```
