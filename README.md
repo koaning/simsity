@@ -40,11 +40,9 @@ recipes = df_recipes["text"]
 
 # Let's use embetter for embeddings 
 from embetter.text import SentenceEncoder
-
-# Create the (scikit-learn compatible) encoder
 encoder = SentenceEncoder()
 
-# Make an index and use it. 
+# Populate the ANN vector index and use it. 
 index = create_index(recipes, encoder)
 texts, dists = index.query("pork")
 ```
