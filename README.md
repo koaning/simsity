@@ -56,8 +56,8 @@ You can also provide a path and then you'll be able to store/load everything.
 index = create_index(recipes, encoder, path="demo")
 
 # Load an index from a path
-loader_index = load_index(path="demo", encoder=encoder)
-texts, dists = index.query("pork")
+reloaded_index = load_index(path="demo", encoder=encoder)
+texts, dists = reloaded_index.query("pork")
 ```
 
 That's it! Happy hacking!
