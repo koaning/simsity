@@ -28,7 +28,10 @@ class SimSityIndex:
         The object handles the encoder/data from disk.
         """
         arr = self.encoder.transform(query)
-        labels, distances = self.index.knn_query(arr, k=n)
+        return self.query_vector(query=arr, n=n)
+    
+    def query_vector(self, query, n=10):
+        labels, distances = self.index.knn_query(query, k=n)
         out = [self.db[int(label)] for label in labels[0]]
         return out, list(distances[0])
 
