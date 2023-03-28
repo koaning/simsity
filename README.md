@@ -45,6 +45,10 @@ encoder = SentenceEncoder()
 # Populate the ANN vector index and use it. 
 index = create_index(recipes, encoder)
 texts, dists = index.query("pork")
+
+# You can also query using vectors
+v_pork = encoder.transform("pork")[0]
+texts, dists = index.query(v_pork)
 ```
 
 You can also provide a path and then you'll be able to store/load everything.
