@@ -1,3 +1,4 @@
+from queue import LifoQueue
 import datetime as dt
 import itertools as it
 from pathlib import Path
@@ -34,6 +35,36 @@ class SimSityIndex:
         labels, distances = self.index.knn_query(query, k=n)
         out = [self.db[int(label)] for label in labels[0]]
         return out, list(distances[0])
+    
+    def walk(index, *args, n=10, depth=3, uniq_id=lambda d: d):
+        """Walk through the index, finding nearest neighbors of nearest neighbors. 
+
+        Arguments:
+        
+        - args: the queries to start the walk off with
+        - n : number of items to return per query
+        - depth: how deep should the search go
+        - uniq_id: function that can determine the uniqness of the item (must be hashable)
+        """
+        q = LifoQueue()
+        seen = {}
+        
+        for i in range(depth):
+            new_args = []
+            
+            for arg in args:
+                res, dists = index.query(arg, n=n)
+                for item in res:
+                    q.put(item)
+
+            if depth != 0:
+                while not q.empty():
+                    item = q.get()
+                    if uniq_id(item) not in seen:
+                        yield item
+                        new_args.append(item)
+                        seen[uniq_id(item)] = 1
+            args = new_args
 
 
 def batch(iterable, n=1):
