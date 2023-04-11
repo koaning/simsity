@@ -17,10 +17,10 @@ dev_packages = all_packages + test_packages
 
 setup(
     name="simsity",
-    version="0.5.2",
+    version="0.5.3",
     author="Vincent D. Warmerdam",
     packages=find_packages(exclude=["notebooks", "docs"]),
-    description="Simple Similarity Service",
+    description="Super Simple Similarity Service",
     long_description=pathlib.Path("README.md").read_text(),
     long_description_content_type="text/markdown",
     url="https://github.com/koaning/simsity/",
