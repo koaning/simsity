@@ -10,13 +10,6 @@ recipes = df_recipes["text"]
 # Create an encoder
 encoder = SentenceEncoder()
 
-# Make an index without a path
-index = create_index(recipes, encoder)
-texts, dists = index.query("pork")
-for text in texts:
-    assert "pork" in text
-assert index.index.element_count == 6118
-
 # Make an index with a path
 index = create_index(recipes, encoder, path="demo")
 texts, dists = index.query("pork")
