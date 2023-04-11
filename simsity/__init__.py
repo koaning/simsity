@@ -8,6 +8,10 @@ import srsly
 from hnswlib import Index
 from tqdm import tqdm
 
+DB_NAME = "db.gz.json"
+INDEX_NAME = "index.bin"
+METADATA_NAME = "metadata.json"
+
 
 class Transformer(Protocol):
     def transform(self):
@@ -30,17 +34,18 @@ class SimSityIndex:
         """
         arr = self.encoder.transform(query)
         return self.query_vector(query=arr, n=n)
-    
+
     def query_vector(self, query, n=10):
+        """Query using a vector."""
         labels, distances = self.index.knn_query(query, k=n)
         out = [self.db[int(label)] for label in labels[0]]
         return out, list(distances[0])
-    
+
     def walk(index, *args, n=10, depth=3, uniq_id=lambda d: d):
-        """Walk through the index, finding nearest neighbors of nearest neighbors. 
+        """Walk through the index, finding nearest neighbors of nearest neighbors.
 
         Arguments:
-        
+
         - args: the queries to start the walk off with
         - n : number of items to return per query
         - depth: how deep should the search go
@@ -48,10 +53,10 @@ class SimSityIndex:
         """
         q = LifoQueue()
         seen = {}
-        
+
         for i in range(depth):
             new_args = []
-            
+
             for arg in args:
                 res, dists = index.query(arg, n=n)
                 for item in res:
@@ -101,15 +106,20 @@ def create_index(
     if path:
         path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
-        if (path / "db.jsonl").exists():
-            (path / "db.jsonl").unlink()
-        srsly.write_jsonl(
-            path / "db.jsonl", ({"data": item} for i, item in enumerate(data))
-        )
-        index.save_index(str(path / "index.bin"))
+        if (path / DB_NAME).exists():
+            (path / DB_NAME).unlink()
+        srsly.write_gzip_json(path / DB_NAME, {i: item for i, item in enumerate(data)})
+        index.save_index(str(path / INDEX_NAME))
+        metadata = {
+            "created": str(dt.datetime.now())[:19],
+            "dim": dim,
+            "n_items": len(data),
+            "space": space,
+            "encoder": str(encoder),
+        }
         srsly.write_json(
-            path / "metadata.json",
-            {"created": str(dt.datetime.now())[:19], "dim": dim, "space": space},
+            path / METADATA_NAME,
+            metadata,
         )
     db = {i: k for i, k in enumerate(data)}
     return SimSityIndex(index=index, encoder=encoder, db=db)
@@ -118,8 +128,8 @@ def create_index(
 def load_index(path, encoder):
     """Load in a simsity index from a path. Must supply same encoder."""
     path = Path(path)
-    metadata = srsly.read_json(path / "metadata.json")
+    metadata = srsly.read_json(path / METADATA_NAME)
     index = Index(space=metadata["space"], dim=metadata["dim"])
-    index.load_index(str(path / "index.bin"))
-    db = {i: k for i, k in enumerate(srsly.read_jsonl(path / "db.jsonl"))}
+    index.load_index(str(path / INDEX_NAME))
+    db = {i: k for i, k in enumerate(srsly.read_gzip_json(path / DB_NAME))}
     return SimSityIndex(index=index, encoder=encoder, db=db)
