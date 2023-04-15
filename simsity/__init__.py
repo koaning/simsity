@@ -2,7 +2,7 @@ from queue import LifoQueue
 import datetime as dt
 import itertools as it
 from pathlib import Path
-from typing import Iterable, Protocol, Callable, Union
+from typing import Iterable, Protocol, Callable, Union, Any, Dict, Optional
 
 import srsly
 from hnswlib import Index
@@ -18,15 +18,18 @@ class Transformer(Protocol):
         pass
 
 
+EncType = Union[Callable, Transformer]
+
+
 class SimSityIndex:
     """Object for easy querying."""
 
-    def __init__(self, index, encoder, db) -> None:
+    def __init__(self, index: Index, encoder: EncType, db: Dict[int, Any]) -> None:
         self.index = index
         self.encoder = encoder
         self.db = db
 
-    def query(self, query, n=10):
+    def query(self, query: Union[str, Dict], n: int = 10):
         """
         Query using approximate nearest neighbors
 
@@ -35,13 +38,13 @@ class SimSityIndex:
         arr = encode_data(self.encoder, query)
         return self.query_vector(query=arr, n=n)
 
-    def query_vector(self, query, n=10):
+    def query_vector(self, query: Union[str, Dict], n: int = 10):
         """Query using a vector."""
         labels, distances = self.index.knn_query(query, k=n)
-        out = [self.db[int(label)] for label in labels[0]]
+        out = [self.db[label] for label in labels[0]]
         return out, list(distances[0])
 
-    def walk(index, *args, n=10, depth=3, uniq_id=lambda d: d):
+    def walk(self, *args, n=10, depth=3, uniq_id=lambda d: d):
         """Walk through the index, finding nearest neighbors of nearest neighbors.
 
         Arguments:
@@ -58,7 +61,7 @@ class SimSityIndex:
             new_args = []
 
             for arg in args:
-                res, dists = index.query(arg, n=n)
+                res, dists = self.index.query(arg, n=n)
                 for item in res:
                     q.put(item)
 
@@ -86,18 +89,19 @@ def encode_data(encoder, data):
 
 
 def create_index(
-    data: Iterable,
+    data: list,
     encoder: Union[Transformer, Callable],
-    path: Path = None,
-    space="cosine",
-    pbar=True,
-    batch_size=500,
+    path: Optional[Union[Path, str]] = None,
+    space: str = "cosine",
+    pbar: bool = True,
+    batch_size: int = 500,
 ):
     """
     Creates a simple ANN index. Uses hnswlib under the hood.
     You need to provide a scikit-learn compatible encoder for the data manually.
     """
     index = None
+    dim = 0
     batches = batch(data, batch_size)
     if pbar:
         batches, batches_copy = it.tee(batches)
@@ -110,6 +114,10 @@ def create_index(
             index = Index(space=space, dim=dim)
             index.init_index(max_elements=len(data))
         index.add_items(encoded)
+    if not index:
+        raise RuntimeError(
+            "Something has gone terrible wrong. There is no index. Did you supply data?"
+        )
     if path:
         path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
@@ -132,11 +140,11 @@ def create_index(
     return SimSityIndex(index=index, encoder=encoder, db=db)
 
 
-def load_index(path, encoder):
+def load_index(path: Union[str, Path], encoder: EncType):
     """Load in a simsity index from a path. Must supply same encoder."""
     path = Path(path)
     metadata = srsly.read_json(path / METADATA_NAME)
     index = Index(space=metadata["space"], dim=metadata["dim"])
     index.load_index(str(path / INDEX_NAME))
-    db = {i: k for i, k in enumerate(srsly.read_gzip_json(path / DB_NAME))}
+    db = {int(i): k for i, k in srsly.read_gzip_json(path / DB_NAME).items()}
     return SimSityIndex(index=index, encoder=encoder, db=db)
