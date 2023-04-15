@@ -25,6 +25,9 @@ jobs:
       run: |
         python -m pip install -e .
         python -m pip install "embetter[sentence-tfm]"
-    - name: Check that demo runs
+        python -m pip install pyright pytest
+    - name: Pytest
       run: |
-        python tests/test.py
+        pytest
+    - name: pyright
+      run: make pyright

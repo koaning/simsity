@@ -23,7 +23,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Testing Dependencies
       run: python -m pip install black flake8
-    - name: Black
+    - name: Check all
       run: make black
     - name: Flake8
       run: make flake
