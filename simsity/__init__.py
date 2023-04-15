@@ -2,7 +2,7 @@ from queue import LifoQueue
 import datetime as dt
 import itertools as it
 from pathlib import Path
-from typing import Iterable, Protocol
+from typing import Iterable, Protocol, Callable, Union
 
 import srsly
 from hnswlib import Index
@@ -32,7 +32,7 @@ class SimSityIndex:
 
         The object handles the encoder/data from disk.
         """
-        arr = self.encoder.transform(query)
+        arr = encode_data(self.encoder, query)
         return self.query_vector(query=arr, n=n)
 
     def query_vector(self, query, n=10):
@@ -78,9 +78,16 @@ def batch(iterable, n=1):
         yield iterable[ndx : min(ndx + n, length)]
 
 
+def encode_data(encoder, data):
+    if callable(encoder):
+        return encoder(data)
+    else:
+        return encoder.transform(data)
+
+
 def create_index(
     data: Iterable,
-    encoder: Transformer,
+    encoder: Union[Transformer, Callable],
     path: Path = None,
     space="cosine",
     pbar=True,
@@ -97,7 +104,7 @@ def create_index(
         total = sum(1 for _ in batches_copy)
         batches = tqdm(batches, desc="indexing", total=total)
     for b in batches:
-        encoded = encoder.transform(b)
+        encoded = encode_data(encoder, b)
         if not index:
             dim = encoded.shape[1]
             index = Index(space=space, dim=dim)

@@ -23,3 +23,10 @@ texts, dists = index.query("pork")
 for text in texts:
     assert "pork" in text
 assert index.index.element_count == 6118
+
+# You can also pass a callable as an encoder
+index = create_index(recipes, lambda d: encoder.transform(d), path="demo")
+texts, dists = index.query("pork")
+for text in texts:
+    assert "pork" in text
+assert index.index.element_count == 6118
