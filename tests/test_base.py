@@ -46,7 +46,7 @@ def test_callable_usage(tmpdir):
 
 
 def test_dict_data_usage(tmpdir):
-    recipe_stream = ({"text": t} for t in recipes)
+    recipe_stream = [{"text": t} for t in recipes]
     pipe = make_pipeline(KeyGrabber("text"), encoder)
 
     index = create_index(recipe_stream, pipe, path=tmpdir)
