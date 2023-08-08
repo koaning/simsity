@@ -18,7 +18,7 @@ def search_widget(**indices):
     def reduce(q=""):
         data = {}
         for i, (name, index) in enumerate(indices.items()):
-            texts, dists = index.query([q], n=10)
+            texts, dists = index.query(q, n=10)
             data[f"{name}-text"] = texts
             data[f"dist-{i}"] = dists
         

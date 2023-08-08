@@ -14,7 +14,7 @@ METADATA_NAME = "metadata.json"
 
 
 class Transformer(Protocol):
-    def transform(self):
+    def transform(self, X, y=None):
         pass
 
 
@@ -85,7 +85,7 @@ def encode_data(encoder, data):
     if callable(encoder):
         return encoder(data)
     else:
-        return encoder.transform(data)
+        return encoder.transform([data])
 
 
 def create_index(
