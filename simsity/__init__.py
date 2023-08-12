@@ -73,6 +73,25 @@ class SimSityIndex:
                         new_args.append(item)
                         seen[uniq_id(item)] = 1
             args = new_args
+    
+    def to_disk(self, path: Union[str, Path]):
+        path = Path(path)
+        path.mkdir(parents=True, exist_ok=True)
+        if (path / DB_NAME).exists():
+            (path / DB_NAME).unlink()
+        srsly.write_gzip_json(path / DB_NAME, {i: item for i, item in enumerate(data)})
+        index.save_index(str(path / INDEX_NAME))
+        metadata = {
+            "created": str(dt.datetime.now())[:19],
+            "dim": dim,
+            "n_items": len(data),
+            "space": space,
+            "encoder": str(encoder),
+        }
+        srsly.write_json(
+            path / METADATA_NAME,
+            metadata,
+        )
 
 
 def batch(iterable, n=1):
@@ -119,25 +138,11 @@ def create_index(
             "Something has gone terrible wrong. There is no index. Did you supply data?"
         )
     if path:
-        path = Path(path)
-        path.mkdir(parents=True, exist_ok=True)
-        if (path / DB_NAME).exists():
-            (path / DB_NAME).unlink()
-        srsly.write_gzip_json(path / DB_NAME, {i: item for i, item in enumerate(data)})
-        index.save_index(str(path / INDEX_NAME))
-        metadata = {
-            "created": str(dt.datetime.now())[:19],
-            "dim": dim,
-            "n_items": len(data),
-            "space": space,
-            "encoder": str(encoder),
-        }
-        srsly.write_json(
-            path / METADATA_NAME,
-            metadata,
-        )
     db = {i: k for i, k in enumerate(data)}
-    return SimSityIndex(index=index, encoder=encoder, db=db)
+    index = SimSityIndex(index=index, encoder=encoder, db=db)
+    if path:
+        index.to_disk(path)
+    return index
 
 
 def load_index(path: Union[str, Path], encoder: EncType):
