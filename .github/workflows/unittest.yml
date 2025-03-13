@@ -26,4 +26,4 @@ jobs:
     - name: Install Dependencies
       run: |
         make install
-        pytest
+        uv run pytest
