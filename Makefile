@@ -13,3 +13,6 @@ install:
 pypi:
 	uv build
 	uv publish
+
+check:
+	pytest
