@@ -25,7 +25,9 @@ class Index:
 
         # Generate embeddings for all inputs using vectorized encoding
         # The encoder is expected to handle a list of inputs
-        embeddings = encoder(inputs)
+        embeddings = []
+        if len(inputs):
+            embeddings = encoder(inputs)
 
         # Create polars DataFrame
         self.data = pl.DataFrame({
@@ -109,12 +111,10 @@ def load_index(path: str, encoder: Callable, distance_func: Callable = dot_produ
     Returns:
         Index object
     """
-    data = pl.read_parquet(path)
-
     # Create Index instance without inputs (will be replaced)
     index = Index([], encoder, distance_func)
 
     # Replace the data with loaded data
-    index.data = data
+    index.data = pl.read_parquet(path)
 
     return index

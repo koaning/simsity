@@ -23,7 +23,7 @@ def test_base_usage(tmpdir):
     check_output(out1)
 
     # Save an index to a path
-    tmpfile = tmpdir / "index.parquet"
+    tmpfile = str(tmpdir / "index.parquet")
     index.to_disk(path=tmpfile)
 
     # Load an index from a path
