@@ -55,6 +55,10 @@ class Index:
         Returns:
             Tuple of (items, distances)
         """
+        if k <= 0:
+            raise ValueError("Param k must be strictly positive")
+        if k > self.data.shape[0]:
+            raise ValueError("Cannot ask for more neighbors than we have in the index.")
         embeddings = self.data["embedding"].to_numpy(allow_copy=False)        
 
         distances = self.distance_func(query_vector, embeddings)
