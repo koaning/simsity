@@ -6,18 +6,14 @@
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>
 
-<br>
-
-This repository contains simple tools to help in similarity retrieval scenarios
-by making a convenient wrapper around [hnswlib](https://github.com/nmslib/hnswlib/blob/master/examples/python/EXAMPLES.md).
-Typical usecases include early stage bulk labelling and duplication discovery.
+This simple library is partially inspired by [this blogpost by Max Woolfe](https://minimaxir.com/2025/02/embeddings-parquet/). You don't always need a full fledged vector database. Polars and numpy might be all you need. And for those moments, `simsity` is all you need to build a neighborhood!
 
 ## Install
 
 You can install simsity via pip.
 
 ```
-python -m pip install simsity
+uv pip install simsity
 ```
 
 The goal of simsity is to be minimal, to make rapid prototyping very easy and to be "just enough" for medium sized datasets. You will mainly interact with these two functions. 
@@ -32,22 +28,21 @@ As their names imply, you can use these to create an index or to load one from d
 
 ```python
 from simsity import create_index, load_index
+from simsity.datasets import fetch_recipes
 
 # Let's fetch some demo data
-from simsity.datasets import fetch_recipes
-df_recipes = fetch_recipes()
-recipes = df_recipes["text"]
+recipes = fetch_recipes()["text"].to_list()
 
-# Let's use embetter for embeddings 
-from embetter.text import SentenceEncoder
-encoder = SentenceEncoder()
+# Let's use model2vec for embeddings 
+from model2vec import StaticModel
+model = StaticModel.from_pretrained("minishlab/potion-base-8M")
 
 # Populate the ANN vector index and use it. 
-index = create_index(recipes, encoder)
+index = create_index(recipes, model.encode)
 texts, dists = index.query("pork")
 
 # You can also query using vectors
-v_pork = encoder.transform(["pork"])[0]
+v_pork = model.encode(["pork"])[0]
 texts, dists = index.query_vector(v_pork)
 ```
 
