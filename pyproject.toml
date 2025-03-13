@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simsity"
+version = "0.8.0"
+description = "A similarity search library"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    { name = "Vincent"}
+]
+dependencies = [
+    "polars",
+    "numpy>2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "model2vec",
+    "pytest>=7.0",
+    "marimo",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["simsity"] 

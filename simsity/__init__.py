@@ -1,150 +1,120 @@
-from queue import LifoQueue
-import datetime as dt
-import itertools as it
-from pathlib import Path
-from typing import Iterable, Protocol, Callable, Union, Any, Dict, Optional
-
-import srsly
-from hnswlib import Index
-from tqdm import tqdm
-
-DB_NAME = "db.gz.json"
-INDEX_NAME = "index.bin"
-METADATA_NAME = "metadata.json"
 
 
-class Transformer(Protocol):
-    def transform(self):
-        pass
+import numpy as np
+import polars as pl
+from typing import Callable, List, Tuple, Any, Union, Optional, Sequence
 
+def dot_product(query, matrix):
+    return query @ matrix.T
 
-EncType = Union[Callable, Transformer]
+class Index:
+    """
+    Index class for similarity search using vector embeddings.
+    """
+    def __init__(self, inputs: Sequence[Any], encoder: Callable, distance_func: Callable = dot_product):
+        """
+        Initialize an index with a sequence of inputs and encoder function.
 
-
-class SimSityIndex:
-    """Object for easy querying."""
-
-    def __init__(self, index: Index, encoder: EncType, db: Dict[int, Any]) -> None:
-        self.index = index
+        Args:
+            inputs: Sequence of items to be indexed (e.g., list of strings)
+            encoder: Function to convert items to embeddings (can be vectorized)
+            distance_func: Function to compute distance between embeddings
+        """
         self.encoder = encoder
-        self.db = db
+        self.distance_func = distance_func
 
-    def query(self, query: Union[str, Dict], n: int = 10):
+        # Generate embeddings for all inputs using vectorized encoding
+        # The encoder is expected to handle a list of inputs
+        embeddings = encoder(inputs)
+
+        # Create polars DataFrame
+        self.data = pl.DataFrame({
+            "item": inputs,
+            "embedding": embeddings
+        })
+
+    def to_disk(self, path: str = "simsity_index.parquet") -> None:
         """
-        Query using approximate nearest neighbors
+        Save the index to disk as a parquet file.
 
-        The object handles the encoder/data from disk.
+        Args:
+            path: Path to save the index
         """
-        arr = encode_data(self.encoder, query)
-        return self.query_vector(query=arr, n=n)
+        self.data.write_parquet(path)
 
-    def query_vector(self, query: Union[str, Dict], n: int = 10):
-        """Query using a vector."""
-        labels, distances = self.index.knn_query(query, k=n)
-        out = [self.db[label] for label in labels[0]]
-        return out, list(distances[0])
-
-    def walk(self, *args, n=10, depth=3, uniq_id=lambda d: d):
-        """Walk through the index, finding nearest neighbors of nearest neighbors.
-
-        Arguments:
-
-        - args: the queries to start the walk off with
-        - n : number of items to return per query
-        - depth: how deep should the search go
-        - uniq_id: function that can determine the uniqness of the item (must be hashable)
+    def query_vector(self, query_vector: np.ndarray, k: int = 5, return_index=False):
         """
-        q = LifoQueue()
-        seen = {}
+        Query the index using a vector.
 
-        for i in range(depth):
-            new_args = []
+        Args:
+            query_vector: Query vector
+            k: Number of results to return
 
-            for arg in args:
-                res, dists = self.index.query(arg, n=n)
-                for item in res:
-                    q.put(item)
+        Returns:
+            Tuple of (items, distances)
+        """
+        embeddings = self.data["embedding"].to_numpy(allow_copy=False)        
 
-            if depth != 0:
-                while not q.empty():
-                    item = q.get()
-                    if uniq_id(item) not in seen:
-                        yield item
-                        new_args.append(item)
-                        seen[uniq_id(item)] = 1
-            args = new_args
+        distances = self.distance_func(query_vector, embeddings)
+        idx = np.argpartition(distances, -k)[-k:]
+        idx = idx[np.argsort(distances[idx])[::-1]]    
+        score = distances[idx]
+        if return_index:
+            return idx, score
+        out = self.data.with_row_index().filter(pl.col("index").is_in(idx))["item"].to_list()
+        return out, score
+
+    def query(self, query_item: Any, k: int = 5, return_index = False) -> Tuple[List[Any], List[float]]:
+        """
+        Query the index using an item.
+
+        Args:
+            query_item: Item to query
+            k: Number of results to return
+
+        Returns:
+            Tuple of (items, distances)
+        """
+        # Encode the query item (wrap in a list for vectorized encoders)
+        query_vectors = self.encoder([query_item])
+        query_vector = query_vectors[0]  # Extract the single result
+
+        # Use query_vector function
+        return self.query_vector(query_vector, k=k, return_index=return_index)
 
 
-def batch(iterable, n=1):
-    length = len(iterable)
-    for ndx in range(0, length, n):
-        yield iterable[ndx : min(ndx + n, length)]
-
-
-def encode_data(encoder, data):
-    if callable(encoder):
-        return encoder(data)
-    else:
-        return encoder.transform(data)
-
-
-def create_index(
-    data: list,
-    encoder: Union[Transformer, Callable],
-    path: Optional[Union[Path, str]] = None,
-    space: str = "cosine",
-    pbar: bool = True,
-    batch_size: int = 500,
-):
+def create_index(inputs: Sequence[Any], encoder: Callable, distance_func: Callable = dot_product) -> Index:
     """
-    Creates a simple ANN index. Uses hnswlib under the hood.
-    You need to provide a scikit-learn compatible encoder for the data manually.
+    Create an index from a sequence of inputs.
+
+    Args:
+        inputs: Sequence of items to index (e.g., list of strings)
+        encoder: Function to convert items to embeddings (can be vectorized)
+        distance_func: Function to compute distance between embeddings
+
+    Returns:
+        Index object
     """
-    index = None
-    dim = 0
-    batches = batch(data, batch_size)
-    if pbar:
-        batches, batches_copy = it.tee(batches)
-        total = sum(1 for _ in batches_copy)
-        batches = tqdm(batches, desc="indexing", total=total)
-    for b in batches:
-        encoded = encode_data(encoder, b)
-        if not index:
-            dim = encoded.shape[1]
-            index = Index(space=space, dim=dim)
-            index.init_index(max_elements=len(data))
-        index.add_items(encoded)
-    if not index:
-        raise RuntimeError(
-            "Something has gone terrible wrong. There is no index. Did you supply data?"
-        )
-    if path:
-        path = Path(path)
-        path.mkdir(parents=True, exist_ok=True)
-        if (path / DB_NAME).exists():
-            (path / DB_NAME).unlink()
-        srsly.write_gzip_json(path / DB_NAME, {i: item for i, item in enumerate(data)})
-        index.save_index(str(path / INDEX_NAME))
-        metadata = {
-            "created": str(dt.datetime.now())[:19],
-            "dim": dim,
-            "n_items": len(data),
-            "space": space,
-            "encoder": str(encoder),
-        }
-        srsly.write_json(
-            path / METADATA_NAME,
-            metadata,
-        )
-    db = {i: k for i, k in enumerate(data)}
-    return SimSityIndex(index=index, encoder=encoder, db=db)
+    return Index(inputs, encoder, distance_func)
 
+def load_index(path: str, encoder: Callable, distance_func: Callable = dot_product) -> Index:
+    """
+    Load an index from disk.
 
-def load_index(path: Union[str, Path], encoder: EncType):
-    """Load in a simsity index from a path. Must supply same encoder."""
-    path = Path(path)
-    metadata = srsly.read_json(path / METADATA_NAME)
-    index = Index(space=metadata["space"], dim=metadata["dim"])
-    index.load_index(str(path / INDEX_NAME))
-    db = {int(i): k for i, k in srsly.read_gzip_json(path / DB_NAME).items()}
-    return SimSityIndex(index=index, encoder=encoder, db=db)
+    Args:
+        path: Path to the index file
+        encoder: Function to convert items to embeddings
+        distance_func: Function to compute distance between embeddings
+
+    Returns:
+        Index object
+    """
+    data = pl.read_parquet(path)
+
+    # Create Index instance without inputs (will be replaced)
+    index = Index([], encoder, distance_func)
+
+    # Replace the data with loaded data
+    index.data = data
+
+    return index

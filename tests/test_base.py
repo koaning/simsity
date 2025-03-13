@@ -1,4 +1,6 @@
-from embetter.text import SentenceEncoder
+from model2vec import StaticModel
+
+model = StaticModel.from_pretrained("minishlab/potion-base-8M")
 
 from simsity import create_index, load_index
 from simsity.datasets import fetch_recipes
@@ -7,8 +9,6 @@ from simsity.datasets import fetch_recipes
 df_recipes = fetch_recipes()
 recipes = df_recipes["text"][:1000]
 
-# Create an encoder
-encoder = SentenceEncoder()
 
 
 def check_output(texts):
@@ -18,25 +18,16 @@ def check_output(texts):
 
 def test_base_usage(tmpdir):
     # Make an index with a path
-    index = create_index(recipes, encoder, path=tmpdir)
+    index = create_index(recipes, model.encode)
     out1, _ = index.query("pork")
     check_output(out1)
+
+    # Save an index to a path
+    tmpfile = tmpdir / "index.parquet"
+    index.to_disk(path=tmpfile)
 
     # Load an index from a path
-    loader_index = load_index(path=tmpdir, encoder=encoder)
-    out2, _ = loader_index.query("pork")
-    check_output(out2)
-    assert out1 == out2
-
-
-def test_callable_usage(tmpdir):
-    # You can also pass a callable as an encoder
-    index = create_index(recipes, lambda d: encoder.transform(d), path=tmpdir)
-    out1, _ = index.query("pork")
-    check_output(out1)
-
-    # This as well
-    loader_index = load_index(path=tmpdir, encoder=encoder)
+    loader_index = load_index(path=tmpfile, encoder=model.encode)
     out2, _ = loader_index.query("pork")
     check_output(out2)
     assert out1 == out2
