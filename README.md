@@ -6,7 +6,7 @@
 > Simsity is a Super Simple Similarities Service[tm]. <br>
 > It's all about building a neighborhood. Literally! <br>
 
-This simple library is partially inspired by [this blogpost by Max Woolfe](https://minimaxir.com/2025/02/embeddings-parquet/). You don't always need a full fledged vector database. Polars and numpy might be all you need. And for those moments, `simsity` is all you need to build a neighborhood!
+This simple library is partially inspired by [this blogpost by Max Woolfe](https://minimaxir.com/2025/02/embeddings-parquet/). You don't always need a full fledged vector database. Polars and numpy might be plenty! And for those moments, `simsity` is all you need.
 
 ## Install
 
