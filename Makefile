@@ -1,26 +1,18 @@
-black:
-	black simsity tests setup.py
-	black simsity tests setup.py --check
+build:
+	python nbs/build.py
 
-flake:
-	flake8 simsity tests setup.py
+clean:
+	rm -rf nbs/__pycache__
 
-test:
-	python tests/test.py
+work:
+	uv run marimo edit nbs/__init__.py
 
 install:
-	python -m pip install -e ".[dev]"
-	python -m pip install black flake8 interrogate pyright
+	uv pip install -e . pytest marimo model2vec
 
 pypi:
-	python setup.py sdist
-	python setup.py bdist_wheel --universal
-	twine upload dist/*
+	uv build
+	uv publish
 
-pyright:
-	pyright simsity tests
-	
-clean:
-	rm -rf **/.ipynb_checkpoints **/.pytest_cache **/__pycache__ **/**/__pycache__ .ipynb_checkpoints .pytest_cache
-
-check: clean black flake pyright test clean
+check:
+	pytest
