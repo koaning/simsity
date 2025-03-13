@@ -1,4 +1,4 @@
-import pandas as pd
+import polars as pl
 
 
 def fetch_clinc():
@@ -13,7 +13,7 @@ def fetch_clinc():
     fetch_clinc()
     ```
     """
-    return pd.read_csv(
+    return pl.read_csv(
         "https://raw.githubusercontent.com/koaning/simsity/main/tests/data/clinc-data.csv"
     )
 
@@ -30,7 +30,7 @@ def fetch_voters():
     fetch_voters()
     ```
     """
-    return pd.read_csv(
+    return pl.read_csv(
         "https://raw.githubusercontent.com/koaning/simsity/main/tests/data/votes.csv"
     )
 
@@ -50,6 +50,6 @@ def fetch_recipes():
     fetch_recipes()['text']
     ```
     """
-    return pd.read_csv(
+    return pl.read_csv(
         "https://raw.githubusercontent.com/koaning/simsity/main/tests/data/recipes.csv"
     )
