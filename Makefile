@@ -6,3 +6,10 @@ clean:
 
 work:
 	uv run marimo edit nbs/__init__.py
+
+install:
+	uv pip install -e . pytest marimo model2vec
+
+pypi:
+	uv build
+	uv publish
