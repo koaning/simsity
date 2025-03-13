@@ -26,4 +26,5 @@ jobs:
     - name: Install Dependencies
       run: |
         make install
-        uv run pytest
+        source .venv/bin/activate
+        pytest
