@@ -88,6 +88,21 @@ class Index:
         # Use query_vector function
         return self.query_vector(query_vector, k=k, return_index=return_index)
 
+    def add_items(self, inputs: Sequence[Any]):
+        """
+        Adds new items to the index in-place. 
+
+        This method does not attempt to do deduplication, be mindful!
+
+        Args:
+            inputs: sequence of items to be indexed
+        """
+        if len(inputs) == 0: 
+            raise ValueError("`inputs` cannot be an empty sequence")
+        self.data = pl.concat([
+            self.data, 
+            pl.DataFrame({"items": inputs, "embeddings": encoder(inputs)})
+        ])
 
 def create_index(inputs: Sequence[Any], encoder: Callable, distance_func: Callable = dot_product) -> Index:
     """

@@ -1,17 +1,72 @@
 import marimo
 
-__generated_with = "0.11.19"
-app = marimo.App(width="medium")
+__generated_with = "0.12.8"
+app = marimo.App(width="columns")
+
+
+@app.cell(column=0)
+def _(check_output, create_index, load_index, model, pytest, recipes):
+    def test_base_usage(tmpdir):
+        # Make an index with a path
+        index = create_index(recipes, model.encode)
+        out1, _ = index.query("pork")
+        check_output(out1)
+
+        # Save an index to a path
+        tmpfile = str(tmpdir / "index.parquet")
+        index.to_disk(path=tmpfile)
+
+        # Load an index from a path
+        loader_index = load_index(path=tmpfile, encoder=model.encode)
+        out2, _ = loader_index.query("pork")
+        check_output(out2)
+        assert out1 == out2
+
+    def test_top_k():
+        index = create_index(recipes, model.encode)
+        k_values = [1, 5, 10]
+        for k in k_values:
+            results, scores = index.query("pork", k=k)
+            assert len(results) == k
+            assert len(scores) == k
+            # Check scores are in descending order (highest similarity first)
+            assert all(scores[i] >= scores[i+1] for i in range(len(scores)-1))
+
+    def test_invalid_k():
+        index = create_index(recipes, model.encode)
+        with pytest.raises(ValueError):
+            index.query("test", k=0)
+        with pytest.raises(ValueError):
+            index.query("test", k=-1)
+        with pytest.raises(ValueError):
+            index.query("test", k=len(recipes) + 1)  # k larger than dataset
+    return test_base_usage, test_invalid_k, test_top_k
 
 
 @app.cell
+def _():
+    import pytest
+
+
+    def check_output(texts):
+        for text in texts:
+            assert "pork" in text
+    return check_output, pytest
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell(column=1)
 def _():
     import marimo as mo
     return (mo,)
 
 
 @app.cell
-def _():
+def _(encoder):
     ## Export
 
     import numpy as np
@@ -20,7 +75,7 @@ def _():
 
     def dot_product(query, matrix):
         return query @ matrix.T
-
+            
     class Index:
         """
         Index class for similarity search using vector embeddings.
@@ -102,6 +157,21 @@ def _():
             # Use query_vector function
             return self.query_vector(query_vector, k=k, return_index=return_index)
 
+        def add_items(self, inputs: Sequence[Any]):
+            """
+            Adds new items to the index in-place. 
+
+            This method does not attempt to do deduplication, be mindful!
+
+            Args:
+                inputs: sequence of items to be indexed
+            """
+            if len(inputs) == 0: 
+                raise ValueError("`inputs` cannot be an empty sequence")
+            self.data = pl.concat([
+                self.data, 
+                pl.DataFrame({"items": inputs, "embeddings": encoder(inputs)})
+            ])
 
     def create_index(inputs: Sequence[Any], encoder: Callable, distance_func: Callable = dot_product) -> Index:
         """
@@ -155,6 +225,11 @@ def _():
 
 @app.cell
 def _():
+    return
+
+
+@app.cell(column=2)
+def _():
     from model2vec import StaticModel
 
     model = StaticModel.from_pretrained("minishlab/potion-base-8M")
@@ -197,26 +272,6 @@ def _(load_index, model):
 @app.cell
 def _(loaded_index, text_input):
     loaded_index.query(text_input.value)
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
     return
 
 

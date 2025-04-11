@@ -10,9 +10,9 @@ work:
 install:
 	uv pip install -e . pytest marimo model2vec
 
-pypi:
+pypi: check
 	uv build
 	uv publish
 
-check:
+check: build
 	pytest

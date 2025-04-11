@@ -27,4 +27,6 @@ jobs:
       run: |
         make install
         source .venv/bin/activate
-        pytest
+        pytest tests
+        pytest nbs/__init__.py
+
